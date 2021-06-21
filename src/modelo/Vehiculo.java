@@ -21,4 +21,14 @@ public class Vehiculo extends Modelo {
         fabricaDao = FabricaDAO.getFactory("SqlFabricaDAO");
         vehiculoDao = fabricaDao.getVehiculoDao();
     }
+    
+    public boolean insertarVehiculo(int nroPoliza, String modelo, String marca, String nroDNITitular){
+        boolean vehiculo = vehiculoDao.insertarVehiculo(nroPoliza, modelo, marca, nroDNITitular);
+         return vehiculo;
+    };
+    
+    @Override
+    protected void finalize() throws Throwable {
+        vehiculoDao.cerrarConexion();
+    }
 }
