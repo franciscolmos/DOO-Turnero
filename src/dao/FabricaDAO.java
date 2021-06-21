@@ -25,6 +25,8 @@ public abstract class FabricaDAO {
     
     public abstract CompaniaDAO getCompaniaDao();
 
+    public abstract AgendaDAO getAgendaDao();
+    
     public static FabricaDAO getFactory(String nombreClase){
         try {            
             return (FabricaDAO) Class.forName(FabricaDAO.class.getPackageName() + "." + nombreClase).getDeclaredConstructor().newInstance();

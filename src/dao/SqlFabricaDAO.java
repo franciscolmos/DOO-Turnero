@@ -28,8 +28,8 @@ public class SqlFabricaDAO extends FabricaDAO {
 
     @Override
     public TitularDAO getTitularDao() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+        return new TitularDAOImplSql();
+     }
 
     @Override
     public MecanicoDAO getMecanicoDao() {
@@ -41,4 +41,8 @@ public class SqlFabricaDAO extends FabricaDAO {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    @Override
+    public AgendaDAO getAgendaDao(){
+        return new AgendaDAOImplSql();
+    }
 }

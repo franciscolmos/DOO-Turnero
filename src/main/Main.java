@@ -23,9 +23,9 @@ public class Main {
     public static void main(String[] args) {
         // TODO code application logic here
         
-        /*
+        
         ComponenteNegocio cliente = new ComponenteNegocio();
-
+        /*
         cliente.consultarTurno("1");
 
         cliente.insertarTurno("2020-07-16", "12:00:00", "Panchito", "Camaro",
@@ -44,6 +44,8 @@ public class Main {
         cliente = null;
 
         */
+        
+        cliente.listarAgenda("benjamin", "sin asignar");
         
         //modelo:
         Modelo modelo = new Turno();

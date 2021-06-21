@@ -10,6 +10,8 @@ import java.util.List;
 import dao.TurnoDAO;
 import dao.FabricaDAO;
 import dto.TurnoDTO;
+import dao.AgendaDAO;
+import dto.AgendaDTO;
 
 /**
  *
@@ -20,6 +22,8 @@ public class ComponenteNegocio {
     private final FabricaDAO fabricaDao = FabricaDAO.getFactory("SqlFabricaDAO");
 
     private final TurnoDAO turnoDAO = fabricaDao.getTurnoDao();
+    
+    private final AgendaDAO agendaDAO = fabricaDao.getAgendaDao();
 
     public void consultarTurno(String nro) {
         TurnoDTO turno = turnoDAO.consultarTurno(nro);
@@ -49,6 +53,18 @@ public class ComponenteNegocio {
         }
     }
 
+    public void listarAgenda(String mecanicoNombe, String estadoTurno){
+    
+        List<AgendaDTO> listadoAgenda = agendaDAO.listarAgenda(mecanicoNombe,estadoTurno);
+        
+        for (AgendaDTO agenda : listadoAgenda) {
+            System.out.println("Encontrado: Dia: " 
+                             + agenda.getDia() + " - Horario: " + agenda.getHorario() +
+                               " - Mecanico: " + agenda.getMecanico() + " - Estado: "
+                             + agenda.getEstado());
+        }
+    }
+    
     public boolean insertarTurno(String dia, String hora, String mecanico,
                                  String vehiculo, String titular, 
                                  String companiaSeguro) {
