@@ -34,6 +34,6 @@ public class ComponenteNegocio {
     
     @Override
     protected void finalize() throws Throwable {
-        especialidadDAO.cerrarConexion();
+        agendaDAO.cerrarConexion();
     }
 }
