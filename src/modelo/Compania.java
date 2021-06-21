@@ -7,6 +7,8 @@ package modelo;
 
 import dao.FabricaDAO;
 import dao.CompaniaDAO;
+import dto.CompaniaDTO;
+import java.util.List;
 
 /**
  *
@@ -19,5 +21,20 @@ public class Compania extends Modelo {
     public Compania() {
         fabricaDao = FabricaDAO.getFactory("SqlFabricaDAO");
         companiaDao = fabricaDao.getCompaniaDao();
+    }
+    
+    public List<CompaniaDTO> listarCompanias() {
+        List<CompaniaDTO> listaCompanias = companiaDao.listarCompanias();
+        return listaCompanias;
+    }
+    
+    public boolean insertarCompania(String razonSocial, String cuit, 
+                                    String direccion, String telefono) {
+        return companiaDao.insertarCompania(razonSocial, cuit, direccion, telefono);
+    }
+    
+    @Override
+    protected void finalize() throws Throwable {
+        companiaDao.cerrarConexion();
     }
 }

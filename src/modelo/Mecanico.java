@@ -7,6 +7,8 @@ package modelo;
 
 import dao.FabricaDAO;
 import dao.MecanicoDAO;
+import dto.MecanicoDTO;
+import java.util.List;
 
 /**
  *
@@ -19,5 +21,22 @@ public class Mecanico extends Modelo  {
     public Mecanico() {
         fabricaDao = FabricaDAO.getFactory("SqlFabricaDAO");
         mecanicoDao = fabricaDao.getMecanicoDao();
+    }
+    
+    public List<MecanicoDTO> listarMecanicosConCriterios(String especialidad) {
+        List<MecanicoDTO> listadoMecanicos = mecanicoDao.listarMecanicosConCriterios(especialidad);
+        return listadoMecanicos;
+    }
+    
+    public boolean insertarMecanico(String apellido, String nombre, String tipoDNI, 
+                                    String nroDNI, String telefono, String legajo, String area,
+                                    String especialidad) {
+        return mecanicoDao.insertarMecanico(apellido, nombre, tipoDNI, nroDNI, 
+                                            telefono, legajo, area, especialidad);
+    }
+    
+    @Override
+    protected void finalize() throws Throwable {
+        mecanicoDao.cerrarConexion();
     }
 }

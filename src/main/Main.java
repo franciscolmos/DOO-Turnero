@@ -7,8 +7,6 @@ package main;
 
 import controlador.Controlador;
 import controlador.EncRecepcionControlador;
-import dto.MecanicoDTO;
-import modelo.Mecanico;
 import modelo.Modelo;
 import modelo.Turno;
 import vista.InterfazTurno;
@@ -22,6 +20,7 @@ public class Main {
     /**
      * @param args the command line arguments
      */
+    /*
     public static void main(String[] args) {
         // TODO code application logic here
 
@@ -37,19 +36,21 @@ public class Main {
         System.gc();
         
     }
-        /*
-        //modelo:
-        Modelo modelo = new Turno();
-        //vista:
-        InterfazTurno vista = new vistaHome();
+    */
+        
+    //modelo:
+    Modelo modelo = new Turno();
+    
+    //vista:
+    InterfazTurno vista = new vistaHome();
 
-        //controlador:
-        Controlador control = new EncRecepcionControlador(vista, modelo);
+    //controlador:
+    Controlador control = new EncRecepcionControlador(vista, modelo);
+    
+    //configuramos la vista para que pueda enviar las acciones del usuario como eventos al controlador
+    vista.setControlador(control);
 
-        //configuramos la vista para que pueda enviar las acciones del usuario como eventos al controlador
-        vista.setControlador(control);
+    //y arrancamos la interfaz:
+    vista.iniciaVista();
 
-        //y arrancamos la interfaz:
-        vista.iniciaVista();
-        */
 }
