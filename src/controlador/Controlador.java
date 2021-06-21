@@ -5,16 +5,18 @@
  */
 package controlador;
 
+import modelo.Modelo;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
+import vista.InterfazTurno;
 
 /**
  *
  * @author francisco
  */
 
-
-public abstract class Controlador extends MouseAdapter implements ActionListener, KeyListener{
-    
+public abstract class Controlador extends MouseAdapter implements ActionListener, KeyListener {
+    InterfazTurno VISTA = null;
+    Modelo MODELO = null;
 }
