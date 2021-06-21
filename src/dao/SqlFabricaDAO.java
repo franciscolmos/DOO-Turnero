@@ -23,7 +23,7 @@ public class SqlFabricaDAO extends FabricaDAO {
 
     @Override
     public VehiculoDAO getVehiculoDao() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new VehiculoDAOImplSql();
     }
 
     @Override
@@ -39,6 +39,11 @@ public class SqlFabricaDAO extends FabricaDAO {
     @Override
     public CompaniaDAO getCompaniaDao() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public EspecialidadDAO getEspecialidadDAO() {
+        return new EspecialidadDAOImpSql();
     }
     
     @Override

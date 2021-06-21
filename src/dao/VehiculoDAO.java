@@ -5,10 +5,19 @@
  */
 package dao;
 
+import dto.VehiculoDTO;
+
 /**
  *
  * @author felipe
  */
 public interface VehiculoDAO {
+    VehiculoDTO consultarVehiculo(int nroPoliza);
     
+    boolean insertarVehiculo(int nroPoliza,
+                             String modelo,
+                             String marca,
+                             String nroDNITitular);
+    
+    void cerrarConexion();
 }

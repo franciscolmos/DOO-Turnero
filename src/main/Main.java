@@ -25,28 +25,9 @@ public class Main {
         
         
         ComponenteNegocio cliente = new ComponenteNegocio();
-        /*
-        cliente.consultarTurno("1");
-
-        cliente.insertarTurno("2020-07-16", "12:00:00", "Panchito", "Camaro",
-                               "Felipe", "Zurich");
-
-        cliente.consultarTurno("6");
-        
-        cliente.listarTurnos();
-        
-        cliente.modificarTurno("6", "2002-02-20", "00:00:00", "Alberto");
-        
-        cliente.consultarTurno("6");
-        
-        cliente.listarTurnos();
-        
-        cliente = null;
-
-        */
-        
         cliente.listarAgenda("benjamin", "sin asignar");
-        
+ 
+        /*
         //modelo:
         Modelo modelo = new Turno();
         //vista:
@@ -60,5 +41,6 @@ public class Main {
 
         //y arrancamos la interfaz:
         vista.iniciaVista();
+        */
     }
 }
