@@ -5,11 +5,11 @@
  */
 package main;
 
+import dao.EspecialidadDAO;
 import java.util.Date;
 import java.util.List;
-import dao.VehiculoDAO;
 import dao.FabricaDAO;
-import dto.VehiculoDTO;
+import dto.EspecialidadDTO;
 
 /**
  *
@@ -19,26 +19,24 @@ public class ComponenteNegocio {
 
     private final FabricaDAO fabricaDao = FabricaDAO.getFactory("SqlFabricaDAO");
 
-    private final VehiculoDAO vehiculoDAO = fabricaDao.getVehiculoDao();
+    private final EspecialidadDAO especialidadDAO = fabricaDao.getEspecialidadDAO();
 
-    public void consultarVehiculo(int nroPoliza) {
-        VehiculoDTO vehiculo = vehiculoDAO.consultarVehiculo(nroPoliza);
-        if (vehiculo != null) {
-            System.out.println("Encontrado: Nro Poliza: " + vehiculo.getNroPoliza() + 
-                               " - Modelo: " + vehiculo.getModelo() +
-                               " - Marca: " + vehiculo.getMarca() +
-                               " - nroDNITitular: " + vehiculo.getNroDNITitular());
+    public void list() {
+        List<EspecialidadDTO> listadoEspecialidades = especialidadDAO.listarEspecialidades();
+        if (listadoEspecialidades != null) {
+            for (EspecialidadDTO especialidad: listadoEspecialidades) {
+                System.out.println(" Codigo Especialidad: " + especialidad.getCodigo() + 
+                               " - Nombre: " + especialidad.getNombre() +
+                               " - Descripcion: " + especialidad.getDescripcion());
+            }
+            
         } else {
             System.err.println("No encontrado");
         }
     }
 
-    public boolean insertarVehiculo(int nroPoliza, String modelo, String marca, String nroDNITitular) {
-        return vehiculoDAO.insertarVehiculo(nroPoliza, modelo, marca, nroDNITitular);
-    }
-
     @Override
     protected void finalize() throws Throwable {
-        vehiculoDAO.cerrarConexion();
+        especialidadDAO.cerrarConexion();
     }
 }

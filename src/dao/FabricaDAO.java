@@ -24,6 +24,8 @@ public abstract class FabricaDAO {
     public abstract MecanicoDAO getMecanicoDao();
     
     public abstract CompaniaDAO getCompaniaDao();
+    
+    public abstract EspecialidadDAO getEspecialidadDAO();
 
     public static FabricaDAO getFactory(String nombreClase){
         try {            

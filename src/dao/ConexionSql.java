@@ -22,9 +22,6 @@ public class ConexionSql {
     private final String URL = path;
     private Connection connection = null;
     private static ConexionSql instancia = null;
-    //private static final String URL = "jdbc:sqlite:/home/felipe/OneDrive/Facu/DOO/TP2Parcial/DOO-Turnero/src/db/DBEjemploDAO.db";
-    //private Connection connection = null;
-    //private static ConexionSql instancia = null;
     
     private ConexionSql() {
         if (connection == null) {

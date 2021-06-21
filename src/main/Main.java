@@ -26,11 +26,7 @@ public class Main {
         
         ComponenteNegocio cliente = new ComponenteNegocio();
 
-        cliente.consultarVehiculo(1001);
-
-        cliente.insertarVehiculo(4562, "2021", "Chevrolet", "38332302");
-
-        cliente.consultarVehiculo(4562);
+        cliente.list();
         
         cliente = null;
 
