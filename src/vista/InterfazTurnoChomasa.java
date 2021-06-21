@@ -5,10 +5,25 @@
  */
 package vista;
 
+import controlador.Controlador;
+
 /**
  *
  * @author francisco
  */
-public interface InterfazTurno {
+public interface InterfazTurnoChomasa {
+    public static enum Operacion {
+        CARGAR, GUARDAR, MODIFICAR, ELIMINAR, LIMPIAR;
+    };
+
+    void setControlador(Controlador c);
+
+    void iniciaVista();
+
+    void imprimeMensaje(Exception... e);
     
+    void limpiaVista();
+    
+    void actualizaTabla(Controlador c);
+
 }
