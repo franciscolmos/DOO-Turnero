@@ -5,6 +5,8 @@
  */
 package dao;
 
+import java.io.File;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -14,9 +16,15 @@ import java.sql.SQLException;
  * @author agustin
  */
 public class ConexionSql {
-    private static final String URL = "jdbc:sqlite:/home/felipe/OneDrive/Facu/DOO/TP2Parcial/DOO-Turnero/src/db/DBEjemploDAO.db";
+    URL url = getClass().getResource("../db/DBEjemploDAO.db");
+    File file = new File(url.getPath());
+    String path = "jdbc:sqlite:" + file.getPath();
+    private final String URL = path;
     private Connection connection = null;
     private static ConexionSql instancia = null;
+    //private static final String URL = "jdbc:sqlite:/home/felipe/OneDrive/Facu/DOO/TP2Parcial/DOO-Turnero/src/db/DBEjemploDAO.db";
+    //private Connection connection = null;
+    //private static ConexionSql instancia = null;
     
     private ConexionSql() {
         if (connection == null) {

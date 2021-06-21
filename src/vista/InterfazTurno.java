@@ -20,4 +20,6 @@ public interface InterfazTurno {
     void setControlador(Controlador c);
 
     void iniciaVista();
+    
+    void cerrarVista();
 }

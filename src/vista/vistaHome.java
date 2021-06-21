@@ -151,4 +151,9 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
+    @Override
+    public void cerrarVista() {
+        setVisible(false);
+    }
 }
