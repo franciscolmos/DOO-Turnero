@@ -20,5 +20,25 @@ public class SqlFabricaDAO extends FabricaDAO {
     public TurnoDAO getTurnoDao() {
         return new TurnoDAOImplSql();
     }
+
+    @Override
+    public VehiculoDAO getVehiculoDao() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public TitularDAO getTitularDao() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public MecanicoDAO getMecanicoDao() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public CompaniaDAO getCompaniaDao() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
