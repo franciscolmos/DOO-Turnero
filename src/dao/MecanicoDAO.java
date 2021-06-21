@@ -5,10 +5,19 @@
  */
 package dao;
 
+import dto.MecanicoDTO;
+import java.util.List;
+
 /**
  *
  * @author felipe
  */
 public interface MecanicoDAO {
+    List<MecanicoDTO> listarMecanicosConCriterios(String especialidad);
     
+    boolean insertarMecanico(String apellido, String nombre, String tipoDNI, 
+                             String nroDNI, String telefono, String legajo, String area,
+                             String especialidad);
+    
+    void cerrarConexion();
 }

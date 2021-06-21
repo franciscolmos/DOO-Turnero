@@ -5,10 +5,19 @@
  */
 package dao;
 
+import dto.CompaniaDTO;
+import java.util.List;
+
 /**
  *
  * @author felipe
  */
 public interface CompaniaDAO {
     
+    List<CompaniaDTO> listarCompanias();
+    
+    boolean insertarCompania(String razonSocial, String cuit, String direccion, 
+                             String telefono);
+    
+    void cerrarConexion();
 }
