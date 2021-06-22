@@ -18,7 +18,7 @@ public interface TurnoDAO {
     
     List<TurnoDTO> listarTurnos();
     
-    List<TurnoDTO> listarTurnosPorCriterio(String titular);
+    List<TurnoDTO> listarTurnosPorCriterio(String Estado);
     
     boolean insertarTurno(String dia, String hora, String mecanico,
                           String vehiculo, String titular, 

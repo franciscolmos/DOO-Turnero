@@ -34,6 +34,11 @@ public class Turno extends Modelo {
         return listadoTurnos;
     }
     
+    public List<TurnoDTO> listarTurnosPorCriterio(String Estado) {
+        List<TurnoDTO> listadoTurnos = turnoDao.listarTurnosPorCriterio(Estado);
+        return listadoTurnos;
+    }
+    
     public boolean insertarTurno(String dia, String hora, String mecanico,
                                  String vehiculo, String titular, 
                                  String companiaSeguro) {

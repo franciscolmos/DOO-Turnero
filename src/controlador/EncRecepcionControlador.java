@@ -9,9 +9,12 @@ import dto.TurnoDTO;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.List;
+import javax.swing.table.DefaultTableModel;
 import modelo.Modelo;
 import modelo.Turno;
 import vista.InterfazTurno;
+import vista.vistaHome;
+import vista.FrmNuevoTurno;
 
 /**
  *
@@ -41,31 +44,34 @@ public class EncRecepcionControlador extends Controlador {
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        Turno turnoModelo = (Turno) MODELO;
+        DefaultTableModel modeloTabla = (DefaultTableModel) ((vistaHome) this.VISTA).getModeloTblTurnos();
         try {
 
             switch (InterfazTurno.Operacion.valueOf(e.getActionCommand())) {
                 case CONSULTAR:
-                    System.out.println("CONSULTAR");
-                    List<TurnoDTO> listadoTurnos = turnoModelo.listarTurno();
-                    for (TurnoDTO turno : listadoTurnos) {
-                    System.out.println("Encontrado: Nro: " + turno.getNro() + " - Dia: " 
-                             + turno.getDia() + " - Hora: " + turno.getHora() +
-                               " - Mecanico: " + turno.getMecanico() + " - Vehiculo: "
-                             + turno.getVehiculo() + " - Titular: " + turno.getTitular()
-                             + " - Compania: " + turno.getCompaniaSeguro() + 
-                               " - Estado: " + turno.getEstado() + " - Ficha: "
-                             + turno.getFichaMecanica());
-                    }
+                    VISTA.limpiaVista();
+                    VISTA.actualizaTabla(this);
                     break;
                 case TURNO:
-                    System.out.println("TURNO");
+                    VISTA.cerrarVista();
+                    VISTA = new FrmNuevoTurno();
+                    VISTA.iniciaVista();
                     break;
-                case CLIENTE:
-                    System.out.println("CLIENTE");
-                    break;
-                case EMPLEADO:
-                    System.out.println("EMPLEADO");
+                case CARGAR:
+                    modeloTabla.setRowCount(0);
+                    modeloTabla.fireTableDataChanged();
+                    List<TurnoDTO> listadoTurnos = ((Turno) this.MODELO).listarTurnosPorCriterio("Asignado");
+                    for (TurnoDTO tur : listadoTurnos) {
+                        modeloTabla.addRow(new Object[]{tur.getNro(),
+                                                        tur.getDia(), 
+                                                        tur.getHora(),
+                                                        tur.getMecanico(),
+                                                        tur.getVehiculo(),
+                                                        tur.getTitular(),
+                                                        tur.getCompaniaSeguro(),
+                                                        tur.getEstado(),
+                                                        tur.getFichaMecanica()});
+                    }
                     break;
             }
         } catch (RuntimeException ex) {
@@ -100,3 +106,4 @@ public class EncRecepcionControlador extends Controlador {
     
     
 }
+

@@ -14,7 +14,7 @@ import controlador.Controlador;
 public interface InterfazTurno {
     
     public static enum Operacion {
-        CONSULTAR, TURNO, CLIENTE, EMPLEADO;
+        CONSULTAR, TURNO, CARGAR;
     };
     
     void setControlador(Controlador c);
@@ -22,4 +22,8 @@ public interface InterfazTurno {
     void iniciaVista();
     
     void cerrarVista();
+    
+    void limpiaVista();
+    
+    void actualizaTabla(Controlador c);
 }

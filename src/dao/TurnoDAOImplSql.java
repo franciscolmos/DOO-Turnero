@@ -210,8 +210,59 @@ public class TurnoDAOImplSql implements TurnoDAO {
     }
 
     @Override
-    public List<TurnoDTO> listarTurnosPorCriterio(String titular) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<TurnoDTO> listarTurnosPorCriterio(String Estado) {
+        Connection con = null;
+        PreparedStatement sentencia = null;
+        ResultSet rs = null;
+        List<TurnoDTO> listaTurnos = new ArrayList<>();
+
+        try {
+            con = conexion.getConnection();
+            String sql = "select nro, dia, hora, mecanico, vehiculo, titular, "
+                         + "companiaSeguro, estado, fichaMecanica "
+                         + "from turnos where estado = ?";
+            sentencia = con.prepareStatement(sql);
+            sentencia.setString(1, Estado);
+
+            rs = sentencia.executeQuery();
+
+            int nroTurno;
+            String dia;
+            String hora;
+            String mecanico;
+            String vehiculo;
+            String titular;
+            String companiaSeguro;
+            String estado;
+            String fichaMecanica;
+            TurnoDTO turno;
+
+            while (rs.next()) {
+                nroTurno = rs.getInt("nro");
+                dia = rs.getString("dia");
+                hora = rs.getString("hora");
+                mecanico = rs.getString("mecanico");
+                vehiculo = rs.getString("vehiculo");
+                titular = rs.getString("titular");
+                companiaSeguro = rs.getString("companiaSeguro");
+                estado = rs.getString("estado");
+                fichaMecanica = rs.getString("fichaMecanica");
+                turno = new TurnoDTO(nroTurno, dia, hora, mecanico, vehiculo,
+                                     titular, companiaSeguro, estado, fichaMecanica);
+                listaTurnos.add(turno);
+            }
+
+        } catch (SQLException e) {
+            System.err.println(e);
+        } finally {
+            try {
+                rs.close();
+                sentencia.close();
+            } catch (SQLException ex) {
+                System.err.println(ex);
+            }
+        }
+        return listaTurnos;
     }
 
     @Override

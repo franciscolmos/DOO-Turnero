@@ -6,6 +6,10 @@
 package vista;
 
 import controlador.Controlador;
+import dto.TurnoDTO;
+import java.awt.event.ActionEvent;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -13,11 +17,18 @@ import controlador.Controlador;
  */
 public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
 
+    public DefaultTableModel getModeloTblTurnos() {
+        return modeloTblTurnos;
+    }
+
+    private final DefaultTableModel modeloTblTurnos;
+    
     /**
      * Creates new form vistaHome
      */
     public vistaHome() {
         initComponents();
+        this.modeloTblTurnos = (DefaultTableModel) this.TablaTurnos.getModel();
     }
 
     /**
@@ -29,66 +40,74 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        TituloLabel = new javax.swing.JLabel();
         NuevoTurnoBtn = new javax.swing.JButton();
-        NuevoClienteBtn = new javax.swing.JButton();
-        NuevoEmpleadoBtn = new javax.swing.JButton();
         ConsultarButton = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JSeparator();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TablaTurnos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
-        jLabel1.setText("Home");
+        TituloLabel.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
+        TituloLabel.setText("SuperCharger S.R.L.");
 
         NuevoTurnoBtn.setText("Nuevo Turno");
         NuevoTurnoBtn.setActionCommand("TURNO");
 
-        NuevoClienteBtn.setText("Nuevo Cliente");
-        NuevoClienteBtn.setActionCommand("CLIENTE");
-
-        NuevoEmpleadoBtn.setText("Nuevo Empleado");
-        NuevoEmpleadoBtn.setActionCommand("EMPLEADO");
-
         ConsultarButton.setText("Consultar Turno");
         ConsultarButton.setActionCommand("CONSULTAR");
+
+        TablaTurnos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nro", "Dia", "Hora", "Mecanico", "Vehiculo", "Titular", "Compania", "Estado", "FichaMecanica"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        TablaTurnos.setToolTipText("");
+        jScrollPane1.setViewportView(TablaTurnos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(174, 174, 174))
             .addGroup(layout.createSequentialGroup()
-                .addGap(167, 167, 167)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(NuevoEmpleadoBtn)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(NuevoClienteBtn)
-                            .addComponent(NuevoTurnoBtn))
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(ConsultarButton)))
-                .addContainerGap(145, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(NuevoTurnoBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(ConsultarButton)
+                        .addContainerGap())))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(221, 221, 221)
+                .addComponent(TituloLabel)
+                .addGap(0, 228, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
-                .addComponent(ConsultarButton)
-                .addGap(10, 10, 10)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(9, 9, 9)
+                .addComponent(TituloLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(NuevoTurnoBtn)
-                .addGap(18, 18, 18)
-                .addComponent(NuevoClienteBtn)
-                .addGap(18, 18, 18)
-                .addComponent(NuevoEmpleadoBtn)
-                .addGap(46, 46, 46))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ConsultarButton)
+                    .addComponent(NuevoTurnoBtn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -131,21 +150,19 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ConsultarButton;
-    private javax.swing.JButton NuevoClienteBtn;
-    private javax.swing.JButton NuevoEmpleadoBtn;
     private javax.swing.JButton NuevoTurnoBtn;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTable TablaTurnos;
+    private javax.swing.JLabel TituloLabel;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void setControlador(Controlador c) {
         this.ConsultarButton.addActionListener(c);
-        this.NuevoClienteBtn.addActionListener(c);
-        this.NuevoEmpleadoBtn.addActionListener(c);
         this.NuevoTurnoBtn.addActionListener(c);
+        c.actionPerformed(new ActionEvent(this, 0, InterfazTurno.Operacion.CARGAR.toString()));
     }
-
+    
     @Override
     public void iniciaVista() {
         setLocationRelativeTo(null);
@@ -155,5 +172,15 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
     @Override
     public void cerrarVista() {
         setVisible(false);
+    }
+
+    @Override
+    public void limpiaVista() {
+        this.TablaTurnos.clearSelection();
+    }
+
+    @Override
+    public void actualizaTabla(Controlador c) {
+        c.actionPerformed(new ActionEvent(this, 0, vistaHome.Operacion.CARGAR.toString()));
     }
 }

@@ -20,8 +20,9 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    /*
+    
     public static void main(String[] args) {
+        /*
         // TODO code application logic here
 
         ComponenteNegocio cliente = new ComponenteNegocio();
@@ -35,9 +36,8 @@ public class Main {
 
         System.gc();
         
-    }
     */
-        
+
     //modelo:
     Modelo modelo = new Turno();
     
@@ -48,9 +48,10 @@ public class Main {
     Controlador control = new EncRecepcionControlador(vista, modelo);
     
     //configuramos la vista para que pueda enviar las acciones del usuario como eventos al controlador
-    //vista.setControlador(control);
+    vista.setControlador(control);
 
     //y arrancamos la interfaz:
-    //vista.iniciaVista();
+    vista.iniciaVista();
+    }
 
 }
