@@ -13,22 +13,21 @@ import java.sql.SQLException;
 
 /**
  *
- * @author agustin
+ * @author felipe, francisco, benjamin
  */
 public class ConexionSql {
-    /*
     URL url = getClass().getResource("../db/DBEjemploDAO.db");
     File file = new File(url.getPath());
     String path = "jdbc:sqlite:" + file.getPath();
     private final String URL = path;
     private Connection connection = null;
     private static ConexionSql instancia = null;
-<<<<<<< Updated upstream
-=======
-    */
-    private static final String URL = "jdbc:sqlite:C:/Users/benja/Desktop/ProyectoDOO/DOO-Turnero/src/db/DBEjemploDAO.db";
+    
+    /*
+    private static final String URL = "jdbc:sqlite:/home/felipe/OneDrive/Facu/DOO/TP2Parcial/DOO-Turnero/src/db/DBEjemploDAO.db";
     private Connection connection = null;
     private static ConexionSql instancia = null;
+    */
     
     private ConexionSql() {
         if (connection == null) {

@@ -5,11 +5,17 @@
  */
 package controlador;
 
+import dto.EspecialidadDTO;
+import dto.MecanicoDTO;
 import dto.TurnoDTO;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.ComboBoxModel;
+import javax.swing.JComboBox;
+import modelo.Especialidad;
+import modelo.Mecanico;
 import modelo.Modelo;
 import modelo.Turno;
 import vista.InterfazTurno;
@@ -44,7 +50,6 @@ public class EncRecepcionControlador extends Controlador {
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        DefaultTableModel modeloTabla = (DefaultTableModel) ((vistaHome) this.VISTA).getModeloTblTurnos();
         try {
 
             switch (InterfazTurno.Operacion.valueOf(e.getActionCommand())) {
@@ -56,8 +61,24 @@ public class EncRecepcionControlador extends Controlador {
                     VISTA.cerrarVista();
                     VISTA = new FrmNuevoTurno();
                     VISTA.iniciaVista();
+                    VISTA.setControlador(this);
+                    break;
+                case ESPECIALIDAD:
+                    JComboBox modeloComboBoxEspecialidades = (JComboBox) ((FrmNuevoTurno) this.VISTA).getComboEspecialidades();
+                    List<EspecialidadDTO> listadoEspecialidades = ((Especialidad) this.MODELO.fabricarModelo("Especialidad")).listarEspecialidades();
+                    for (EspecialidadDTO especialidad : listadoEspecialidades) {
+                        modeloComboBoxEspecialidades.addItem(especialidad.getNombre()); 
+                    }
+                    break;
+                case MECANICO:
+                    JComboBox modeloComboBoxMecanicos = (JComboBox) ((FrmNuevoTurno) this.VISTA).getComboBoxMecanicos();
+                    List<MecanicoDTO> listadoMecanicoPorEspecialidad= ((Mecanico) this.MODELO.fabricarModelo("Mecanico")).listarMecanicosConCriterios(((FrmNuevoTurno) this.VISTA).getEspecialdiadSeleccionada());
+                    for (MecanicoDTO mecanico : listadoMecanicoPorEspecialidad) {
+                         modeloComboBoxMecanicos.addItem(mecanico.getNombre());
+                    }
                     break;
                 case CARGAR:
+                    DefaultTableModel modeloTabla = (DefaultTableModel) ((vistaHome) this.VISTA).getModeloTblTurnos();
                     modeloTabla.setRowCount(0);
                     modeloTabla.fireTableDataChanged();
                     List<TurnoDTO> listadoTurnos = ((Turno) this.MODELO).listarTurnosPorCriterio("Asignado");

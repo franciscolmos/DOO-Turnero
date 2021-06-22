@@ -6,9 +6,7 @@
 package vista;
 
 import controlador.Controlador;
-import dto.TurnoDTO;
 import java.awt.event.ActionEvent;
-import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 /**

@@ -6,6 +6,14 @@
 package vista;
 
 import controlador.Controlador;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
 
 /**
  *
@@ -13,12 +21,93 @@ import controlador.Controlador;
  */
 public class FrmNuevoTurno extends javax.swing.JFrame implements InterfazTurno {
 
+    public JComboBox<String> getHorariosBox() {
+        return HorariosBox;
+    }
+
+    public JComboBox<String> getComboBoxMecanicos() {
+        return ComboBoxMecanicos;
+    }
+
+    
+    public Box.Filler getFiller1() {
+        return filler1;
+    }
+
+    public JButton getjButton2() {
+        return jButton2;
+    }
+
+    public JComboBox<String> getjComboBox1() {
+        return jComboBox1;
+    }
+
+    public JComboBox<String> getjComboBox2() {
+        return ComboBoxMecanicos;
+    }
+
+    public JComboBox<String> getjComboBox3() {
+        return jComboBox3;
+    }
+
+    public JComboBox<String> getjComboBox4() {
+        return jComboBox4;
+    }
+
+    public JTextField getjTextField1() {
+        return jTextField1;
+    }
+
+    public JTextField getjTextField2() {
+        return jTextField2;
+    }
+
+    public JTextField getjTextField3() {
+        return jTextField3;
+    }
+
+    public JTextField getjTextField4() {
+        return jTextField4;
+    }
+
+    public JTextField getjTextField5() {
+        return jTextField5;
+    }
+
+    public JTextField getjTextField6() {
+        return jTextField6;
+    }
+
+    public JTextField getjTextField7() {
+        return jTextField7;
+    }
+
+    public JTextField getjTextField8() {
+        return jTextField8;
+    }
+
     /**
      * Creates new form FrmNuevoTurno
+     * @return
      */
+    public JTextField getjTextField9() {
+        return jTextField9;
+    }
+
+    public JComboBox getComboEspecialidades() {
+        return this.EspecialidadesBox;
+    }
+    
+    private String especialdiadSeleccionada;
+
+    public String getEspecialdiadSeleccionada() {
+        return especialdiadSeleccionada;
+    }
+    
     public FrmNuevoTurno() {
         initComponents();
-    }
+        this.especialdiadSeleccionada = "";
+    } 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -30,7 +119,7 @@ public class FrmNuevoTurno extends javax.swing.JFrame implements InterfazTurno {
     private void initComponents() {
 
         jSeparator1 = new javax.swing.JSeparator();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        ComboBoxMecanicos = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
@@ -78,10 +167,9 @@ public class FrmNuevoTurno extends javax.swing.JFrame implements InterfazTurno {
         setMaximumSize(new java.awt.Dimension(2147483647, 2100000000));
         setResizable(false);
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mecanico 1", "Mecanico 2", "Mecanico 3", "Mecanico 4" }));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        ComboBoxMecanicos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                ComboBoxMecanicosActionPerformed(evt);
             }
         });
 
@@ -132,7 +220,11 @@ public class FrmNuevoTurno extends javax.swing.JFrame implements InterfazTurno {
 
         jLabel18.setText("Especialidad");
 
-        EspecialidadesBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Especialidad 1", "Especialidad 2", "Especialidad 3", "Especialidad 4" }));
+        EspecialidadesBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EspecialidadesBoxActionPerformed(evt);
+            }
+        });
 
         jLabel19.setText("Hora del Turno:");
 
@@ -190,7 +282,7 @@ public class FrmNuevoTurno extends javax.swing.JFrame implements InterfazTurno {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(ComboBoxMecanicos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(85, 85, 85)
                         .addComponent(jLabel4)
@@ -270,7 +362,7 @@ public class FrmNuevoTurno extends javax.swing.JFrame implements InterfazTurno {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ComboBoxMecanicos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.DEFAULT_SIZE, 5, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -321,7 +413,7 @@ public class FrmNuevoTurno extends javax.swing.JFrame implements InterfazTurno {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 18, Short.MAX_VALUE)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 16, Short.MAX_VALUE)
                             .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -345,7 +437,7 @@ public class FrmNuevoTurno extends javax.swing.JFrame implements InterfazTurno {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton2)
                     .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("Formulario para registrar un turno nuevo");
@@ -353,13 +445,17 @@ public class FrmNuevoTurno extends javax.swing.JFrame implements InterfazTurno {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void ComboBoxMecanicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxMecanicosActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_ComboBoxMecanicosActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void EspecialidadesBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EspecialidadesBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_EspecialidadesBoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -397,12 +493,12 @@ public class FrmNuevoTurno extends javax.swing.JFrame implements InterfazTurno {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> ComboBoxMecanicos;
     private javax.swing.JComboBox<String> EspecialidadesBox;
     private javax.swing.JComboBox<String> HorariosBox;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JLabel jLabel1;
@@ -441,10 +537,23 @@ public class FrmNuevoTurno extends javax.swing.JFrame implements InterfazTurno {
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
 
+    
+    
+    
     @Override
     public void setControlador(Controlador c) {
-        //this.ConfirmarButton.addActionListener(c);
+        //EspecialidadesBox.getEditor().getEditorComponent().addMouseListener(...);
+
+        c.actionPerformed(new ActionEvent(this, 0, FrmNuevoTurno.Operacion.ESPECIALIDAD.toString()));
+        EspecialidadesBox.addActionListener (new ActionListener () {
+            public void actionPerformed(ActionEvent e) {
+                especialdiadSeleccionada = EspecialidadesBox.getSelectedItem().toString();
+                c.actionPerformed(new ActionEvent(this, 0, FrmNuevoTurno.Operacion.MECANICO.toString()));
+            }
+        });
+       
     }
+    
 
     @Override
     public void iniciaVista() {
@@ -470,4 +579,6 @@ public class FrmNuevoTurno extends javax.swing.JFrame implements InterfazTurno {
     public void actualizaTabla(Controlador c) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    
 }
