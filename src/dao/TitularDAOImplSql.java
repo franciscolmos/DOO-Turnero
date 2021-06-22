@@ -5,7 +5,6 @@
  */
 package dao;
 
-import dto.AlumnoDTO;
 import dto.TitularDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

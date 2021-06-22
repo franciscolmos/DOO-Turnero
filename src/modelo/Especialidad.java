@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author felipe
  */
-public class Especialidad {
+public class Especialidad extends Modelo {
     private final FabricaDAO fabricaDao;
     private final EspecialidadDAO especialidadDao;
     

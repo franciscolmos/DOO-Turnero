@@ -12,11 +12,6 @@ package dao;
 public class SqlFabricaDAO extends FabricaDAO {
 
     @Override
-    public AlumnoDAO getAlumnoDao() {
-        return new AlumnoDAOImplSql();
-    }
-
-    @Override
     public TurnoDAO getTurnoDao() {
         return new TurnoDAOImplSql();
     }

@@ -1,267 +1,488 @@
 @startuml
-package Modelo <<Folder>>{
-    class Modelo{
-    }
-    abstract Persona extends Modelo{    
-        nombre: String
-        edad: String
-        apellio: String
-        tipoDNI: String
-        nroDNI: String
-        telefono: Telefono
-        direccion: String
-        email: String
-    }
-    class Turno extends Modelo{
-        nro: Int
-        dia: Date
-        hora: Date
-        mecanico: Mecanico
-        vehiculo: Vehiculo
-        titular: Titular
-        companiaSeguro: CompaniaSeguro
-        estado: Estado
-        fichaMecanica: FichaMecanica
-    }
-    class CompaniaSeguro{
-        razonSocial: String
-        cuit: String
-        direccion: Direccion
-        telefono: Telefono
-        listadoTitulares: List<Titular>
-    }
+    package Modelo <<Folder>>{
 
-    class Vehiculo{
-        nroPoliza: Int
-        modelo: String
-        marca: String
-    }
-    
-    class Cliente extends Persona{
-        vehiculo: Vehiculo
-        companiaSeguro: CompaniaSeguro
-    }
+        abstract Modelo{
+            + static Modelo fabricarModelo(String nombreClaseModelo)
+        }
 
-    class Empleado extends Persona{
-        legajo: String
-        area: Area
-    }
+        abstract Persona extends Modelo{
+            nombre: String
+            edad: String
+            apellio: String
+            tipoDNI: String
+            nroDNI: String
+            telefono: Telefono
+            direccion: String
+            email: String
+        }
 
-    class Area{
-        codigo: String
-        nombre: String
-        descripcion: String
-    }
+        class Compania extends Modelo{
+            - fabricaDao: final FabricaDAO
+            - companiaDao: final CompaniaDAO
+            + Compania()
+            + List<CompaniaDTO> listarCompanias()
+            + boolean insertarCompania(String razonSocial, String cuit, String direccion, String telefono)
+            + @Override void finalize() 
+        }
 
-    class Mecanico{
-        
-    }
+        class Agenda extends Modelo{
+            - fabricaDao: final FabricaDAO
+            - agendaDao: final AgendaDAO
+            + Agenda()
+            + List<AgendaDTO> listarAgenda(String mecanicoNombre, String estadoTurno)
+            + @Override void finalize()
+        }
 
-    class Agenda{
-        mes: Date
-        listadoTurnos: List<Turno>
-        mecanico: Mecanico
-    }
+        class Especialidad extends Modelo{
+            - fabricaDao: final FabricaDAO
+            - especialidadDao: final EspecialidadDAO
+            + Especialidad()
+            + List<EspecialidadDTO> listarEspecialidades()
+            + @Override void finalize()
+        }
 
-    class ManoObra{
-        codigo: String
-        nombre: String
-        descripcion: String
-        precio: Float
-    }
+        class Mecanico extends Modelo{
+            - fabricaDao: final FabricaDAO
+            - mecanicoDao: final MecanicoDAO
+            + Mecanico()
+            + List<MecanicoDTO> listarMecanicosConCriterios(String especialidad)
+            + boolean insertarMecanico(String apellido, String nombre, String tipoDNI, String nroDNI, String telefono, String legajo, String area, String especialidad)
+            + @Override void finalize()
+        }
 
-    class Material{
-        codigo: String
-        nombre: String
-        descripcion: String
-        precio: Float
-        tipo: tipoMaterial 
-    }
+        class Titular extends Modelo{
+            - fabricaDao: final FabricaDAO
+            - titularDao: final TitularDAO
+            + Titular()
+            + boolean insertarTitular(String nombre, String apellido, String tipoDNI, String nroDNI, String telefono, String compania)
+            + TitularDTO buscarTitular(String apellidoTitular, String nombreTitular)
+            + @Override void finalize()
+        }
 
-    class TipoMaterial{
-        nombre: String
-        descripcion: String
-    }   
+        class Turno extends Modelo{
+            - fabricaDao: final FabricaDAO
+            - titularDao: final TurnoDAO
+            + Turno()
+            + List<TurnoDTO> listarTurno()
+            + boolean insertarTurno(String dia, String hora, String mecanico,String vehiculo, String titular, String companiaSeguro)
+            + boolean modificarTurno(String nro, String dia, String hora, String mecanico)
+        }
 
-    class DetalleFichaMecanica{
-        nuromeroDetalle: Int
-        material: Materla
-        manoObra: ManoObra
-        cantidad: Float
-        subtotal: Float
-    }
+        class Vehiculo extends Modelo{
+            - fabricaDao: final FabricaDAO
+            - titularDao: final vehiculoDao
+            + Vehiculo()
+            + boolean insertarVehiculo(int nroPoliza, String modelo, String marca, String nroDNITitular)
+            + @Override void finalize()
+        }
 
-    class Mecanico{
-        horarioAtencionInicio: Date
-        horarioAtencionFin: Date
-        especialidad: List<Especialidad>
-        cantidadTurnosPorDia: Int
-    }
+        interface Estado{
+            + procesar()
+        }
 
-    class Especialidad{
-        codigo: String
-        nombre: String
-        descripcion: String
-    }
+        class Asignado{
+            + procesar()
+        }
 
-    interface Estado{
-        + procesar()
-    }
+        class NoAsignado{
+            + procesar()
+        }
 
-    class Asignado{
-        + procesar()
-    }
+        class Cancelado{
+            + procesar()
+        }
 
-    class NoAsignado{
-        + procesar()
-    }
+        class Finalizado{
+            + procesar()
+        }
 
-    class Cancelado{
-        + procesar()
-    }
-
-    class Finalizado{
-        + procesar()
-    }
-
-    class EnCurso{
-        + procesar()
-    }
-
-    class FabricaPersona extends FabricaPersonaMethods{
-    }
-    
-    class FabricaPersonaMethods{
-    }
-}
-
-package Controlador <<Folder>>{
-    class EncRecepcionControlador{
-        listadoAgendas: List<Agenda>
-        + registrarTurno(Turno)
-        + cancelarTurno(Turno)
-        + consultarTurno(Turno)
-        + registrarAsistencia(Turno)
-        + generarAgenda(Mecanico)
-        + generarFichaMecanica(Turno)
-        + generarComprobanteReserva(Turno)
-        + generarInformePorMecanico(Mecanico)
-        + registrarCliente(Titular)
-    }
-
-    class EncTallerControlador{
-        listadoFichasMecanicas: List<FichaMecanica>
-        + generarConstaciaConformidad()
-        + registrarConstanciaConformidad()
-        + registrarFichaMecanica()
-    }
-
-    class EnsAdministracionControlador{
-        listadoCompanias: List<CompaniaSeguro>
-        listadoAgendas: List<Agenda>
-        +registrarCobroCompania()
-        +generarInformeCompania(Compania)
-    }
-
-    abstract FabricaControladorPersona{
-    }
-
-    class FabricaControlador extends FabricaControladorPersona{
-    }
-}
-
-package Vista <<Folder>>{
-    interface FichaMecanica{
-        numeroFicha: Int
-        titular: Titular
-        mecanico: Mecanico
-        listaDetalle: List<DetalleFichaMecanica>
-        total: Float
-    }
-
-    interface VistaTurno{
-        
-    }
-
-    interface Home{
-        
-    }
-}
-
- package DAO <<Folder>>{
-    abstract FabricaDAO{
-        + abstract AlumnoDAOgetAlumnoDao()
-        + abstract TurnoDAO getTurnoDao()
-        + static FabricaDAO getFactory(String nombreClase)
-    }
-
-    interface TurnoDAO{
-        + TurnoDTO consultarTurno(String nro)
-        + List<TurnoDTO> listarTurnos()
-        + boolean insertarTurno(String nro, String dia, String hora, String mecanico,
-                                String vehiculo, String titular, 
-                                String companiaSeguro)
-        + boolean modificarTurno(String nro, String dia, String hora, String mecanico)
-        + boolean confirmarTurno(String nro)
-        + boolean cancelarTurno(String nro)
-        + boolean registrarFichaMecanica(String nro, String fichaMecanica)
-        + void cerrarConexion()
-    }
-
-    class TurnoDAOImpSQL extends TurnoDAO{
-        
-    }
-
-    class SQLFabricaDAO extends FabricaDAO{
-        + @Override AlumnoDAO getAlumnoDao()
-        + @Override TurnoDAO getTurnoDao()
-    }
-
-    package Singleton <<Folder>>{
-        class ConexionSQL{
-            - static final String URL
-            - Connection connection
-            - static ConexionSql instancia
-            - ConexionSql()
-            + static ConexionSql getInstancia()
-            + Connection getConnection()
-            # void desconectar()
+        class EnCurso{
+            + procesar()
         }
     }
- }
 
-    Turno --> Vehiculo
-    Turno --> CompaniaSeguro
-    Turno *--> Estado
-    Turno "0-n" --> "1" Mecanico
-    Turno "0-n" --> "1" Vehiculo
-    Turno "0-1" <--* "1" Agenda
-    Turno "1" <-- "1"  FichaMecanica
-    Asignado --|> Estado
-    NoAsignado --|> Estado
-    Cancelado --|> Estado 
-    EnCurso --|> Estado
-    Finalizado --|> Estado
-    Cliente --> Vehiculo
-    Cliente --> CompaniaSeguro
-    Empleado "0-n" --> "1" Area
-    FabricaPersona "<instancia>" ..>  Cliente
-    FabricaPersona "<instancia>" ..> Empleado
-    Mecanico "0-n" --> "1-n" Especialidad
-    Especialidad "1" --> "1-n" ManoObra
-    FabricaControlador "<instancia>" ..> EnsAdministracionControlador
-    FabricaControlador "<instancia>" ..> EncTallerControlador
-    FabricaControlador "<instancia>" ..> EncRecepcionControlador
-    EncRecepcionControlador --> Turno
-    EncRecepcionControlador --> VistaTurno
-    EncRecepcionControlador --> ConexionSQL
-    EncRecepcionControlador  "1" --> "1-n" Agenda
-    FichaMecanica "0-n" --> "1" Mecanico
-    EncTallerControlador "1" --> "0-n" FichaMecanica
-    CompaniaSeguro "1-n" --> "1" EnsAdministracionControlador
-    FichaMecanica "1" *--> "1-n" DetalleFichaMecanica
-    DetalleFichaMecanica "0-n" --> "0-1" Material
-    DetalleFichaMecanica "0-n" --> "0-1" ManoObra
-    Material "1-n" --> "1" TipoMaterial
+    package Controlador <<Folder>>{
+
+        abstract Controlador{
+            VISTA: InterfazTurno
+            MODELO: Modelo
+        }
+
+        class EncRecepcionControlador extends Controlador {
+            + EncRecepcionControlador(InterfazTurno vista, Modelo modelo)
+            + keyTyped(KeyEvent ke)
+            + void keyPressed(KeyEvent ke)
+            + void actionPerformed(ActionEvent e)
+            + void keyReleased(KeyEvent ke)
+        }
+
+        class EncTallerControlador extends Controlador {
+
+        }
+
+        class EnsAdministracionControlador extends Controlador {
+
+        }
+    }
+
+    package Vista <<Folder>>{
+
+        class FrmNuevoCliente extends javax.swing.JFrame{
+            + FrmNuevoCliente()
+        }
+
+        class FrmNuevoTurno extends javax.swing.JFrame implements InterfazTurno{
+            + FrmNuevoTurno()
+            + void setControlador(Controlador c)
+            + void iniciaVista()
+            + void cerrarVista()
+            + void llenarVista()
+        }
+
+        class FrmNuevoEmpleado extends javax.swing.JFrame{
+            + FrmNuevoEmpleado()
+        }
+
+        class FrmTurno extends javax.swing.JFrame implements InterfazTurnoChomasa {
+            + void iniciaVista()
+            + void imprimeMensaje(Exception... e)
+            + void limpiaVista()
+            + void actualizaTabla(Controlador c)
+            + void setControlador(Controlador c)
+        }
+
+        interface InterfazTurno{
+            + static enum Operacion {
+            + setControlador(Controlador c)
+            + iniciaVista()
+            + cerrarVista()
+        }
+
+        class vistaFichaMecanica extends javax.swing.JFrame{
+            + vistaFichaMecanica()
+        }
+            
+        class vistaHome extends javax.swing.JFrame implements InterfazTurno{
+            + vistaHome()
+            + void setControlador(Controlador c)
+            + void iniciaVista()
+            + void cerrarVista()
+        }
+
+    }
+
+     package DAO <<Folder>>{
+
+        abstract FabricaDAO{
+            + abstract AlumnoDAO getAlumnoDao()
+            + abstract TurnoDAO getTurnoDao()
+            + abstract VehiculoDAO getVehiculoDao()
+            + abstract TitularDAO getTitularDao()
+            + abstract MecanicoDAO getMecanicoDao()
+            + abstract CompaniaDAO getCompaniaDao()
+            + abstract EspecialidadDAO getEspecialidadDAO()
+            + abstract AgendaDAO getAgendaDao()
+            + static FabricaDAO getFactory(String nombreClase)
+        }
+
+        class SqlFabricaDAO extends FabricaDAO{
+            + @Override TurnoDAO getTurnoDao()
+            + @Override VehiculoDAO getVehiculoDao()
+            + @Override TitularDAO getTitularDao()
+            + @Override MecanicoDAO getMecanicoDao()
+            + @Override MecanicoDAO getMecanicoDao()
+            + @Override CompaniaDAO getCompaniaDao()
+            + @Override EspecialidadDAO getEspecialidadDAO()
+            + @Override AgendaDAO getAgendaDao()
+        }
+
+        interface AgendaDAO{
+            + List<AgendaDTO> listarAgenda(String mecanicoNombre, String estadoTurno)
+            + cerrarConexion()
+        }
+
+        class AgendaDAOImplSql implements AgendaDAO{
+            - conexion: ConexionSql
+            + AgendaDAOImplSql()
+            + @Override List<AgendaDTO> listarAgenda(String mecanicoNombre, String estadoTurno)
+            + @Override errarConexion()
+        }
+
+        interface CompaniaDAO{
+            + List<CompaniaDTO> listarCompanias()
+            + boolean insertarCompania(String razonSocial, String cuit, String direccion, 
+                                 String telefono)
+            + void cerrarConexion()
+        }
+
+        class CompaniaDAOImplSql implements CompaniaDAO{
+            - conexion: ConexionSql
+            + CompaniaDAOImplSql()
+            + @Override List<CompaniaDTO> listarCompanias()
+            + @Override boolean insertarCompania(String razonSocial, String cuit, 
+                                        String direccion, String telefono)
+            + @Override void cerrarConexion()
+        }
+
+        interface EspecialidadDAO{
+            + List<EspecialidadDTO> listarEspecialidades()
+            + void cerrarConexion()
+        }
+
+        class EspecialidadDAOImpSql implements EspecialidadDAO{
+            - conexion: ConexionSql
+            + EspecialidadDAOImpSql()
+            + @Override List<EspecialidadDTO> listarEspecialidades()
+            + @Override void cerrarConexion()
+        }
+
+        interface MecanicoDAO{
+            + List<MecanicoDTO> listarMecanicosConCriterios(String especialidad)
+            + boolean insertarMecanico(String apellido, String nombre, String tipoDNI, 
+                                 String nroDNI, String telefono, String legajo, String area,
+                                 String especialidad)
+            + void cerrarConexion()
+        }
+
+        class MecanicoDAOImplSql implements MecanicoDAO{
+            - conexion: ConexionSql
+            + MecanicoDAOImplSql()
+            + @Override List<MecanicoDTO> listarMecanicosConCriterios(String especialidad)
+            + @Override boolean insertarMecanico(String apellido, String nombre, String tipoDNI, 
+                                        String nroDNI, String telefono, String legajo, 
+                                        String area,String especialidad)
+            + @Override void cerrarConexion()
+        }
+
+        interface TitularDAO{
+            + TitularDTO buscarTitular(String apellido, String nombre)
+            + boolean insertarTitular(String nombre, String apellido, String tipoDNI, String nroDNI, String telefono,String compania)
+            + void cerrarConexion()
+        }
+
+        class TitularDAOImplSql implements TitularDAO{
+            - conexion: ConexionSql
+            + TitularDAOImplSql()
+            + @Override TitularDTO buscarTitular(String apellidoTitular, String nombreTitular)
+            + @Override boolean insertarTitular(String nombre, String apellido, String tipoDNI, String nroDNI, String telefono, String compania)
+            + @Override void cerrarConexion()
+        }
+
+        interface TurnoDAO{
+            + TurnoDTO consultarTurno(String nro)
+            + List<TurnoDTO> listarTurnos()
+            + List<TurnoDTO> listarTurnosPorCriterio(String titular)
+            + boolean insertarTurno(String nro, String dia, String hora, String mecanico,
+                                    String vehiculo, String titular, 
+                                    String companiaSeguro)
+            + boolean modificarTurno(String nro, String dia, String hora, String mecanico)
+            + boolean confirmarTurno(String nro)
+            + boolean cancelarTurno(String nro)
+            + boolean registrarFichaMecanica(String nro, String fichaMecanica)
+            + void cerrarConexion()
+        }
+
+        class TurnoDAOImpSQL implements TurnoDAO{
+            - conexion: ConexionSql
+            + TurnoDAOImplSql()
+            + @Override TurnoDTO consultarTurno(String nro)
+            + @Override List<TurnoDTO> listarTurnos()
+            + @Override boolean insertarTurno(String dia, String hora, 
+                                     String mecanico, String vehiculo, 
+                                     String titular, String companiaSeguro)
+            + @Override boolean modificarTurno(String nro, String dia, String hora, 
+                                      String mecanico)
+            + @Override void cerrarConexion()
+            + @Override List<TurnoDTO> listarTurnosPorCriterio(String titular)
+            + @Override boolean confirmarTurno(String nro)
+            + @Override boolean cancelarTurno(String nro)
+            + @Override boolean registrarFichaMecanica
+        }
+
+        interface VehiculoDAO{
+            + VehiculoDTO consultarVehiculo(int nroPoliza)
+            + boolean insertarVehiculo(int nroPoliza,
+                                 String modelo,
+                                 String marca,
+                                 String nroDNITitular)
+            + void cerrarConexion()
+        }
+
+        package Singleton <<Folder>>{
+            class ConexionSQL{
+                - URL: static final String 
+                - connection: Connection
+                - instancia: static ConexionSql 
+                - ConexionSql()
+                + static ConexionSql getInstancia()
+                + Connection getConnection()
+                # void desconectar()
+            }
+        }
+     }
+
+    package  DTO <<Folder>>{
+
+        class AgendaDTO {
+            - dia: String;
+            - horario: String;
+            - mecanico: String;
+            - estado: String;
+            + AgendaDTO(String dia, String horario, String mecanico, String estado)
+            + String getDia()
+            + void setDia(String dia)
+            + String getHorario()
+            + void setHorario(String horario)
+            + String getEstado()
+            + void setEstado(String estado)
+            + String getMecanico()
+            + void setMecanico(String estado)
+        }
+
+        class CompaniaDTO {
+            - razonSocial: String;
+            - cuit: String;
+            - direccion: String;
+            - telefono: String;
+            + CompaniaDTO(String razonSocial, String cuit, String direccion, String telefono)
+            + String getRazonSocial()
+            + String getCuit()
+            + String getDireccion()
+            + String getTelefono()
+            + String getEstado()
+            + void setRazonSocial(String razonSocial)
+            + void setCuit(String cuit)
+            + void setDireccion(String direccion)
+            + void setTelefono(String telefono)
+        }
+
+        abstract EmpleadoDTO extends PersonaDTO {
+            - legajo: int
+            - area: String
+            + EmpleadoDTO(String apellido, String nombre, String tipoDNI, 
+                       String nroDNI, String telefono, int legajo, String area)
+            + int getLegajo()
+            + String getArea()
+            + void setLegajo(int legajo)
+            + void setArea(String area)
+        }
+
+        class EspecialidadDTO {
+            - codigo: String
+            - nombre: String
+            - descripcion: String
+            + EspecialidadDTO(String codigo, String nombre, String descripcion)
+            + String getCodigo()
+            + String getNombre()
+            + String getDescripcion()
+            + void setCodigo(String codigo)
+            + void setNombre(String nombre)
+            + void setDescripcion(String descripcion)
+        }
+
+        class MecanicoDTO extends EmpleadoDTO{
+            - especialidad: String
+            + MecanicoDTO(String apellido, String nombre, String tipoDNI, String nroDNI, 
+                       String telefono, int legajo, String area, String especialidad)
+            + String getEspecialidad()
+            + void setEspecialidad(String especialidad)
+        }
+        
+        abstract PersonaDTO{
+            - apellido: String;
+            - nombre: String;
+            - tipoDNI: String
+            - nroDNI: String
+            - telefono: String
+            + PersonaDTO(String apellido, String nombre, String tipoDNI, String nroDNI, String telefono)
+            + String getApellido()
+            + void setApellido(String apellido)
+            + String getNombre()
+            + void setNombre(String nombre)
+            + String getTipoDNI()
+            + void setTipoDNI(String tipoDNI)
+            + String getNroDNI()
+            + void setNroDNI(String nroDNI)
+            + tring getTelefono()
+            + void setLegajo(String telefono)
+        }
+
+        class TitularDTO extends PersonaDTO{
+            - compania: String
+            + TitularDTO(String nombre, String apellido, String tipoDNI, String nroDNI, String telefono,String compania)
+            + String getCompania()
+            + void setCompania(String compania)
+        }
+        
+        class TurnoDTO {
+            - nro: int;
+            - dia: String
+            - hora: String
+            - mecanico: String
+            - vehiculo: String
+            - titular: String
+            - companiaSeguro: String
+            - estado: String
+            - fichaMecanica: String
+            + TurnoDTO(int nro, String dia, String hora, String mecanico, 
+                    String vehiculo, String titular, String companiaSeguro,
+                    String estado, String fichaMecanica)
+            + void setNro(int nro)
+            + void setDia(String dia)
+            + void setHora(String hora)
+            + void setMecanico(String mecanico)
+            + void setVehiculo(String vehiculo)
+            + void setTitular(String titular)
+            + void setCompaniaSeguro(String companiaSeguro)
+            + void setEstado(String estado)
+            + void setFichaMecanica(String fichaMecanica)
+            + int getNro()
+            + String getDia()
+            + String getHora()
+            + String getMecanico()
+            + String getVehiculo()
+            + String getTitular()
+            + String getCompaniaSeguro()
+            + String getEstado()
+            + String getFichaMecanica()
+        }
+        
+        class VehiculoDTO {
+            - nroDNITitular: String;
+            - nroPoliza: int
+            - modelo: String
+            - marca: String
+            + VehiculoDTO(int nroPoliza, String modelo, String marca, String nroDNITitular)
+            + String getNroDNITitular()
+            + int getNroPoliza()
+            + String getModelo()
+            + String getMarca()
+            + void setNroDNITitular(String nroDNITitular)
+            + void setNroPoliza(int nroPoliza)
+            + void setModelo(String modelo)
+            + void setMarca(String marca)
+        }
+
+    }
+
+    package DataBase <<Database>>{
+
+        class DBEjemploDAO{
+            
+        }
+    }
+
+    package Main <<Folder>>{
+        class Main{
+            modelo: Modelo
+            vista: InterfazTurno
+            controlador: Controlador
+        }
+        
+    }
+
+
+    
+
    
 @enduml

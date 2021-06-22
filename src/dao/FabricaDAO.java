@@ -12,8 +12,6 @@ import java.lang.reflect.InvocationTargetException;
  * @author agustin
  */
 public abstract class FabricaDAO {
-
-    public abstract AlumnoDAO getAlumnoDao();
     
     public abstract TurnoDAO getTurnoDao();
     
