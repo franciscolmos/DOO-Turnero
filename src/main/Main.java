@@ -43,13 +43,13 @@ public class Main {
     
     //vista:
     InterfazTurno vista = new vistaHome();
-
+    
     //controlador:
     Controlador control = new EncRecepcionControlador(vista, modelo);
     
     //configuramos la vista para que pueda enviar las acciones del usuario como eventos al controlador
     vista.setControlador(control);
-
+    
     //y arrancamos la interfaz:
     vista.iniciaVista();
     }

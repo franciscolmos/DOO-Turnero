@@ -53,6 +53,11 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
 
         NuevoTurnoBtn.setText("Nuevo Turno");
         NuevoTurnoBtn.setActionCommand("TURNO");
+        NuevoTurnoBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NuevoTurnoBtnActionPerformed(evt);
+            }
+        });
 
         ConsultarButton.setText("Consultar Turno");
         ConsultarButton.setActionCommand("CONSULTAR");
@@ -83,14 +88,12 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addContainerGap())
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(NuevoTurnoBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(ConsultarButton)
-                        .addContainerGap())))
+                        .addComponent(ConsultarButton)))
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(221, 221, 221)
                 .addComponent(TituloLabel)
@@ -112,6 +115,10 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void NuevoTurnoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NuevoTurnoBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_NuevoTurnoBtnActionPerformed
 
     /**
      * @param args the command line arguments
