@@ -64,30 +64,6 @@
             + boolean insertarVehiculo(int nroPoliza, String modelo, String marca, String nroDNITitular)
             + @Override void finalize()
         }
-
-        interface Estado{
-            + procesar()
-        }
-
-        class Asignado{
-            + procesar()
-        }
-
-        class NoAsignado{
-            + procesar()
-        }
-
-        class Cancelado{
-            + procesar()
-        }
-
-        class Finalizado{
-            + procesar()
-        }
-
-        class EnCurso{
-            + procesar()
-        }
     }
 
     package Controlador <<Folder>>{
@@ -478,12 +454,6 @@
     Especialidad "1" -up-> "1" EspecialidadDAO
     Agenda "1" -up-> "1" AgendaDAO
     Vehiculo "1" -up-> "1" VehiculoDAO
-    Turno o--> Estado
-    Estado --> Asignado
-    Estado --> EnCurso
-    Estado --> Cancelado
-    Estado --> Finalizado
-    Estado --> NoAsignado
     TurnoDAOImpSQL "1" -up-> "1" ConexionSQL
     CompaniaDAOImplSql "1" -up-> "1" ConexionSQL
     TitularDAOImplSql "1" -up-> "1" ConexionSQL

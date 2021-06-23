@@ -51,7 +51,7 @@ public class VehiculoDAOImplSqlTest {
     @Test
     public void testInsertarVehiculo() {
         System.out.println("insertarVehiculo");
-        int nroPoliza = 99;
+        int nroPoliza = 98;
         String modelo = "Modelo99";
         String marca = "Marca99";
         String nroDNITitular = "99999999";
