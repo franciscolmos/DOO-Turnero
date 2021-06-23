@@ -30,6 +30,13 @@ public class Agenda extends Modelo {
         return listaAgendas;
     }
     
+    public List<AgendaDTO> listarAgendaPorFecha(String mecanicoNombre, 
+                                        String estadoTurno, String fecha) {
+        List<AgendaDTO> listaAgendas = agendaDao.listarAgendaPorFecha(mecanicoNombre, 
+                                                              estadoTurno, fecha);
+        return listaAgendas;
+    }
+    
     @Override
     protected void finalize() throws Throwable {
         agendaDao.cerrarConexion();

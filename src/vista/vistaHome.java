@@ -167,7 +167,7 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
         this.NuevoTurnoBtn.addActionListener(c);
         c.actionPerformed(new ActionEvent(this, 0, InterfazTurno.Operacion.CARGAR.toString()));
     }
-    
+
     @Override
     public void iniciaVista() {
         setLocationRelativeTo(null);

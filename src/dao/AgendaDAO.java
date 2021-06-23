@@ -16,6 +16,8 @@ public interface AgendaDAO {
     
         List<AgendaDTO> listarAgenda(String mecanicoNombre, String estadoTurno);
         
+        List<AgendaDTO> listarAgendaPorFecha(String mecanicoNombre, String estadoTurno, String fecha);
+        
         void cerrarConexion();
 
 }
