@@ -36,8 +36,7 @@ public class AgendaDAOImplSql implements AgendaDAO{
 
         try {
             con = conexion.getConnection();
-            String sql = "select * "
-                         + "from agendas where estado = ? and mecanico = ?";
+            String sql = "select * from agendas where estado = ? and mecanico = ?";
             
             sentencia = con.prepareStatement(sql);
             sentencia.setString(1, estadoTurno);
@@ -47,6 +46,7 @@ public class AgendaDAOImplSql implements AgendaDAO{
             
             rs = sentencia.executeQuery();
 
+            int id;
             String dia;
             String horario;
             String mecanico;
@@ -54,11 +54,12 @@ public class AgendaDAOImplSql implements AgendaDAO{
             AgendaDTO agenda;
 
             while (rs.next()) {
+                id = rs.getInt("id");
                 dia = rs.getString("dia");
                 horario = rs.getString("horario");
                 mecanico = rs.getString("mecanico");
                 estado = rs.getString("estado");
-                agenda = new AgendaDTO(dia, horario, mecanico, estado);
+                agenda = new AgendaDTO(id, dia, horario, mecanico, estado);
                 listaAgenda.add(agenda);
             }
 
@@ -101,6 +102,7 @@ public class AgendaDAOImplSql implements AgendaDAO{
             
             rs = sentencia.executeQuery();
 
+            int id;
             String dia;
             String horario;
             String mecanico;
@@ -108,11 +110,12 @@ public class AgendaDAOImplSql implements AgendaDAO{
             AgendaDTO agenda;
 
             while (rs.next()) {
+                id = rs.getInt("id");
                 dia = rs.getString("dia");
                 horario = rs.getString("horario");
                 mecanico = rs.getString("mecanico");
                 estado = rs.getString("estado");
-                agenda = new AgendaDTO(dia, horario, mecanico, estado);
+                agenda = new AgendaDTO(id, dia, horario, mecanico, estado);
                 listaAgenda.add(agenda);
             }
 
@@ -127,5 +130,35 @@ public class AgendaDAOImplSql implements AgendaDAO{
             }
         }
         return listaAgenda;
+    }
+
+    @Override
+    public boolean modificarAgenda(String dia, String horario, String mecanico) {
+        Connection con = null;
+        PreparedStatement sentencia = null;
+
+        try {
+            con = conexion.getConnection();
+            String sql = "update agendas set estado=? where dia=? "
+                       + "and horario=? and mecanico=?";
+            sentencia = con.prepareStatement(sql);
+            sentencia.setString(1, "Asignado");
+            sentencia.setString(2, dia);
+            sentencia.setString(3, horario);
+            sentencia.setString(4, mecanico);
+
+            int resultado = sentencia.executeUpdate();
+
+            return (resultado > 0);
+        } catch (SQLException e) {
+            System.err.println(e);
+            return false;
+        } finally {
+            try {
+                sentencia.close();
+            } catch (SQLException ex) {
+                System.err.println(ex);
+            }
+        }
     }
 }

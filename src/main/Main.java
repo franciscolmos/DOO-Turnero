@@ -23,21 +23,16 @@ public class Main {
     
     public static void main(String[] args) {
         /*
-        // TODO code application logic here
-
         ComponenteNegocio cliente = new ComponenteNegocio();
 
-        cliente.listarMecanicos();
-        cliente.insertarMecanico("Lopez", "Juan", "DNI", "64758264", "123872",
-                                 "2", "Externo", "Frenos");
-        cliente.listarMecanicos();
+        cliente.usar();
         
         cliente = null;
 
         System.gc();
+        */
         
-    */
-
+        
     //modelo:
     Modelo modelo = new Turno();
     
@@ -52,6 +47,7 @@ public class Main {
     
     //y arrancamos la interfaz:
     vista.iniciaVista();
+
     }
 
 }

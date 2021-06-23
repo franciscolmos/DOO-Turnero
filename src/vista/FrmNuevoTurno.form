@@ -44,11 +44,11 @@
                   <Group type="102" alignment="2" attributes="0">
                       <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="8" pref="8" max="8" attributes="0"/>
-                      <Component id="jTextField4" min="-2" pref="153" max="-2" attributes="0"/>
+                      <Component id="TextFieldNombre" min="-2" pref="153" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jTextField5" min="-2" pref="152" max="-2" attributes="0"/>
+                      <Component id="TextFieldApellido" min="-2" pref="152" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -57,13 +57,13 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="jComboBox3" min="-2" max="-2" attributes="0"/>
+                          <Component id="ComboBoxTipoDNI" min="-2" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="jTextField7" min="-2" pref="38" max="-2" attributes="0"/>
+                              <Component id="TextFieldCodigo" min="-2" pref="38" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -74,13 +74,13 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Component id="jTextField8" min="-2" pref="41" max="-2" attributes="0"/>
+                              <Component id="TextFieldCaracteristica" min="-2" pref="41" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                               <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="jTextField9" min="-2" pref="133" max="-2" attributes="0"/>
+                              <Component id="TextFieldNumero" min="-2" pref="133" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jTextField6" max="32767" attributes="0"/>
+                          <Component id="TextFieldNroDNI" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -100,15 +100,15 @@
                       <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jTextField1" min="-2" pref="94" max="-2" attributes="0"/>
+                      <Component id="TextFieldNroPoliza" min="-2" pref="94" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jTextField2" max="32767" attributes="0"/>
+                      <Component id="TextFieldMarca" max="32767" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jTextField3" min="-2" pref="85" max="-2" attributes="0"/>
+                      <Component id="TextFieldModelo" min="-2" pref="85" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -141,11 +141,13 @@
               <EmptySpace max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="BotonCancelar" min="-2" pref="130" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
               <Component id="filler1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="124" max="-2" attributes="0"/>
-              <Component id="jButton2" min="-2" pref="130" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="132" max="-2" attributes="0"/>
+              <Component id="BotonGuardar" min="-2" pref="130" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
@@ -203,16 +205,16 @@
               <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                      <Component id="jTextField1" alignment="3" max="32767" attributes="0"/>
+                      <Component id="TextFieldNroPoliza" alignment="3" max="32767" attributes="0"/>
                       <Component id="jLabel5" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
-                      <Component id="jTextField2" alignment="3" max="32767" attributes="0"/>
+                      <Component id="TextFieldMarca" alignment="3" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
                       <Component id="jLabel4" max="32767" attributes="0"/>
                   </Group>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jTextField3" alignment="3" max="32767" attributes="0"/>
+                      <Component id="TextFieldModelo" alignment="3" max="32767" attributes="0"/>
                       <Component id="jLabel6" alignment="3" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -223,8 +225,8 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jTextField4" alignment="3" max="32767" attributes="0"/>
-                      <Component id="jTextField5" alignment="3" max="32767" attributes="0"/>
+                      <Component id="TextFieldNombre" alignment="3" max="32767" attributes="0"/>
+                      <Component id="TextFieldApellido" alignment="3" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
@@ -237,8 +239,8 @@
               <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jComboBox3" alignment="3" max="32767" attributes="0"/>
-                      <Component id="jTextField6" alignment="3" max="32767" attributes="0"/>
+                      <Component id="ComboBoxTipoDNI" alignment="3" max="32767" attributes="0"/>
+                      <Component id="TextFieldNroDNI" alignment="3" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
@@ -251,10 +253,10 @@
               <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jTextField7" alignment="3" max="32767" attributes="0"/>
+                      <Component id="TextFieldCodigo" alignment="3" max="32767" attributes="0"/>
                       <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField8" alignment="3" max="32767" attributes="0"/>
-                      <Component id="jTextField9" alignment="3" max="32767" attributes="0"/>
+                      <Component id="TextFieldCaracteristica" alignment="3" max="32767" attributes="0"/>
+                      <Component id="TextFieldNumero" alignment="3" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
@@ -287,7 +289,10 @@
               </Group>
               <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="BotonCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="BotonGuardar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <Component id="filler1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
@@ -327,21 +332,30 @@
         <Property name="text" type="java.lang.String" value="nro Poliza"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField1">
+    <Component class="javax.swing.JTextField" name="TextFieldNroPoliza">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="7"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
         <Property name="text" type="java.lang.String" value="Marca"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField2">
+    <Component class="javax.swing.JTextField" name="TextFieldMarca">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Marca7"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>
         <Property name="text" type="java.lang.String" value="Modelo"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField3">
+    <Component class="javax.swing.JTextField" name="TextFieldModelo">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Modelo7"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator2">
     </Component>
@@ -355,21 +369,27 @@
         <Property name="text" type="java.lang.String" value="Nombre"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField4">
+    <Component class="javax.swing.JTextField" name="TextFieldNombre">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Titular7"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel9">
       <Properties>
         <Property name="text" type="java.lang.String" value="Apellido"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField5">
+    <Component class="javax.swing.JTextField" name="TextFieldApellido">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Apellido7"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel10">
       <Properties>
         <Property name="text" type="java.lang.String" value="Tipo"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="jComboBox3">
+    <Component class="javax.swing.JComboBox" name="ComboBoxTipoDNI">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="2">
@@ -387,14 +407,20 @@
         <Property name="text" type="java.lang.String" value="N&#xfa;mero"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField6">
+    <Component class="javax.swing.JTextField" name="TextFieldNroDNI">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="77777777"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel12">
       <Properties>
         <Property name="text" type="java.lang.String" value="Telefono:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField7">
+    <Component class="javax.swing.JTextField" name="TextFieldCodigo">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="7"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel13">
     </Component>
@@ -408,14 +434,20 @@
         <Property name="text" type="java.lang.String" value="Caract."/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField8">
+    <Component class="javax.swing.JTextField" name="TextFieldCaracteristica">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="77"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel16">
       <Properties>
         <Property name="text" type="java.lang.String" value="Numero:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField9">
+    <Component class="javax.swing.JTextField" name="TextFieldNumero">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="777"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator4">
     </Component>
@@ -443,10 +475,10 @@
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator6">
     </Component>
-    <Component class="javax.swing.JButton" name="jButton2">
+    <Component class="javax.swing.JButton" name="BotonCancelar">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Guardar"/>
-        <Property name="actionCommand" type="java.lang.String" value="GUARDAR"/>
+        <Property name="text" type="java.lang.String" value="Cancelar"/>
+        <Property name="actionCommand" type="java.lang.String" value="CANCELAR"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel18">
@@ -505,6 +537,12 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
+    </Component>
+    <Component class="javax.swing.JButton" name="BotonGuardar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Guardar"/>
+        <Property name="actionCommand" type="java.lang.String" value="GUARDAR"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

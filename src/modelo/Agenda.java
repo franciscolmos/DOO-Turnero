@@ -37,6 +37,10 @@ public class Agenda extends Modelo {
         return listaAgendas;
     }
     
+    public boolean modificarAgenda(String dia, String horario, String mecanico) {
+        return agendaDao.modificarAgenda(dia, horario, mecanico);
+    }
+    
     @Override
     protected void finalize() throws Throwable {
         agendaDao.cerrarConexion();

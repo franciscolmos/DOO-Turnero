@@ -10,44 +10,39 @@ package dto;
  * @author benja
  */
 public class AgendaDTO {
+    private int id;
     private String dia;
     private String horario;
     private String mecanico;
     private String estado;
 
-    public AgendaDTO(String dia, String horario, String mecanico, String estado) {
+    public AgendaDTO(int id, String dia, String horario, String mecanico, String estado) {
+        this.id = id;
         this.dia = dia;
         this.horario = horario;
         this.mecanico = mecanico;
         this.estado = estado;
     }
     
-      /**
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
+    
+    /**
      * @return the dia
      */
     public String getDia() {
         return dia;
     }
-
-    /**
-     * @param dia the dia to set
-     */
-    public void setDia(String dia) {
-        this.dia = dia;
-    }
     
-       /**
+    /**
      * @return the dia
      */
     public String getHorario() {
         return horario;
-    }
-
-    /**
-     * @param dia the dia to set
-     */
-    public void setHorario(String horario) {
-        this.horario = horario;
     }
     
        /**
@@ -57,25 +52,11 @@ public class AgendaDTO {
         return estado;
     }
 
-    /**
-     * @param dia the dia to set
-     */
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-    
      /**
      * @return the dia
      */
     public String getMecanico() {
         return mecanico;
     }
-
-    /**
-     * @param dia the dia to set
-     */
-    public void setMecanico(String estado) {
-        this.mecanico = mecanico;
-    }
-     
+    
 }

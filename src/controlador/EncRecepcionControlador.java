@@ -14,7 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import modelo.Agenda;
@@ -22,7 +21,9 @@ import modelo.Compania;
 import modelo.Especialidad;
 import modelo.Mecanico;
 import modelo.Modelo;
+import modelo.Titular;
 import modelo.Turno;
+import modelo.Vehiculo;
 import vista.InterfazTurno;
 import vista.vistaHome;
 import vista.FrmNuevoTurno;
@@ -60,7 +61,7 @@ public class EncRecepcionControlador extends Controlador {
             switch (InterfazTurno.Operacion.valueOf(e.getActionCommand())) {
                 case CONSULTAR:
                     VISTA.limpiaVista();
-                    VISTA.actualizaTabla(this);
+                    actualizarTabla(((vistaHome) this.VISTA));
                     break;
 
                 case TURNO:
@@ -72,28 +73,12 @@ public class EncRecepcionControlador extends Controlador {
                     
                     iniciarFrmNuevoTurno();
                     break;
-                 
-                case CARGAR:
-                    DefaultTableModel modeloTabla = (DefaultTableModel) ((vistaHome) this.VISTA).getModeloTblTurnos();
-                    modeloTabla.setRowCount(0);
-                    modeloTabla.fireTableDataChanged();
-                    List<TurnoDTO> listadoTurnos = ((Turno) this.MODELO).listarTurnosPorCriterio("Asignado");
-                    for (TurnoDTO tur : listadoTurnos) {
-                        modeloTabla.addRow(new Object[]{tur.getNro(),
-                                                        tur.getDia(), 
-                                                        tur.getHora(),
-                                                        tur.getMecanico(),
-                                                        tur.getVehiculo(),
-                                                        tur.getTitular(),
-                                                        tur.getCompaniaSeguro(),
-                                                        tur.getEstado(),
-                                                        tur.getFichaMecanica()});
-                    }
-                    break;
                     
                 case MECANICO:
                     JComboBox modeloComboBoxMecanicos = (JComboBox) ((FrmNuevoTurno) this.VISTA).getComboBoxMecanicos();
-                    List<MecanicoDTO> listadoMecanicoPorEspecialidad= ((Mecanico) this.MODELO.fabricarModelo("Mecanico")).listarMecanicosConCriterios(((FrmNuevoTurno) this.VISTA).getEspecialdiadSeleccionada());
+                    List<MecanicoDTO> listadoMecanicoPorEspecialidad= ((Mecanico) this.MODELO.fabricarModelo("Mecanico")).
+                                                                      listarMecanicosConCriterios(((FrmNuevoTurno) this.VISTA).
+                                                                      getComboBoxEspecialidad().getSelectedItem().toString());
                     String [] mecanicos = new String[listadoMecanicoPorEspecialidad.size()];
                     for(int i = 0; i < listadoMecanicoPorEspecialidad.size(); i++) {
                         mecanicos[i] = listadoMecanicoPorEspecialidad.get(i).getNombre();
@@ -108,9 +93,6 @@ public class EncRecepcionControlador extends Controlador {
                         modeloComboBoxFecha.setModel(new DefaultComboBoxModel());
                         break;
                     }
-//                    List<AgendaDTO> listadoFecha = ((Agenda) this.MODELO.fabricarModelo("Agenda")).listarAgenda(
-//                                                   ((FrmNuevoTurno) this.VISTA).getMecanicoSeleccionado(), 
-//                                                   "No asignado");
                     List<AgendaDTO> listadoFecha = ((Agenda) this.MODELO.fabricarModelo("Agenda")).listarAgenda(
                                                    ((FrmNuevoTurno) this.VISTA).getComboBoxMecanicos().getSelectedItem().toString(),
                                                    "No asignado");
@@ -127,14 +109,6 @@ public class EncRecepcionControlador extends Controlador {
                         modeloComboBoxHora.setModel(new DefaultComboBoxModel());
                         break;
                     }
-//                    if(((FrmNuevoTurno) this.VISTA).getComboBoxFecha().getSelectedItem() == null){
-//                        modeloComboBoxHora.removeAllItems();
-//                        break;
-//                    }
-//                    List<AgendaDTO> listadoHorario = ((Agenda) this.MODELO.fabricarModelo("Agenda")).listarAgendaPorFecha(
-//                                                     ((FrmNuevoTurno) this.VISTA).getMecanicoSeleccionado(),
-//                                                     "No asignado",
-//                                                     ((FrmNuevoTurno) this.VISTA).getFechaSeleccionada());
                     List<AgendaDTO> listadoHorario = ((Agenda) this.MODELO.fabricarModelo("Agenda")).listarAgendaPorFecha(
                                                      ((FrmNuevoTurno) this.VISTA).getComboBoxMecanicos().getSelectedItem().toString(),
                                                      "No asignado",
@@ -144,6 +118,20 @@ public class EncRecepcionControlador extends Controlador {
                         horarios[i] = listadoHorario.get(i).getHorario();
                     }
                     modeloComboBoxHora.setModel(new DefaultComboBoxModel(horarios));
+                    break;
+                    
+                case GUARDAR:
+                    insertarTitular(((FrmNuevoTurno) this.VISTA));
+                    insertarVehiculo(((FrmNuevoTurno) this.VISTA));
+                    insertarTurno(((FrmNuevoTurno) this.VISTA));
+                    insertarAgenda(((FrmNuevoTurno) this.VISTA));
+                    
+                    volverHome();
+                    
+                    break;
+                    
+                case CANCELAR:
+                    volverHome();
                     break;
                     
                 default:
@@ -172,31 +160,69 @@ public class EncRecepcionControlador extends Controlador {
         }
     }
     
-    /*
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        System.out.println("NASHEEEEEEEEEEEEE");
-        
-        if (e.getSource() instanceof JTable) {
-            DefaultTableModel modeloTabla = (DefaultTableModel) ((FrmTurno) this.VISTA).getModeloTblAlumnos();
-            ((FrmTurno) this.VISTA).getTxtLegajo().setValue(modeloTabla.getValueAt(((FrmTurno) this.VISTA).getTblAlumnos().getSelectedRow(), 0));
-            ((FrmTurno) this.VISTA).getTxtNombre().setText((String) modeloTabla.getValueAt(((FrmTurno) this.VISTA).getTblAlumnos().getSelectedRow(), 1));
-            ((FrmTurno) this.VISTA).getTxtApellido().setText((String) modeloTabla.getValueAt(((FrmTurno) this.VISTA).getTblAlumnos().getSelectedRow(), 2));
-        } else if(e.getSource() instanceof JButton){
-            Object legajo = ((FrmTurno) this.VISTA).getTxtLegajo().getValue();
-            if (legajo != null) {
-                ((FrmTurno) this.VISTA).getmItemGuardarAlumno().setEnabled(false);
-                ((FrmTurno) this.VISTA).getmItemModificarAlumno().setEnabled(true);
-            } else {
-                ((FrmTurno) this.VISTA).getmItemGuardarAlumno().setEnabled(true);
-                ((FrmTurno) this.VISTA).getmItemModificarAlumno().setEnabled(false);
-            }
-            ((FrmTurno) this.VISTA).getPopUpEdicion().show(e.getComponent(), e.getX(), e.getY());
-        }
-        
+    private void volverHome() {
+        MODELO = ((Turno)this.MODELO.fabricarModelo("Turno"));
+        VISTA.cerrarVista();
+        VISTA = new vistaHome();
+        VISTA.iniciaVista();
+        VISTA.setControlador(this);
     }
-    */
     
+    private void insertarTitular(FrmNuevoTurno vista) {
+        MODELO = ((Titular)this.MODELO.fabricarModelo("Titular"));
+        
+        String telefono = vista.getTextFieldCodigo().getText() +
+                          vista.getTextFieldCaracteristica().getText() +
+                          vista.getTextFieldNumero().getText();
+        
+        ((Titular)MODELO).insertarTitular(vista.getTextFieldNombre().getText(), 
+                                          vista.getTextFieldApellido().getText(),
+                                          vista.getComboBoxTipoDNI().getSelectedItem().toString(),
+                                          vista.getTextFieldNroDNI().getText(), 
+                                          telefono,
+                                          vista.getComboBoxCompania().getSelectedItem().toString());
+    }
     
-}
+    private void insertarVehiculo(FrmNuevoTurno vista) {
+        MODELO = ((Vehiculo)this.MODELO.fabricarModelo("Vehiculo"));
+        ((Vehiculo)MODELO).insertarVehiculo(Integer.parseInt(vista.getTextFieldNroPoliza().getText()),
+                                            vista.getTextFieldModelo().getText(),
+                                            vista.getTextFieldMarca().getText(),
+                                            vista.getTextFieldNroDNI().getText());
+    }
+    
+    private void insertarTurno(FrmNuevoTurno vista) {
+        MODELO = ((Turno)this.MODELO.fabricarModelo("Turno"));
+        ((Turno)MODELO).insertarTurno(vista.getComboBoxFecha().getSelectedItem().toString(),
+                                      vista.getComboBoxHora().getSelectedItem().toString(),
+                                      vista.getComboBoxMecanicos().getSelectedItem().toString(),
+                                      vista.getTextFieldNroPoliza().getText(),
+                                      vista.getTextFieldNroDNI().getText(),
+                                      vista.getComboBoxCompania().getSelectedItem().toString());
+    }
+    
+    private void insertarAgenda(FrmNuevoTurno vista) {
+        MODELO = ((Agenda)this.MODELO.fabricarModelo("Agenda"));
+        ((Agenda)MODELO).modificarAgenda(vista.getComboBoxFecha().getSelectedItem().toString(),
+                                         vista.getComboBoxHora().getSelectedItem().toString(),
+                                         vista.getComboBoxMecanicos().getSelectedItem().toString());
+    }
 
+    private void actualizarTabla(vistaHome vista) {
+        DefaultTableModel modeloTabla = (DefaultTableModel) vista.getModeloTblTurnos();
+        modeloTabla.setRowCount(0);
+        modeloTabla.fireTableDataChanged();
+        List<TurnoDTO> listadoTurnos = ((Turno) this.MODELO).listarTurnosPorCriterio("Asignado");
+        for (TurnoDTO tur : listadoTurnos) {
+            modeloTabla.addRow(new Object[]{tur.getNro(),
+                                            tur.getDia(), 
+                                            tur.getHora(),
+                                            tur.getMecanico(),
+                                            tur.getVehiculo(),
+                                            tur.getTitular(),
+                                            tur.getCompaniaSeguro(),
+                                            tur.getEstado(),
+                                            tur.getFichaMecanica()});
+        }
+    }
+}

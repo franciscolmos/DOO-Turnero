@@ -165,7 +165,6 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
     public void setControlador(Controlador c) {
         this.ConsultarButton.addActionListener(c);
         this.NuevoTurnoBtn.addActionListener(c);
-        c.actionPerformed(new ActionEvent(this, 0, InterfazTurno.Operacion.CARGAR.toString()));
     }
 
     @Override
@@ -182,10 +181,5 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
     @Override
     public void limpiaVista() {
         this.TablaTurnos.clearSelection();
-    }
-
-    @Override
-    public void actualizaTabla(Controlador c) {
-        c.actionPerformed(new ActionEvent(this, 0, vistaHome.Operacion.CARGAR.toString()));
     }
 }
