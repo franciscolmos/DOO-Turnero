@@ -5,18 +5,7 @@
             + static Modelo fabricarModelo(String nombreClaseModelo)
         }
 
-        abstract Persona extends Modelo{
-            nombre: String
-            edad: String
-            apellio: String
-            tipoDNI: String
-            nroDNI: String
-            telefono: Telefono
-            direccion: String
-            email: String
-        }
-
-        class Compania extends Modelo{
+        class Compania {
             - fabricaDao: final FabricaDAO
             - companiaDao: final CompaniaDAO
             + Compania()
@@ -25,7 +14,7 @@
             + @Override void finalize() 
         }
 
-        class Agenda extends Modelo{
+        class Agenda {
             - fabricaDao: final FabricaDAO
             - agendaDao: final AgendaDAO
             + Agenda()
@@ -33,7 +22,7 @@
             + @Override void finalize()
         }
 
-        class Especialidad extends Modelo{
+        class Especialidad {
             - fabricaDao: final FabricaDAO
             - especialidadDao: final EspecialidadDAO
             + Especialidad()
@@ -41,7 +30,7 @@
             + @Override void finalize()
         }
 
-        class Mecanico extends Modelo{
+        class Mecanico {
             - fabricaDao: final FabricaDAO
             - mecanicoDao: final MecanicoDAO
             + Mecanico()
@@ -50,7 +39,7 @@
             + @Override void finalize()
         }
 
-        class Titular extends Modelo{
+        class Titular {
             - fabricaDao: final FabricaDAO
             - titularDao: final TitularDAO
             + Titular()
@@ -59,7 +48,7 @@
             + @Override void finalize()
         }
 
-        class Turno extends Modelo{
+        class Turno {
             - fabricaDao: final FabricaDAO
             - titularDao: final TurnoDAO
             + Turno()
@@ -68,7 +57,7 @@
             + boolean modificarTurno(String nro, String dia, String hora, String mecanico)
         }
 
-        class Vehiculo extends Modelo{
+        class Vehiculo {
             - fabricaDao: final FabricaDAO
             - titularDao: final vehiculoDao
             + Vehiculo()
@@ -114,6 +103,7 @@
             + void keyPressed(KeyEvent ke)
             + void actionPerformed(ActionEvent e)
             + void keyReleased(KeyEvent ke)
+            - void iniciarFrmNuevoTurno()
         }
 
         class EncTallerControlador extends Controlador {
@@ -141,14 +131,6 @@
 
         class FrmNuevoEmpleado extends javax.swing.JFrame{
             + FrmNuevoEmpleado()
-        }
-
-        class FrmTurno extends javax.swing.JFrame implements InterfazTurnoChomasa {
-            + void iniciaVista()
-            + void imprimeMensaje(Exception... e)
-            + void limpiaVista()
-            + void actualizaTabla(Controlador c)
-            + void setControlador(Controlador c)
         }
 
         interface InterfazTurno{
@@ -186,14 +168,14 @@
         }
 
         class SqlFabricaDAO extends FabricaDAO{
-            + @Override TurnoDAO getTurnoDao()
-            + @Override VehiculoDAO getVehiculoDao()
-            + @Override TitularDAO getTitularDao()
-            + @Override MecanicoDAO getMecanicoDao()
-            + @Override MecanicoDAO getMecanicoDao()
-            + @Override CompaniaDAO getCompaniaDao()
-            + @Override EspecialidadDAO getEspecialidadDAO()
-            + @Override AgendaDAO getAgendaDao()
+            + TurnoDAO getTurnoDao()
+            + VehiculoDAO getVehiculoDao()
+            + TitularDAO getTitularDao()
+            + MecanicoDAO getMecanicoDao()
+            + MecanicoDAO getMecanicoDao()
+            + CompaniaDAO getCompaniaDao()
+            + EspecialidadDAO getEspecialidadDAO()
+            + AgendaDAO getAgendaDao()
         }
 
         interface AgendaDAO{
@@ -201,11 +183,11 @@
             + cerrarConexion()
         }
 
-        class AgendaDAOImplSql implements AgendaDAO{
+        class AgendaDAOImplSql {
             - conexion: ConexionSql
             + AgendaDAOImplSql()
-            + @Override List<AgendaDTO> listarAgenda(String mecanicoNombre, String estadoTurno)
-            + @Override errarConexion()
+            + List<AgendaDTO> listarAgenda(String mecanicoNombre, String estadoTurno)
+            + errarConexion()
         }
 
         interface CompaniaDAO{
@@ -215,13 +197,13 @@
             + void cerrarConexion()
         }
 
-        class CompaniaDAOImplSql implements CompaniaDAO{
+        class CompaniaDAOImplSql {
             - conexion: ConexionSql
             + CompaniaDAOImplSql()
-            + @Override List<CompaniaDTO> listarCompanias()
-            + @Override boolean insertarCompania(String razonSocial, String cuit, 
+            + List<CompaniaDTO> listarCompanias()
+            + boolean insertarCompania(String razonSocial, String cuit, 
                                         String direccion, String telefono)
-            + @Override void cerrarConexion()
+            + void cerrarConexion()
         }
 
         interface EspecialidadDAO{
@@ -229,11 +211,11 @@
             + void cerrarConexion()
         }
 
-        class EspecialidadDAOImpSql implements EspecialidadDAO{
+        class EspecialidadDAOImpSql {
             - conexion: ConexionSql
             + EspecialidadDAOImpSql()
-            + @Override List<EspecialidadDTO> listarEspecialidades()
-            + @Override void cerrarConexion()
+            + List<EspecialidadDTO> listarEspecialidades()
+            + void cerrarConexion()
         }
 
         interface MecanicoDAO{
@@ -244,14 +226,14 @@
             + void cerrarConexion()
         }
 
-        class MecanicoDAOImplSql implements MecanicoDAO{
+        class MecanicoDAOImplSql {
             - conexion: ConexionSql
             + MecanicoDAOImplSql()
-            + @Override List<MecanicoDTO> listarMecanicosConCriterios(String especialidad)
-            + @Override boolean insertarMecanico(String apellido, String nombre, String tipoDNI, 
+            + List<MecanicoDTO> listarMecanicosConCriterios(String especialidad)
+            + boolean insertarMecanico(String apellido, String nombre, String tipoDNI, 
                                         String nroDNI, String telefono, String legajo, 
                                         String area,String especialidad)
-            + @Override void cerrarConexion()
+            + void cerrarConexion()
         }
 
         interface TitularDAO{
@@ -260,12 +242,12 @@
             + void cerrarConexion()
         }
 
-        class TitularDAOImplSql implements TitularDAO{
+        class TitularDAOImplSql {
             - conexion: ConexionSql
             + TitularDAOImplSql()
-            + @Override TitularDTO buscarTitular(String apellidoTitular, String nombreTitular)
-            + @Override boolean insertarTitular(String nombre, String apellido, String tipoDNI, String nroDNI, String telefono, String compania)
-            + @Override void cerrarConexion()
+            + TitularDTO buscarTitular(String apellidoTitular, String nombreTitular)
+            + boolean insertarTitular(String nombre, String apellido, String tipoDNI, String nroDNI, String telefono, String compania)
+            + void cerrarConexion()
         }
 
         interface TurnoDAO{
@@ -282,21 +264,21 @@
             + void cerrarConexion()
         }
 
-        class TurnoDAOImpSQL implements TurnoDAO{
+        class TurnoDAOImpSQL {
             - conexion: ConexionSql
             + TurnoDAOImplSql()
-            + @Override TurnoDTO consultarTurno(String nro)
-            + @Override List<TurnoDTO> listarTurnos()
-            + @Override boolean insertarTurno(String dia, String hora, 
+            + TurnoDTO consultarTurno(String nro)
+            + List<TurnoDTO> listarTurnos()
+            + boolean insertarTurno(String dia, String hora, 
                                      String mecanico, String vehiculo, 
                                      String titular, String companiaSeguro)
-            + @Override boolean modificarTurno(String nro, String dia, String hora, 
+            + boolean modificarTurno(String nro, String dia, String hora, 
                                       String mecanico)
-            + @Override void cerrarConexion()
-            + @Override List<TurnoDTO> listarTurnosPorCriterio(String titular)
-            + @Override boolean confirmarTurno(String nro)
-            + @Override boolean cancelarTurno(String nro)
-            + @Override boolean registrarFichaMecanica
+            + void cerrarConexion()
+            + List<TurnoDTO> listarTurnosPorCriterio(String titular)
+            + boolean confirmarTurno(String nro)
+            + boolean cancelarTurno(String nro)
+            + boolean registrarFichaMecanica
         }
 
         interface VehiculoDAO{
@@ -305,6 +287,14 @@
                                  String modelo,
                                  String marca,
                                  String nroDNITitular)
+            + void cerrarConexion()
+        }
+
+        class VehiculoDAOImplSql {
+            - conexion: ConexionSql
+            + VehiculoDAOImplSql()
+            + VehiculoDTO consultarVehiculo(int nroPoliza)
+            + boolean insertarVehiculo(int nroPoliza, String modelo, String marca, String nroDNITitular)
             + void cerrarConexion()
         }
 
@@ -356,7 +346,7 @@
             + void setTelefono(String telefono)
         }
 
-        abstract EmpleadoDTO extends PersonaDTO {
+        abstract EmpleadoDTO{
             - legajo: int
             - area: String
             + EmpleadoDTO(String apellido, String nombre, String tipoDNI, 
@@ -380,7 +370,7 @@
             + void setDescripcion(String descripcion)
         }
 
-        class MecanicoDTO extends EmpleadoDTO{
+        class MecanicoDTO{
             - especialidad: String
             + MecanicoDTO(String apellido, String nombre, String tipoDNI, String nroDNI, 
                        String telefono, int legajo, String area, String especialidad)
@@ -407,7 +397,7 @@
             + void setLegajo(String telefono)
         }
 
-        class TitularDTO extends PersonaDTO{
+        class TitularDTO{
             - compania: String
             + TitularDTO(String nombre, String apellido, String tipoDNI, String nroDNI, String telefono,String compania)
             + String getCompania()
@@ -481,8 +471,61 @@
         
     }
 
-
-    
-
-   
+    Compania "1" -up-> "1" CompaniaDAO
+    Turno "1" -up-> "1" TurnoDAO
+    Titular "1" -up-> "1" TitularDAO
+    Mecanico "1" -up-> "1" MecanicoDAO
+    Especialidad "1" -up-> "1" EspecialidadDAO
+    Agenda "1" -up-> "1" AgendaDAO
+    Vehiculo "1" -up-> "1" VehiculoDAO
+    Turno o--> Estado
+    Estado --> Asignado
+    Estado --> EnCurso
+    Estado --> Cancelado
+    Estado --> Finalizado
+    Estado --> NoAsignado
+    TurnoDAOImpSQL "1" -up-> "1" ConexionSQL
+    CompaniaDAOImplSql "1" -up-> "1" ConexionSQL
+    TitularDAOImplSql "1" -up-> "1" ConexionSQL
+    MecanicoDAOImplSql "1" -up-> "1" ConexionSQL
+    EspecialidadDAOImpSql "1" -up-> "1" ConexionSQL
+    AgendaDAOImplSql "1" -up-> "1" ConexionSQL
+    VehiculoDAOImplSql "1" -up-> "1" ConexionSQL
+    TurnoDAOImpSQL "<instancia>" <.. SqlFabricaDAO
+    CompaniaDAOImplSql "<instancia>" <.. SqlFabricaDAO
+    TitularDAOImplSql "<instancia>" <.. SqlFabricaDAO
+    MecanicoDAOImplSql "<instancia>" <.. SqlFabricaDAO
+    EspecialidadDAOImpSql "<instancia>" <.. SqlFabricaDAO
+    AgendaDAOImplSql "<instancia>" <.. SqlFabricaDAO
+    VehiculoDAOImplSql "<instancia>" <.. SqlFabricaDAO
+    Titular --down|> Modelo
+    Vehiculo --down|> Modelo
+    Mecanico --down|> Modelo
+    Especialidad --down|> Modelo
+    Compania --down|> Modelo
+    Agenda --down|> Modelo
+    Turno --down|> Modelo
+    TurnoDAOImpSQL ..|> TurnoDAO
+    CompaniaDAOImplSql ..|> CompaniaDAO
+    TitularDAOImplSql ..|> TitularDAO
+    MecanicoDAOImplSql ..|> MecanicoDAO
+    EspecialidadDAOImpSql ..|> EspecialidadDAO
+    AgendaDAOImplSql ..|> AgendaDAO
+    VehiculoDAOImplSql ..|> VehiculoDAO
+    ConexionSQL -left-> DBEjemploDAO
+    TurnoDTO <-up- TurnoDAOImpSQL
+    AgendaDTO <-up- AgendaDAOImplSql
+    CompaniaDTO <-up- CompaniaDAOImplSql
+    EspecialidadDTO <-up- EspecialidadDAOImpSql
+    MecanicoDTO <-up- MecanicoDAOImplSql
+    TitularDTO <-up- TitularDAOImplSql
+    VehiculoDTO <-up- VehiculoDAOImplSql
+    TitularDTO ..|> PersonaDTO
+    MecanicoDTO ..|> EmpleadoDTO
+    EmpleadoDTO ..|> PersonaDTO
+    EncRecepcionControlador --> "1" Modelo
+    EncRecepcionControlador --> "1" InterfazTurno
+    Main --> Modelo 
+    Main --> Vista 
+    Main --> Controlador 
 @enduml
