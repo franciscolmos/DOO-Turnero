@@ -30,35 +30,6 @@ public class TurnoDAOImplSqlTest {
     }
 
     /**
-     * Test of consultarTurno method, of class TurnoDAOImplSql.
-     */
-//    @Test
-//    public void testConsultarTurno() {
-//        System.out.println("consultarTurno");
-//        String nro = "";
-//        TurnoDAOImplSql instance = new TurnoDAOImplSql();
-//        TurnoDTO expResult = null;
-//        TurnoDTO result = instance.consultarTurno(nro);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-
-    /**
-     * Test of listarTurnos method, of class TurnoDAOImplSql.
-     */
-//    @Test
-//    public void testListarTurnos() {
-//        System.out.println("listarTurnos");
-//        TurnoDAOImplSql instance = new TurnoDAOImplSql();
-//        List<TurnoDTO> expResult = null;
-//        List<TurnoDTO> result = instance.listarTurnos();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-
-    /**
      * Test of insertarTurno method, of class TurnoDAOImplSql.
      */
     @Test
@@ -82,87 +53,14 @@ public class TurnoDAOImplSqlTest {
     @Test
     public void testModificarTurno() {
         System.out.println("modificarTurno");
-        String nro = "10";
-        String dia = "98";
-        String hora = "98";
-        String mecanico = "Mecanico98";
+        String nro = "6";
+        String dia = "99";
+        String hora = "99";
+        String mecanico = "Mecanico99";
         TurnoDAOImplSql instance = new TurnoDAOImplSql();
         boolean expResult = true;
         boolean result = instance.modificarTurno(nro, dia, hora, mecanico);
         assertEquals(expResult, result);
     }
-
-    /**
-     * Test of cerrarConexion method, of class TurnoDAOImplSql.
-     */
-//    @Test
-//    public void testCerrarConexion() {
-//        System.out.println("cerrarConexion");
-//        TurnoDAOImplSql instance = new TurnoDAOImplSql();
-//        instance.cerrarConexion();
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-
-    /**
-     * Test of listarTurnosPorCriterio method, of class TurnoDAOImplSql.
-     */
-//    @Test
-//    public void testListarTurnosPorCriterio() {
-//        System.out.println("listarTurnosPorCriterio");
-//        String Estado = "";
-//        TurnoDAOImplSql instance = new TurnoDAOImplSql();
-//        List<TurnoDTO> expResult = null;
-//        List<TurnoDTO> result = instance.listarTurnosPorCriterio(Estado);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-
-    /**
-     * Test of confirmarTurno method, of class TurnoDAOImplSql.
-     */
-//    @Test
-//    public void testConfirmarTurno() {
-//        System.out.println("confirmarTurno");
-//        String nro = "";
-//        TurnoDAOImplSql instance = new TurnoDAOImplSql();
-//        boolean expResult = false;
-//        boolean result = instance.confirmarTurno(nro);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-
-    /**
-     * Test of cancelarTurno method, of class TurnoDAOImplSql.
-     */
-//    @Test
-//    public void testCancelarTurno() {
-//        System.out.println("cancelarTurno");
-//        String nro = "";
-//        TurnoDAOImplSql instance = new TurnoDAOImplSql();
-//        boolean expResult = false;
-//        boolean result = instance.cancelarTurno(nro);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of registrarFichaMecanica method, of class TurnoDAOImplSql.
-//     */
-//    @Test
-//    public void testRegistrarFichaMecanica() {
-//        System.out.println("registrarFichaMecanica");
-//        String nro = "";
-//        String fichaMecanica = "";
-//        TurnoDAOImplSql instance = new TurnoDAOImplSql();
-//        boolean expResult = false;
-//        boolean result = instance.registrarFichaMecanica(nro, fichaMecanica);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
     
 }

@@ -6,7 +6,6 @@
 package dao;
 
 import dto.VehiculoDTO;
-import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,7 +50,7 @@ public class VehiculoDAOImplSqlTest {
     @Test
     public void testInsertarVehiculo() {
         System.out.println("insertarVehiculo");
-        int nroPoliza = 98;
+        int nroPoliza = 99;
         String modelo = "Modelo99";
         String marca = "Marca99";
         String nroDNITitular = "99999999";
@@ -60,17 +59,5 @@ public class VehiculoDAOImplSqlTest {
         boolean result = instance.insertarVehiculo(nroPoliza, modelo, marca, nroDNITitular);
         assertEquals(expResult, result);
     }
-//
-//    /**
-//     * Test of cerrarConexion method, of class VehiculoDAOImplSql.
-//     */
-//    @Test
-//    public void testCerrarConexion() {
-//        System.out.println("cerrarConexion");
-//        VehiculoDAOImplSql instance = new VehiculoDAOImplSql();
-//        instance.cerrarConexion();
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
     
 }
