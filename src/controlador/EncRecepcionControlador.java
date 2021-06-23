@@ -98,29 +98,39 @@ public class EncRecepcionControlador extends Controlador {
                     for(int i = 0; i < listadoMecanicoPorEspecialidad.size(); i++) {
                         mecanicos[i] = listadoMecanicoPorEspecialidad.get(i).getNombre();
                     }
-                    modeloComboBoxMecanicos.setModel(new DefaultComboBoxModel(mecanicos));
+                    modeloComboBoxMecanicos.setModel(new DefaultComboBoxModel(mecanicos));;
                     
-                    break;
+                    //break;
                 
                 case DIA:
                     JComboBox modeloComboBoxFecha = (JComboBox) ((FrmNuevoTurno) this.VISTA).getComboBoxFecha();
+//                    List<AgendaDTO> listadoFecha = ((Agenda) this.MODELO.fabricarModelo("Agenda")).listarAgenda(
+//                                                   ((FrmNuevoTurno) this.VISTA).getMecanicoSeleccionado(), 
+//                                                   "No asignado");
                     List<AgendaDTO> listadoFecha = ((Agenda) this.MODELO.fabricarModelo("Agenda")).listarAgenda(
-                                                   ((FrmNuevoTurno) this.VISTA).getMecanicoSeleccionado(), 
+                                                   ((FrmNuevoTurno) this.VISTA).getComboBoxMecanicos().getSelectedItem().toString(),
                                                    "No asignado");
                     String [] fechas = new String[listadoFecha.size()];
                     for(int i = 0; i < listadoFecha.size(); i++) {
                         fechas[i] = listadoFecha.get(i).getDia();
-                        System.out.println(listadoFecha.get(i).getDia());
                     }
                     modeloComboBoxFecha.setModel(new DefaultComboBoxModel(fechas));
-                    break;
+                    //break;
                     
                 case HORA:
                     JComboBox modeloComboBoxHora = (JComboBox) ((FrmNuevoTurno) this.VISTA).getComboBoxHora();
+                    if(((FrmNuevoTurno) this.VISTA).getComboBoxFecha().getSelectedItem() == null){
+                        modeloComboBoxHora.removeAllItems();
+                        break;
+                    }
+//                    List<AgendaDTO> listadoHorario = ((Agenda) this.MODELO.fabricarModelo("Agenda")).listarAgendaPorFecha(
+//                                                     ((FrmNuevoTurno) this.VISTA).getMecanicoSeleccionado(),
+//                                                     "No asignado",
+//                                                     ((FrmNuevoTurno) this.VISTA).getFechaSeleccionada());
                     List<AgendaDTO> listadoHorario = ((Agenda) this.MODELO.fabricarModelo("Agenda")).listarAgendaPorFecha(
-                                                     ((FrmNuevoTurno) this.VISTA).getMecanicoSeleccionado(),
+                                                     ((FrmNuevoTurno) this.VISTA).getComboBoxMecanicos().getSelectedItem().toString(),
                                                      "No asignado",
-                                                     ((FrmNuevoTurno) this.VISTA).getFechaSeleccionada());
+                                                     ((FrmNuevoTurno) this.VISTA).getComboBoxFecha().getSelectedItem().toString());
                     String [] horarios = new String[listadoHorario.size()];
                     for(int i = 0; i < listadoHorario.size(); i++) {
                         horarios[i] = listadoHorario.get(i).getHorario();
@@ -146,36 +156,12 @@ public class EncRecepcionControlador extends Controlador {
             modeloComboBoxEspecialidades.addItem(especialidad.getNombre()); 
         }
 
-//        // CARGAMOS LOS MECANICOS
-//        JComboBox modeloComboBoxMec = (JComboBox) ((FrmNuevoTurno) this.VISTA).getComboBoxMecanicos();
-//        List<MecanicoDTO> listadoMecanico= ((Mecanico) this.MODELO.fabricarModelo("Mecanico")).listarMecanicosConCriterios(((FrmNuevoTurno) this.VISTA).getEspecialdiadSeleccionada());
-//        for (MecanicoDTO mecanico : listadoMecanico) {
-//             modeloComboBoxMec.addItem(mecanico.getNombre());
-//        }
-
         // CARGAMOS LAS COMPANIAS DE SEGURO
         JComboBox modeloComboBoxCompanias = (JComboBox) ((FrmNuevoTurno) this.VISTA).getComboBoxCompania();
         List<CompaniaDTO> listadoCompanias = ((Compania) this.MODELO.fabricarModelo("Compania")).listarCompanias();
         for (CompaniaDTO compania : listadoCompanias) {
             modeloComboBoxCompanias.addItem(compania.getRazonSocial()); 
         }
-        
-//        // CARGAMOS LA AGENDA DEL MECANICO ELEGIDO
-//        JComboBox modeloComboBoxFecha = (JComboBox) ((FrmNuevoTurno) this.VISTA).getComboBoxFecha();
-//        List<AgendaDTO> listadoFecha = ((Agenda) this.MODELO.fabricarModelo("Agenda")).listarAgenda(
-//                                ((FrmNuevoTurno) this.VISTA).getMecanicoSeleccionado(), "No asignado");
-//        for (AgendaDTO fecha : listadoFecha) {
-//             modeloComboBoxFecha.addItem(fecha.getDia());
-//        }
-//        
-//        JComboBox modeloComboBoxHora = (JComboBox) ((FrmNuevoTurno) this.VISTA).getComboBoxHora();
-//        List<AgendaDTO> listadoHorario = ((Agenda) this.MODELO.fabricarModelo("Agenda")).listarAgendaPorFecha(
-//                ((FrmNuevoTurno) this.VISTA).getMecanicoSeleccionado(), 
-//                "No asignado", 
-//                ((FrmNuevoTurno) this.VISTA).getFechaSeleccionada());
-//        for (AgendaDTO horario : listadoHorario) {
-//             modeloComboBoxHora.addItem(horario.getHorario());
-//        }
     }
     
     /*

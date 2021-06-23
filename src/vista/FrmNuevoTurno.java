@@ -407,16 +407,25 @@ public class FrmNuevoTurno extends javax.swing.JFrame implements InterfazTurno {
 
     private void ComboBoxEspecialidadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboBoxEspecialidadItemStateChanged
         this.especialdiadSeleccionada = this.ComboBoxEspecialidad.getSelectedItem().toString();
+        if(evt.getStateChange() == ItemEvent.DESELECTED){
+            return;
+        }
         controlador.actionPerformed(new ActionEvent(this, 0, FrmNuevoTurno.Operacion.MECANICO.toString()));
     }//GEN-LAST:event_ComboBoxEspecialidadItemStateChanged
 
     private void ComboBoxMecanicosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboBoxMecanicosItemStateChanged
         this.mecanicoSeleccionado = this.ComboBoxMecanicos.getSelectedItem().toString();
+        if(evt.getStateChange() == ItemEvent.DESELECTED){
+            return;
+        }
         controlador.actionPerformed(new ActionEvent(this, 0, FrmNuevoTurno.Operacion.DIA.toString()));
     }//GEN-LAST:event_ComboBoxMecanicosItemStateChanged
 
     private void ComboBoxFechaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboBoxFechaItemStateChanged
         this.fechaSeleccionada = this.ComboBoxFecha.getSelectedItem().toString();
+        if(evt.getStateChange() == ItemEvent.DESELECTED){
+            return;
+        }
         controlador.actionPerformed(new ActionEvent(this, 0, FrmNuevoTurno.Operacion.HORA.toString()));
     }//GEN-LAST:event_ComboBoxFechaItemStateChanged
 
