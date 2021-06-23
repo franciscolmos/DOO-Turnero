@@ -411,6 +411,9 @@ public class FrmNuevoTurno extends javax.swing.JFrame implements InterfazTurno {
             return;
         }
         controlador.actionPerformed(new ActionEvent(this, 0, FrmNuevoTurno.Operacion.MECANICO.toString()));
+        controlador.actionPerformed(new ActionEvent(this, 0, FrmNuevoTurno.Operacion.DIA.toString()));
+        controlador.actionPerformed(new ActionEvent(this, 0, FrmNuevoTurno.Operacion.HORA.toString()));
+
     }//GEN-LAST:event_ComboBoxEspecialidadItemStateChanged
 
     private void ComboBoxMecanicosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboBoxMecanicosItemStateChanged
@@ -419,6 +422,7 @@ public class FrmNuevoTurno extends javax.swing.JFrame implements InterfazTurno {
             return;
         }
         controlador.actionPerformed(new ActionEvent(this, 0, FrmNuevoTurno.Operacion.DIA.toString()));
+        controlador.actionPerformed(new ActionEvent(this, 0, FrmNuevoTurno.Operacion.HORA.toString()));
     }//GEN-LAST:event_ComboBoxMecanicosItemStateChanged
 
     private void ComboBoxFechaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboBoxFechaItemStateChanged

@@ -100,10 +100,14 @@ public class EncRecepcionControlador extends Controlador {
                     }
                     modeloComboBoxMecanicos.setModel(new DefaultComboBoxModel(mecanicos));;
                     
-                    //break;
+                    break;
                 
                 case DIA:
                     JComboBox modeloComboBoxFecha = (JComboBox) ((FrmNuevoTurno) this.VISTA).getComboBoxFecha();
+                    if(((FrmNuevoTurno) this.VISTA).getComboBoxMecanicos().getItemCount() == 0) {
+                        modeloComboBoxFecha.setModel(new DefaultComboBoxModel());
+                        break;
+                    }
 //                    List<AgendaDTO> listadoFecha = ((Agenda) this.MODELO.fabricarModelo("Agenda")).listarAgenda(
 //                                                   ((FrmNuevoTurno) this.VISTA).getMecanicoSeleccionado(), 
 //                                                   "No asignado");
@@ -115,14 +119,18 @@ public class EncRecepcionControlador extends Controlador {
                         fechas[i] = listadoFecha.get(i).getDia();
                     }
                     modeloComboBoxFecha.setModel(new DefaultComboBoxModel(fechas));
-                    //break;
+                    break;
                     
                 case HORA:
                     JComboBox modeloComboBoxHora = (JComboBox) ((FrmNuevoTurno) this.VISTA).getComboBoxHora();
-                    if(((FrmNuevoTurno) this.VISTA).getComboBoxFecha().getSelectedItem() == null){
-                        modeloComboBoxHora.removeAllItems();
+                    if(((FrmNuevoTurno) this.VISTA).getComboBoxFecha().getItemCount() == 0) {
+                        modeloComboBoxHora.setModel(new DefaultComboBoxModel());
                         break;
                     }
+//                    if(((FrmNuevoTurno) this.VISTA).getComboBoxFecha().getSelectedItem() == null){
+//                        modeloComboBoxHora.removeAllItems();
+//                        break;
+//                    }
 //                    List<AgendaDTO> listadoHorario = ((Agenda) this.MODELO.fabricarModelo("Agenda")).listarAgendaPorFecha(
 //                                                     ((FrmNuevoTurno) this.VISTA).getMecanicoSeleccionado(),
 //                                                     "No asignado",
