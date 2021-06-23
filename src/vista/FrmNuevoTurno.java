@@ -7,10 +7,7 @@ package vista;
 
 import controlador.Controlador;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
-import javax.swing.Box;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
@@ -25,33 +22,6 @@ public class FrmNuevoTurno extends javax.swing.JFrame implements InterfazTurno {
     public FrmNuevoTurno() {
         initComponents();
     }
-    
-//    private String especialdiadSeleccionada;
-//    private String mecanicoSeleccionado;
-//    private String companiaSeleccionada;
-//    private String fechaSeleccionada;
-//    private String horaSeleccionada;
-    
-
-//    public String getEspecialdiadSeleccionada() {
-//        return especialdiadSeleccionada;
-//    }
-//
-//    public String getMecanicoSeleccionado() {
-//        return mecanicoSeleccionado;
-//    }
-//
-//    public String getCompaniaSeleccionada() {
-//        return companiaSeleccionada;
-//    }
-//
-//    public String getFechaSeleccionada() {
-//        return fechaSeleccionada;
-//    }
-//
-//    public String getHoraSeleccionada() {
-//        return horaSeleccionada;
-//    }
 
     public JComboBox<String> getComboBoxEspecialidad() {
         return ComboBoxEspecialidad;
@@ -473,27 +443,21 @@ public class FrmNuevoTurno extends javax.swing.JFrame implements InterfazTurno {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ComboBoxEspecialidadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboBoxEspecialidadItemStateChanged
-        //this.especialdiadSeleccionada = this.ComboBoxEspecialidad.getSelectedItem().toString();
         if(evt.getStateChange() == ItemEvent.DESELECTED){
             return;
         }
         controlador.actionPerformed(new ActionEvent(this, 0, FrmNuevoTurno.Operacion.MECANICO.toString()));
-        controlador.actionPerformed(new ActionEvent(this, 0, FrmNuevoTurno.Operacion.DIA.toString()));
-        controlador.actionPerformed(new ActionEvent(this, 0, FrmNuevoTurno.Operacion.HORA.toString()));
 
     }//GEN-LAST:event_ComboBoxEspecialidadItemStateChanged
 
     private void ComboBoxMecanicosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboBoxMecanicosItemStateChanged
-        //this.mecanicoSeleccionado = this.ComboBoxMecanicos.getSelectedItem().toString();
         if(evt.getStateChange() == ItemEvent.DESELECTED){
             return;
         }
         controlador.actionPerformed(new ActionEvent(this, 0, FrmNuevoTurno.Operacion.DIA.toString()));
-        controlador.actionPerformed(new ActionEvent(this, 0, FrmNuevoTurno.Operacion.HORA.toString()));
     }//GEN-LAST:event_ComboBoxMecanicosItemStateChanged
 
     private void ComboBoxFechaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboBoxFechaItemStateChanged
-        //this.fechaSeleccionada = this.ComboBoxFecha.getSelectedItem().toString();
         if(evt.getStateChange() == ItemEvent.DESELECTED){
             return;
         }

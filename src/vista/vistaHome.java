@@ -6,7 +6,6 @@
 package vista;
 
 import controlador.Controlador;
-import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -51,11 +50,6 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
 
         NuevoTurnoBtn.setText("Nuevo Turno");
         NuevoTurnoBtn.setActionCommand("TURNO");
-        NuevoTurnoBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NuevoTurnoBtnActionPerformed(evt);
-            }
-        });
 
         ConsultarButton.setText("Consultar Turno");
         ConsultarButton.setActionCommand("CONSULTAR");
@@ -113,10 +107,6 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void NuevoTurnoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NuevoTurnoBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_NuevoTurnoBtnActionPerformed
 
     /**
      * @param args the command line arguments
