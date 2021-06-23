@@ -7,6 +7,8 @@ package vista;
 
 import controlador.Controlador;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -404,16 +406,18 @@ public class FrmNuevoTurno extends javax.swing.JFrame implements InterfazTurno {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ComboBoxEspecialidadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboBoxEspecialidadItemStateChanged
-        controlador.actionPerformed(new ActionEvent(this, 0, FrmNuevoTurno.Operacion.MECANICO.toString()));
         this.especialdiadSeleccionada = this.ComboBoxEspecialidad.getSelectedItem().toString();
+        controlador.actionPerformed(new ActionEvent(this, 0, FrmNuevoTurno.Operacion.MECANICO.toString()));
     }//GEN-LAST:event_ComboBoxEspecialidadItemStateChanged
 
     private void ComboBoxMecanicosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboBoxMecanicosItemStateChanged
         this.mecanicoSeleccionado = this.ComboBoxMecanicos.getSelectedItem().toString();
+        controlador.actionPerformed(new ActionEvent(this, 0, FrmNuevoTurno.Operacion.DIA.toString()));
     }//GEN-LAST:event_ComboBoxMecanicosItemStateChanged
 
     private void ComboBoxFechaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboBoxFechaItemStateChanged
         this.fechaSeleccionada = this.ComboBoxFecha.getSelectedItem().toString();
+        controlador.actionPerformed(new ActionEvent(this, 0, FrmNuevoTurno.Operacion.HORA.toString()));
     }//GEN-LAST:event_ComboBoxFechaItemStateChanged
 
     /**
@@ -499,6 +503,17 @@ public class FrmNuevoTurno extends javax.swing.JFrame implements InterfazTurno {
     @Override
     public void setControlador(Controlador c) {
         controlador = c;
+//        ComboBoxEspecialidad.addActionListener(new ActionListener() {
+//                @Override
+//                public void actionPerformed(ActionEvent e) {
+//                    String accion = e.getActionCommand();
+//                    System.out.println(accion);
+//                    especialdiadSeleccionada = ComboBoxEspecialidad.getSelectedItem().toString();
+//                    System.out.println(especialdiadSeleccionada);
+//                    System.out.println("VUELTA");
+//                    controlador.actionPerformed(new ActionEvent(this, 0, FrmNuevoTurno.Operacion.MECANICO.toString()));
+//                }
+//        });
     }
 
     @Override

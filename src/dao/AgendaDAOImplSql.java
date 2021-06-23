@@ -43,6 +43,8 @@ public class AgendaDAOImplSql implements AgendaDAO{
             sentencia.setString(1, estadoTurno);
             sentencia.setString(2, mecanicoNombre);
             
+            System.out.println(sentencia);
+            
             rs = sentencia.executeQuery();
 
             String dia;
