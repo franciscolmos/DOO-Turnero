@@ -6,6 +6,7 @@
 package vista;
 
 import controlador.Controlador;
+import java.awt.event.ItemListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -152,7 +153,7 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void setControlador(Controlador c) {
+    public void setControlador(Controlador c, ItemListener ci) {
         this.ConsultarButton.addActionListener(c);
         this.NuevoTurnoBtn.addActionListener(c);
     }

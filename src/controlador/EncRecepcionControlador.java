@@ -11,6 +11,8 @@ import dto.EspecialidadDTO;
 import dto.MecanicoDTO;
 import dto.TurnoDTO;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.DefaultComboBoxModel;
@@ -31,11 +33,13 @@ import vista.FrmNuevoTurno;
  *
  * @author francisco
  */
-public class EncRecepcionControlador extends Controlador {
+public class EncRecepcionControlador extends Controlador implements ItemListener {
     
     public EncRecepcionControlador(InterfazTurno vista, Modelo modelo) {
         VISTA = vista;
         MODELO = modelo;
+        VISTA.setControlador(this, this);
+        VISTA.iniciaVista();
     }
     
     @Override
@@ -51,22 +55,6 @@ public class EncRecepcionControlador extends Controlador {
                     irFrmNuevoTurno();
                     break;
                     
-                case MECANICO:
-                    cargarMecanicos(((FrmNuevoTurno) this.VISTA));
-                    cargarDias(((FrmNuevoTurno) this.VISTA));
-                    cargarHorarios(((FrmNuevoTurno) this.VISTA));
-                    
-                    break;
-                
-                case DIA:
-                    cargarDias(((FrmNuevoTurno) this.VISTA));
-                    cargarHorarios(((FrmNuevoTurno) this.VISTA));
-                    break;
-                    
-                case HORA:
-                    cargarHorarios(((FrmNuevoTurno) this.VISTA));
-                    break;
-                    
                 case GUARDAR:
                     insertarTitular(((FrmNuevoTurno) this.VISTA));
                     insertarVehiculo(((FrmNuevoTurno) this.VISTA));
@@ -74,7 +62,6 @@ public class EncRecepcionControlador extends Controlador {
                     insertarAgenda(((FrmNuevoTurno) this.VISTA));
                     
                     volverHome();
-                    
                     break;
                     
                 case CANCELAR:
@@ -114,7 +101,7 @@ public class EncRecepcionControlador extends Controlador {
         VISTA.cerrarVista();
         VISTA = new FrmNuevoTurno();
         VISTA.iniciaVista();
-        VISTA.setControlador(this);
+        VISTA.setControlador(this, this);
 
         iniciarFrmNuevoTurno();
     }
@@ -124,6 +111,7 @@ public class EncRecepcionControlador extends Controlador {
         // CARGAMOS LAS ESPECIALIDADES
         JComboBox modeloComboBoxEspecialidades = (JComboBox) ((FrmNuevoTurno) this.VISTA).getComboBoxEspecialidad();
         List<EspecialidadDTO> listadoEspecialidades = ((Especialidad) this.MODELO.fabricarModelo("Especialidad")).listarEspecialidades();
+        modeloComboBoxEspecialidades.addItem("-");
         for (EspecialidadDTO especialidad : listadoEspecialidades) {
             modeloComboBoxEspecialidades.addItem(especialidad.getNombre()); 
         }
@@ -131,9 +119,13 @@ public class EncRecepcionControlador extends Controlador {
         // CARGAMOS LAS COMPANIAS DE SEGURO
         JComboBox modeloComboBoxCompanias = (JComboBox) ((FrmNuevoTurno) this.VISTA).getComboBoxCompania();
         List<CompaniaDTO> listadoCompanias = ((Compania) this.MODELO.fabricarModelo("Compania")).listarCompanias();
+        modeloComboBoxCompanias.addItem("-");
         for (CompaniaDTO compania : listadoCompanias) {
             modeloComboBoxCompanias.addItem(compania.getRazonSocial()); 
         }
+        
+        // EL BOTON GUARDAR SE INICIA DESHABILITADO HASTA QUE SE CARGUEN TODOS LOS DATOS
+        ((FrmNuevoTurno) VISTA).getBotonGuardar().setEnabled(false);
     }
     
     private void volverHome() {
@@ -141,7 +133,7 @@ public class EncRecepcionControlador extends Controlador {
         VISTA.cerrarVista();
         VISTA = new vistaHome();
         VISTA.iniciaVista();
-        VISTA.setControlador(this);
+        VISTA.setControlador(this, this);
     }
     
     private void insertarTitular(FrmNuevoTurno vista) {
@@ -189,9 +181,10 @@ public class EncRecepcionControlador extends Controlador {
         List<MecanicoDTO> listadoMecanicoPorEspecialidad= ((Mecanico) this.MODELO.fabricarModelo("Mecanico")).
                                                           listarMecanicosConCriterios(vista.
                                                           getComboBoxEspecialidad().getSelectedItem().toString());
-        String [] mecanicos = new String[listadoMecanicoPorEspecialidad.size()];
+        String [] mecanicos = new String[listadoMecanicoPorEspecialidad.size()+1];
+        mecanicos[0] = "-";
         for(int i = 0; i < listadoMecanicoPorEspecialidad.size(); i++) {
-            mecanicos[i] = listadoMecanicoPorEspecialidad.get(i).getNombre();
+            mecanicos[i+1] = listadoMecanicoPorEspecialidad.get(i).getNombre();
         }
         modeloComboBoxMecanicos.setModel(new DefaultComboBoxModel(mecanicos));
     }
@@ -205,9 +198,10 @@ public class EncRecepcionControlador extends Controlador {
         List<AgendaDTO> listadoFecha = ((Agenda) this.MODELO.fabricarModelo("Agenda")).listarAgenda(
                                        vista.getComboBoxMecanicos().getSelectedItem().toString(),
                                        "No asignado");
-        String [] fechas = new String[listadoFecha.size()];
+        String [] fechas = new String[listadoFecha.size()+1];
+        fechas[0] = "-";
         for(int i = 0; i < listadoFecha.size(); i++) {
-            fechas[i] = listadoFecha.get(i).getDia();
+            fechas[i+1] = listadoFecha.get(i).getDia();
         }
         modeloComboBoxFecha.setModel(new DefaultComboBoxModel(fechas));
     }
@@ -222,11 +216,71 @@ public class EncRecepcionControlador extends Controlador {
                                          vista.getComboBoxMecanicos().getSelectedItem().toString(),
                                          "No asignado",
                                          vista.getComboBoxFecha().getSelectedItem().toString());
-        String [] horarios = new String[listadoHorario.size()];
+        String [] horarios = new String[listadoHorario.size()+1];
+        horarios[0] = "-";
         for(int i = 0; i < listadoHorario.size(); i++) {
-            horarios[i] = listadoHorario.get(i).getHorario();
+            horarios[i+1] = listadoHorario.get(i).getHorario();
         }
         modeloComboBoxHora.setModel(new DefaultComboBoxModel(horarios));
+    }
+    
+    public void itemStateChanged(ItemEvent ie) {
+        if(ie.getStateChange() == ItemEvent.SELECTED) {
+            
+            // Toma el cambio en ComboBox Especialidad
+            if(ie.getSource().equals(((FrmNuevoTurno) VISTA).getComboBoxEspecialidad())) {
+                System.out.println("ItemEvent Especialidad");
+                if(ie.getItem().toString() == "-") {
+                    ((FrmNuevoTurno) VISTA).getComboBoxMecanicos().setEnabled(false);
+                    ((FrmNuevoTurno) VISTA).getComboBoxFecha().setEnabled(false);
+                    ((FrmNuevoTurno) VISTA).getComboBoxHora().setEnabled(false);
+                    ((FrmNuevoTurno) VISTA).getBotonGuardar().setEnabled(false);
+                }
+                else {
+                    ((FrmNuevoTurno) VISTA).getComboBoxMecanicos().setEnabled(true);
+                    cargarMecanicos(((FrmNuevoTurno) this.VISTA));
+                }
+            }
+            
+            // Toma el cambio en ComboBox Mecanicos
+            if(ie.getSource().equals(((FrmNuevoTurno) VISTA).getComboBoxMecanicos())) {
+                System.out.println("ItemEvent Mecanicos");
+                if(ie.getItem().toString() == "-") {
+                    ((FrmNuevoTurno) VISTA).getComboBoxFecha().setEnabled(false);
+                    ((FrmNuevoTurno) VISTA).getComboBoxHora().setEnabled(false);
+                    ((FrmNuevoTurno) VISTA).getBotonGuardar().setEnabled(false);
+                }
+                else {
+                    ((FrmNuevoTurno) VISTA).getComboBoxFecha().setEnabled(true);
+                    cargarDias(((FrmNuevoTurno) this.VISTA));
+                }
+            }
+            
+            // Toma el cambio en ComboBox Fecha
+            if(ie.getSource().equals(((FrmNuevoTurno) VISTA).getComboBoxFecha())) {
+                System.out.println("ItemEvent Fechas");
+                if(ie.getItem().toString() == "-") {
+                    ((FrmNuevoTurno) VISTA).getComboBoxHora().setEnabled(false);
+                    ((FrmNuevoTurno) VISTA).getBotonGuardar().setEnabled(false);
+
+                }
+                else {
+                    ((FrmNuevoTurno) VISTA).getComboBoxHora().setEnabled(true);
+                    cargarHorarios(((FrmNuevoTurno) this.VISTA));                    
+                }
+            }
+            
+            // Toma el cambio en ComboBox Hora
+            if(ie.getSource().equals(((FrmNuevoTurno) VISTA).getComboBoxHora())) {
+                System.out.println("ItemEvent Horas");
+                if(ie.getItem().toString() == "-") {
+                    ((FrmNuevoTurno) VISTA).getBotonGuardar().setEnabled(false);
+                }
+                else {
+                    ((FrmNuevoTurno) VISTA).getBotonGuardar().setEnabled(true);
+                }
+            }
+        }
     }
 
 }

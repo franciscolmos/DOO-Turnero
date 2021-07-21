@@ -6,6 +6,7 @@
 package vista;
 
 import controlador.Controlador;
+import java.awt.event.ItemListener;
 
 /**
  *
@@ -17,7 +18,7 @@ public interface InterfazTurno {
         CONSULTAR, TURNO, MECANICO, DIA, HORA, GUARDAR, CANCELAR;
     };
     
-    void setControlador(Controlador c);
+    void setControlador(Controlador c, ItemListener ci);
 
     void iniciaVista();
     

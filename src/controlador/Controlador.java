@@ -7,6 +7,7 @@ package controlador;
 
 import modelo.Modelo;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import vista.InterfazTurno;
@@ -19,4 +20,5 @@ import vista.InterfazTurno;
 public abstract class Controlador extends MouseAdapter implements ActionListener {
     InterfazTurno VISTA = null;
     Modelo MODELO = null;
+    ItemListener ITEMLISTENER = null;
 }

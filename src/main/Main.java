@@ -43,10 +43,10 @@ public class Main {
     Controlador control = new EncRecepcionControlador(vista, modelo);
     
     //configuramos la vista para que pueda enviar las acciones del usuario como eventos al controlador
-    vista.setControlador(control);
+    //vista.setControlador(control, control);
     
     //y arrancamos la interfaz:
-    vista.iniciaVista();
+//    vista.iniciaVista();
 
     }
 

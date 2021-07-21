@@ -8,6 +8,8 @@ package vista;
 import controlador.Controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
@@ -16,11 +18,13 @@ import javax.swing.JTextField;
  * @author benja
  */
 public class FrmNuevoTurno extends javax.swing.JFrame implements InterfazTurno {
-
-    private Controlador controlador;
     
     public FrmNuevoTurno() {
         initComponents();
+    }
+
+    public JButton getBotonGuardar() {
+        return BotonGuardar;
     }
 
     public JComboBox<String> getComboBoxEspecialidad() {
@@ -143,12 +147,6 @@ public class FrmNuevoTurno extends javax.swing.JFrame implements InterfazTurno {
         setMaximumSize(new java.awt.Dimension(2147483647, 2100000000));
         setResizable(false);
 
-        ComboBoxMecanicos.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                ComboBoxMecanicosItemStateChanged(evt);
-            }
-        });
-
         jLabel3.setText("Mecanico");
         jLabel3.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
@@ -208,19 +206,12 @@ public class FrmNuevoTurno extends javax.swing.JFrame implements InterfazTurno {
         jLabel18.setText("Especialidad");
 
         ComboBoxEspecialidad.setToolTipText("");
-        ComboBoxEspecialidad.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                ComboBoxEspecialidadItemStateChanged(evt);
-            }
-        });
 
         jLabel19.setText("Hora del Turno:");
 
-        ComboBoxFecha.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                ComboBoxFechaItemStateChanged(evt);
-            }
-        });
+        ComboBoxFecha.setToolTipText("");
+        ComboBoxFecha.setActionCommand("HORA");
+        ComboBoxFecha.setName("BoxFecha"); // NOI18N
 
         BotonGuardar.setText("Guardar");
         BotonGuardar.setActionCommand("GUARDAR");
@@ -437,32 +428,12 @@ public class FrmNuevoTurno extends javax.swing.JFrame implements InterfazTurno {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        ComboBoxFecha.getAccessibleContext().setAccessibleName("BoxFecha");
+
         getAccessibleContext().setAccessibleDescription("Formulario para registrar un turno nuevo");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void ComboBoxEspecialidadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboBoxEspecialidadItemStateChanged
-        if(evt.getStateChange() == ItemEvent.DESELECTED){
-            return;
-        }
-        controlador.actionPerformed(new ActionEvent(this, 0, FrmNuevoTurno.Operacion.MECANICO.toString()));
-
-    }//GEN-LAST:event_ComboBoxEspecialidadItemStateChanged
-
-    private void ComboBoxMecanicosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboBoxMecanicosItemStateChanged
-        if(evt.getStateChange() == ItemEvent.DESELECTED){
-            return;
-        }
-        controlador.actionPerformed(new ActionEvent(this, 0, FrmNuevoTurno.Operacion.DIA.toString()));
-    }//GEN-LAST:event_ComboBoxMecanicosItemStateChanged
-
-    private void ComboBoxFechaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboBoxFechaItemStateChanged
-        if(evt.getStateChange() == ItemEvent.DESELECTED){
-            return;
-        }
-        controlador.actionPerformed(new ActionEvent(this, 0, FrmNuevoTurno.Operacion.HORA.toString()));
-    }//GEN-LAST:event_ComboBoxFechaItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -546,10 +517,13 @@ public class FrmNuevoTurno extends javax.swing.JFrame implements InterfazTurno {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void setControlador(Controlador c) {
-        controlador = c;
+    public void setControlador(Controlador c, ItemListener ci) {
         this.BotonGuardar.addActionListener(c);
         this.BotonCancelar.addActionListener(c);
+        this.ComboBoxEspecialidad.addItemListener(ci);
+        this.ComboBoxMecanicos.addItemListener(ci);
+        this.ComboBoxFecha.addItemListener(ci);
+        this.ComboBoxHora.addItemListener(ci);
     }
 
     @Override
