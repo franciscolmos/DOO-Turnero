@@ -8,6 +8,7 @@ package modelo;
 import dao.FabricaDAO;
 import dao.TitularDAO;
 import dto.TitularDTO;
+import java.util.List;
 
 /**
  *
@@ -22,14 +23,19 @@ public class Titular extends Modelo {
         titularDao = fabricaDao.getTitularDao();
     }
     
+    public List<TitularDTO> listarTitulares() {
+        List<TitularDTO> listaTitulares = titularDao.listarTitulares();
+        return listaTitulares;
+    }
+    
     public boolean insertarTitular(String nombre, String apellido, String tipoDNI, String nroDNI, String telefono, String compania){
         boolean titular = titularDao.insertarTitular(nombre, apellido, tipoDNI, nroDNI, telefono, compania);
-         return titular;
+        return titular;
     };
     
      public TitularDTO buscarTitular(String apellidoTitular, String nombreTitular) {
-         TitularDTO titular = titularDao.buscarTitular(apellidoTitular, nombreTitular);
-         return titular;
+        TitularDTO titular = titularDao.buscarTitular(apellidoTitular, nombreTitular);
+        return titular;
      }
     
     @Override

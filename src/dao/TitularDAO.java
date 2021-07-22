@@ -6,12 +6,15 @@
 package dao;
 
 import dto.TitularDTO;
+import java.util.List;
 
 /**
  *
  * @author felipe
  */
 public interface TitularDAO {
+    
+    List<TitularDTO> listarTitulares();
     
     TitularDTO buscarTitular(String apellido, String nombre);
     

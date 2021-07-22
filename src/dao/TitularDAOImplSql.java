@@ -10,9 +10,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -24,6 +24,53 @@ public class TitularDAOImplSql implements TitularDAO {
     public TitularDAOImplSql() {
         conexion = ConexionSql.getInstancia();
     }
+    
+    @Override
+    public List<TitularDTO> listarTitulares() {
+        Connection con = null;
+        Statement sentencia = null;
+        ResultSet rs = null;
+        List<TitularDTO> listaTitulares = new ArrayList<>();
+
+        try {
+            con = conexion.getConnection();
+            String sql = "select *"
+                         + "from titular";
+            sentencia = con.createStatement();
+
+            rs = sentencia.executeQuery(sql);
+
+            String nombre;
+            String apellido;
+            String tipoDNI;
+            String nroDNI;
+            String telefono;
+            String compania;
+            TitularDTO titular;
+
+            while (rs.next()) {
+                nombre = rs.getString("nombre");
+                apellido = rs.getString("apellido");
+                tipoDNI = rs.getString("tipoDNI");
+                nroDNI = rs.getString("nroDNI");
+                telefono = rs.getString("telefono");
+                compania = rs.getString("compania");
+                titular = new TitularDTO(nombre, apellido, tipoDNI, nroDNI, telefono, compania);
+                listaTitulares.add(titular);
+            }
+
+        } catch (SQLException e) {
+            System.err.println(e);
+        } finally {
+            try {
+                rs.close();
+                sentencia.close();
+            } catch (SQLException ex) {
+                System.err.println(ex);
+            }
+        }
+        return listaTitulares;
+    }
 
     @Override
     public TitularDTO buscarTitular(String apellidoTitular, String nombreTitular) {
@@ -34,7 +81,7 @@ public class TitularDAOImplSql implements TitularDAO {
 
         try {
             con = conexion.getConnection();
-            String sql = "select nombre, apellido, tipoDNI, nroDNI, telefono, compania "
+            String sql = "select *"
                     + "from titular where nombre = ? and apellido = ?";
             sentencia = con.prepareStatement(sql);
             sentencia.setString(1, nombreTitular);
