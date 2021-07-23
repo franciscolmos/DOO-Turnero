@@ -41,7 +41,7 @@ public class VehiculoDAOImplSqlTest {
         assertEquals(expResult.getNroPoliza(), result.getNroPoliza());
         assertEquals(expResult.getMarca(), result.getMarca());
         assertEquals(expResult.getModelo(), result.getModelo());
-        assertEquals(expResult.getNroDNITitular(), result.getNroDNITitular());
+        assertEquals(expResult.getNroTitular(), result.getNroTitular());
     }
 
     /**

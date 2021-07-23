@@ -11,20 +11,20 @@ package dto;
  */
 public class MecanicoDTO extends EmpleadoDTO {
 
-    String especialidad;
+    String codEspecialidad;
 
     public MecanicoDTO(String apellido, String nombre, String tipoDNI, String nroDNI, 
-                       String telefono, int legajo, String area, String especialidad) {
+                       String telefono, int legajo, String area, String codEspecialidad) {
         super(apellido, nombre, tipoDNI, nroDNI, telefono, legajo, area);
-        this.especialidad = especialidad;
+        this.codEspecialidad = codEspecialidad;
     }
     
-    public String getEspecialidad() {
-        return especialidad;
+    public String getCodEspecialidad() {
+        return codEspecialidad;
     }
 
-    public void setEspecialidad(String especialidad) {
-        this.especialidad = especialidad;
+    public void setCodEspecialidad(String codEspecialidad) {
+        this.codEspecialidad = codEspecialidad;
     }
 
 }

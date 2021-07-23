@@ -18,7 +18,7 @@ public interface TitularDAO {
     
     TitularDTO buscarTitular(String apellido, String nombre);
     
-    boolean insertarTitular(String nombre, String apellido, String tipoDNI, String nroDNI, String telefono,String compania);
+    boolean insertarTitular(int nroTitular, String tipoDNI, String nroDNI, String nombre, String apellido, String telefono);
 
     void cerrarConexion();
 }

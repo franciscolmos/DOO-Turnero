@@ -41,16 +41,16 @@ public class EspecialidadDAOImpSql implements EspecialidadDAO {
 
             rs = sentencia.executeQuery(sql);
 
-            String codigo;
+            String codEspecialidad;
             String nombre;
             String descripcion;
             EspecialidadDTO especialidad;
 
             while (rs.next()) {
-                codigo = rs.getString("codigo");
+                codEspecialidad = rs.getString("cod_especialidad");
                 nombre = rs.getString("nombre");
                 descripcion = rs.getString("descripcion");
-                especialidad = new EspecialidadDTO(codigo, nombre, descripcion);
+                especialidad = new EspecialidadDTO(codEspecialidad, nombre, descripcion);
                 listaEspecialidades.add(especialidad);
             }
 

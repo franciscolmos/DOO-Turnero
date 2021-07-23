@@ -28,8 +28,8 @@ public class Titular extends Modelo {
         return listaTitulares;
     }
     
-    public boolean insertarTitular(String nombre, String apellido, String tipoDNI, String nroDNI, String telefono, String compania){
-        boolean titular = titularDao.insertarTitular(nombre, apellido, tipoDNI, nroDNI, telefono, compania);
+    public boolean insertarTitular(int nroTitular, String tipoDNI, String nroDNI, String nombre, String apellido, String telefono){
+        boolean titular = titularDao.insertarTitular(nroTitular, tipoDNI, nroDNI, nombre, apellido, telefono);
         return titular;
     };
     

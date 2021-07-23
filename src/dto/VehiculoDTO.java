@@ -10,20 +10,22 @@ package dto;
  * @author francisco
  */
 public class VehiculoDTO {
-    private String nroDNITitular;
+    private String nroTitular;
     private int nroPoliza;
     private String modelo;
     private String marca;
+    private String cuitCompania;
 
-    public VehiculoDTO(int nroPoliza, String modelo, String marca, String nroDNITitular) {
+    public VehiculoDTO(int nroPoliza, String modelo, String marca, String nroTitular, String cuitCompania) {
         this.nroPoliza = nroPoliza;
         this.modelo = modelo;
         this.marca = marca;
-        this.nroDNITitular = nroDNITitular;
+        this.nroTitular = nroTitular;
+        this.cuitCompania = cuitCompania;
     }
-
-    public String getNroDNITitular() {
-        return nroDNITitular;
+  
+    public String getNroTitular() {
+        return nroTitular;
     }
 
     public int getNroPoliza() {
@@ -37,9 +39,13 @@ public class VehiculoDTO {
     public String getMarca() {
         return marca;
     }
+    
+    public String getCuitCompania() {
+        return cuitCompania;
+    }
 
-    public void setNroDNITitular(String nroDNITitular) {
-        this.nroDNITitular = nroDNITitular;
+    public void setNroTitular(String nroTitular) {
+        this.nroTitular = nroTitular;
     }
 
     public void setNroPoliza(int nroPoliza) {
@@ -53,5 +59,8 @@ public class VehiculoDTO {
     public void setMarca(String marca) {
         this.marca = marca;
     }
-    
+
+    public void setCuitCompania(String cuitCompania) {
+        this.cuitCompania = cuitCompania;
+    }
 }

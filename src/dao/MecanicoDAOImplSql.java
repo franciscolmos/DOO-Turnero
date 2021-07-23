@@ -83,7 +83,7 @@ public class MecanicoDAOImplSql implements MecanicoDAO {
     @Override
     public boolean insertarMecanico(String apellido, String nombre, String tipoDNI, 
                                     String nroDNI, String telefono, String legajo, 
-                                    String area,String especialidad) {
+                                    String area,String especialidad ){
         Connection con = null;
         PreparedStatement sentencia = null;
 

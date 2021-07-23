@@ -34,28 +34,27 @@ public class TitularDAOImplSql implements TitularDAO {
 
         try {
             con = conexion.getConnection();
-            String sql = "select *"
-                         + "from titular";
+            String sql = "select * from titulares";
             sentencia = con.createStatement();
 
             rs = sentencia.executeQuery(sql);
 
+            int nroTitular;
             String nombre;
             String apellido;
             String tipoDNI;
             String nroDNI;
             String telefono;
-            String compania;
             TitularDTO titular;
 
             while (rs.next()) {
+                nroTitular = rs.getInt("nro_titular");
+                tipoDNI = rs.getString("tipo_doc");
+                nroDNI = rs.getString("nro_doc");
                 nombre = rs.getString("nombre");
                 apellido = rs.getString("apellido");
-                tipoDNI = rs.getString("tipoDNI");
-                nroDNI = rs.getString("nroDNI");
                 telefono = rs.getString("telefono");
-                compania = rs.getString("compania");
-                titular = new TitularDTO(nombre, apellido, tipoDNI, nroDNI, telefono, compania);
+                titular = new TitularDTO(nroTitular, tipoDNI, nroDNI, nombre, apellido, telefono);
                 listaTitulares.add(titular);
             }
 
@@ -82,29 +81,25 @@ public class TitularDAOImplSql implements TitularDAO {
         try {
             con = conexion.getConnection();
             String sql = "select *"
-                    + "from titular where nombre = ? and apellido = ?";
+                         + "from titular where nombre = ? and apellido = ?";
             sentencia = con.prepareStatement(sql);
             sentencia.setString(1, nombreTitular);
             sentencia.setString(2, apellidoTitular);
 
             rs = sentencia.executeQuery();
 
-            String nombre;
-            String apellido;
+            int nroTitular;
             String tipoDNI;
             String nroDNI;
             String telefono;
-            String compania;
             
             while (rs.next()) {
-                nombre = rs.getString("nombre");
-                apellido = rs.getString("apellido");
-                tipoDNI = rs.getString("tipoDNI");
-                nroDNI = rs.getString("nroDNI");
+                nroTitular = rs.getInt("nro_titular");
+                tipoDNI = rs.getString("tipo_doc");
+                nroDNI = rs.getString("nro_doc");
                 telefono = rs.getString("telefono");
-                compania = rs.getString("compania");
                 
-                titular = new TitularDTO(apellido, nombre, tipoDNI, nroDNI, telefono, compania);
+                titular = new TitularDTO(nroTitular, tipoDNI, nroDNI, nombreTitular, apellidoTitular, telefono);
             }
 
         } catch (SQLException e) {
@@ -121,21 +116,21 @@ public class TitularDAOImplSql implements TitularDAO {
     }
 
     @Override
-    public boolean insertarTitular(String nombre, String apellido, String tipoDNI, String nroDNI, String telefono, String compania) {
+    public boolean insertarTitular(int nroTitular, String tipoDNI, String nroDNI, String nombre, String apellido, String telefono) {
         Connection con = null;
         PreparedStatement sentencia = null;
 
         try {
             con = conexion.getConnection();
-            String sql = "insert into titular (nombre, apellido, tipoDNI, nroDNI, telefono, compania) "
-                    + "values(?,?,?,?,?,?)";
+            String sql = "insert into titular (nro_titular, tipo_doc, nro_doc, nombre, apellido, telefono) "
+                         + "values(?,?,?,?,?,?)";
             sentencia = con.prepareStatement(sql);
-            sentencia.setString(1, nombre);
-            sentencia.setString(2, apellido);
-            sentencia.setString(3, tipoDNI);
-            sentencia.setString(4, nroDNI);
-            sentencia.setString(5, telefono);
-            sentencia.setString(6, compania);
+            sentencia.setInt(1, nroTitular);
+            sentencia.setString(2, nombre);
+            sentencia.setString(3, apellido);
+            sentencia.setString(4, tipoDNI);
+            sentencia.setString(5, nroDNI);
+            sentencia.setString(6, telefono);
 
             int resultado = sentencia.executeUpdate();
 

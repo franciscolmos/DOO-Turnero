@@ -14,23 +14,24 @@ import java.util.List;
  * @author felipe
  */
 public interface TurnoDAO {
-    TurnoDTO consultarTurno(String nro);
+    TurnoDTO consultarTurno(int nroTurno);
     
     List<TurnoDTO> listarTurnos();
     
     List<TurnoDTO> listarTurnosPorCriterio(String Estado);
     
-    boolean insertarTurno(String dia, String hora, String mecanico,
-                          String vehiculo, String titular, 
-                          String companiaSeguro);
+    boolean insertarTurno(int nroTurno, String anoMes, int legajoMecanico, int nroPoliza, 
+                          String dia, String hora, int nroTitular, String cuitCompania,
+                          String estado);
     
-    boolean modificarTurno(String nro, String dia, String hora, String mecanico);
+    boolean asignarTurno(int nroPoliza, int nroTitular, String cuitCompania, 
+                         String anoMes, int legajoMecanico, String dia, String hora);
     
     boolean confirmarTurno(String nro);
      
     boolean cancelarTurno(String nro);
     
-    boolean registrarFichaMecanica(String nro, String fichaMecanica);
+    //boolean registrarFichaMecanica(String nro, String fichaMecanica);
     
     void cerrarConexion();
 }

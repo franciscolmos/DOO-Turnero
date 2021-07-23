@@ -24,8 +24,8 @@ public class Turno extends Modelo {
         turnoDao = fabricaDao.getTurnoDao();
     }
     
-    public TurnoDTO consultarTurno(String nro) {
-        TurnoDTO turno = turnoDao.consultarTurno(nro);
+    public TurnoDTO consultarTurno(int nroTurno) {
+        TurnoDTO turno = turnoDao.consultarTurno(nroTurno);
         return turno;
     }
     
@@ -39,14 +39,17 @@ public class Turno extends Modelo {
         return listadoTurnos;
     }
     
-    public boolean insertarTurno(String dia, String hora, String mecanico,
-                                 String vehiculo, String titular, 
-                                 String companiaSeguro) {
-        return turnoDao.insertarTurno(dia, hora, mecanico, vehiculo, titular, companiaSeguro);
+    public boolean insertarTurno(int nroTurno, String anoMes, int legajoMecanico, int nroPoliza, 
+                                 String dia, String hora, int nroTitular, String cuitCompania,
+                                 String estado) {
+        return turnoDao.insertarTurno(nroTurno, anoMes, legajoMecanico, nroPoliza, 
+                                      dia, hora, nroTitular, cuitCompania, estado);
     }
     
-    public boolean modificarTurno(String nro, String dia, String hora, String mecanico) {
-        return turnoDao.modificarTurno(nro, dia, hora, mecanico);
+    public boolean asignarTurno(int nroPoliza, int nroTitular, String cuitCompania, 
+                                String anoMes, int legajoMecanico, String dia, String hora) {
+        return turnoDao.asignarTurno(nroPoliza, nroTitular, cuitCompania, anoMes, 
+                                     legajoMecanico, dia, hora);
     }
     
     @Override

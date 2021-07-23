@@ -9,8 +9,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import dto.VehiculoDTO;
@@ -36,7 +34,7 @@ public class VehiculoDAOImplSql implements VehiculoDAO {
         try {
             con = conexion.getConnection();
             String sql = "select *"
-                         + "from vehiculos where nroPoliza = ?";
+                         + "from vehiculos where nro_poliza = ?";
             sentencia = con.prepareStatement(sql);
             sentencia.setInt(1, nroPoliza);
 
@@ -44,15 +42,16 @@ public class VehiculoDAOImplSql implements VehiculoDAO {
 
             String modelo;
             String marca;
-            String nroDNITitular;
-
+            String nroTitular;
+            String cuitCompania;
 
             while (rs.next()) {
-                nroPoliza = rs.getInt("nroPoliza");
+                nroPoliza = rs.getInt("nro_poliza");
                 modelo = rs.getString("modelo");
                 marca = rs.getString("marca");
-                nroDNITitular = rs.getString("nroDNITitular");
-                vehiculo = new VehiculoDTO(nroPoliza, modelo, marca, nroDNITitular);
+                nroTitular = rs.getString("nro_titular");
+                cuitCompania = rs.getString("cuit_compania");
+                vehiculo = new VehiculoDTO(nroPoliza, modelo, marca, nroTitular, cuitCompania);
             }
 
         } catch (SQLException e) {
@@ -69,19 +68,20 @@ public class VehiculoDAOImplSql implements VehiculoDAO {
     }
 
     @Override
-    public boolean insertarVehiculo(int nroPoliza, String modelo, String marca, String nroDNITitular) {
+    public boolean insertarVehiculo(int nroPoliza, String modelo, String marca, String nroTitular, String cuitCompania) {
         Connection con = null;
         PreparedStatement sentencia = null;
 
         try {
             con = conexion.getConnection();
-            String sql = "insert into vehiculos (nroPoliza, modelo, marca, nroDNITitular)"
+            String sql = "insert into vehiculos (nro_poliza, modelo, marca, nro_titular, cuit_compania)"
                        + "values(?,?,?,?)";
             sentencia = con.prepareStatement(sql);
             sentencia.setInt(1, nroPoliza);
             sentencia.setString(2, modelo);
             sentencia.setString(3, marca);
-            sentencia.setString(4, nroDNITitular);
+            sentencia.setString(4, nroTitular);
+            sentencia.setString(5, cuitCompania);
 
             int resultado = sentencia.executeUpdate();
 
@@ -101,5 +101,50 @@ public class VehiculoDAOImplSql implements VehiculoDAO {
     @Override
     public void cerrarConexion() {
         conexion.desconectar();
+    }
+
+    @Override
+    public List<VehiculoDTO> listarVehiculosConCriterios(String nroTitular) {
+        Connection con = null;
+        PreparedStatement sentencia = null;
+        ResultSet rs = null;
+        List<VehiculoDTO> listaVehiculos = new ArrayList<>();
+
+        try {
+            con = conexion.getConnection();
+            String sql = "select *"
+                         + "from vehiculos where nro_titular = ?";
+            //String sql = "select * from mecanicos";
+            sentencia = con.prepareStatement(sql);
+            sentencia.setString(1, nroTitular);
+
+            rs = sentencia.executeQuery();
+
+            int nroPoliza;
+            String modelo;
+            String marca;
+            String cuitCompania;
+            VehiculoDTO vehiculo;
+
+            while (rs.next()) {
+                nroPoliza = rs.getInt("nro_poliza");
+                modelo = rs.getString("modelo");
+                marca = rs.getString("marca");
+                cuitCompania = rs.getString("cuit_compania");
+                vehiculo = new VehiculoDTO(nroPoliza, modelo, marca, nroTitular, cuitCompania);
+                listaVehiculos.add(vehiculo);
+            }
+
+        } catch (SQLException e) {
+            System.err.println(e);
+        } finally {
+            try {
+                rs.close();
+                sentencia.close();
+            } catch (SQLException ex) {
+                System.err.println(ex);
+            }
+        }
+        return listaVehiculos;
     }
 }

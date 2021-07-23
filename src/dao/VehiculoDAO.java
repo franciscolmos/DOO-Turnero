@@ -6,6 +6,7 @@
 package dao;
 
 import dto.VehiculoDTO;
+import java.util.List;
 
 /**
  *
@@ -17,7 +18,10 @@ public interface VehiculoDAO {
     boolean insertarVehiculo(int nroPoliza,
                              String modelo,
                              String marca,
-                             String nroDNITitular);
+                             String nroTitular,
+                             String cuitCompania);
+    
+    List<VehiculoDTO> listarVehiculosConCriterios(String nroTitular);
     
     void cerrarConexion();
 }

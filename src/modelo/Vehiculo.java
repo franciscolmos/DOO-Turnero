@@ -22,8 +22,8 @@ public class Vehiculo extends Modelo {
         vehiculoDao = fabricaDao.getVehiculoDao();
     }
     
-    public boolean insertarVehiculo(int nroPoliza, String modelo, String marca, String nroDNITitular){
-        boolean vehiculo = vehiculoDao.insertarVehiculo(nroPoliza, modelo, marca, nroDNITitular);
+    public boolean insertarVehiculo(int nroPoliza, String modelo, String marca, String nroTitular, String cuitCompania){
+        boolean vehiculo = vehiculoDao.insertarVehiculo(nroPoliza, modelo, marca, nroTitular, cuitCompania);
          return vehiculo;
     };
     

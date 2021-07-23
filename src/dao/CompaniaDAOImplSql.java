@@ -34,8 +34,7 @@ public class CompaniaDAOImplSql implements CompaniaDAO {
 
         try {
             con = conexion.getConnection();
-            String sql = "select razonSocial, cuit, direccion, telefono "
-                         + "from companias order by razonSocial";
+            String sql = "select * from companias";
             sentencia = con.createStatement();
 
             rs = sentencia.executeQuery(sql);
@@ -47,8 +46,8 @@ public class CompaniaDAOImplSql implements CompaniaDAO {
             CompaniaDTO compania;
 
             while (rs.next()) {
-                razonSocial = rs.getString("razonSocial");
                 cuit = rs.getString("cuit");
+                razonSocial = rs.getString("razon_social");
                 direccion = rs.getString("direccion");
                 telefono = rs.getString("telefono");
                 compania = new CompaniaDTO(razonSocial, cuit, direccion, telefono);
@@ -76,12 +75,11 @@ public class CompaniaDAOImplSql implements CompaniaDAO {
 
         try {
             con = conexion.getConnection();
-            String sql = "insert into companias (razonSocial, cuit, direccion, "
+            String sql = "insert into companias (cuit, razon_social, direccion, "
                        + "telefono) values(?,?,?,?)";
             sentencia = con.prepareStatement(sql);
-            //sentencia.setString(1, nro);
-            sentencia.setString(1, razonSocial);
-            sentencia.setString(2, cuit);
+            sentencia.setString(1, cuit);
+            sentencia.setString(2, razonSocial);
             sentencia.setString(3, direccion);
             sentencia.setString(4, telefono);
 

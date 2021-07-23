@@ -11,24 +11,17 @@ package dto;
  */
 public class TitularDTO extends PersonaDTO{
     
-   private String compania;
+    private int nroTitular;
    
-    public TitularDTO(String nombre, String apellido, String tipoDNI, String nroDNI, String telefono,String compania) {
+    public TitularDTO(int nroTitular, String tipoDNI, String nroDNI, String nombre, String apellido, String telefono) {
         super(apellido, nombre, tipoDNI, nroDNI, telefono);
-        this.compania = compania;
     }
 
-    /**
-     * @return the compania
-     */
-    public String getCompania() {
-        return compania;
+    public int getNroTitular() {
+        return nroTitular;
     }
 
-    /**
-     * @param comapnia the compania to set
-     */
-    public void setCompania(String compania) {
-        this.compania = compania;
+    public void setNroTitular(int nroTitular) {
+        this.nroTitular = nroTitular;
     }
 }

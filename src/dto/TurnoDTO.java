@@ -10,108 +10,99 @@ package dto;
  * @author felipe
  */
 public class TurnoDTO {
-    private int nro;
+    private int nroTurno;
+    private String anoMes;
+    private int legajoMecanico;
+    private int nroPoliza;
     private String dia;
     private String hora;
-    private String mecanico;
-    private String vehiculo;
-    private String titular;
-    private String companiaSeguro;
+    private int nroTitular;
+    private String cuitCompania;
     private String estado;
-    private String fichaMecanica;
     
-    public TurnoDTO(int nro, String dia, String hora, String mecanico, 
-                    String vehiculo, String titular, String companiaSeguro,
-                    String estado, String fichaMecanica) {
-    this.nro = nro;
-    this.dia = dia;
-    this.hora = hora;
-    this.mecanico = mecanico;
-    this.vehiculo = vehiculo;
-    this.titular = titular;
-    this.companiaSeguro = companiaSeguro;
-    this.estado = estado;
-    this.fichaMecanica = fichaMecanica;
-    }
-    
-    /*
-    ---SETTERS
-    */
-    
-    public void setNro(int nro) {
-        this.nro = nro;
-    }
-
-    public void setDia(String dia) {
+    public TurnoDTO(int nroTurno, String anoMes, int legajoMecanico, int nroPoliza, 
+                    String dia, String hora, int nroTitular, String cuitCompania,
+                    String estado) {
+        this.nroTurno = nroTurno;
         this.dia = dia;
-    }
-
-    public void setHora(String hora) {
         this.hora = hora;
-    }
-
-    public void setMecanico(String mecanico) {
-        this.mecanico = mecanico;
-    }
-
-    public void setVehiculo(String vehiculo) {
-        this.vehiculo = vehiculo;
-    }
-
-    public void setTitular(String titular) {
-        this.titular = titular;
-    }
-
-    public void setCompaniaSeguro(String companiaSeguro) {
-        this.companiaSeguro = companiaSeguro;
-    }
-
-    public void setEstado(String estado) {
+        this.legajoMecanico = legajoMecanico;
+        this.nroPoliza = nroPoliza;
+        this.nroTitular = nroTitular;
+        this.cuitCompania = cuitCompania;
         this.estado = estado;
     }
 
-    public void setFichaMecanica(String fichaMecanica) {
-        this.fichaMecanica = fichaMecanica;
+    public int getNroTurno() {
+        return nroTurno;
     }
-    
-    /*
-    ---GETTERS
-    */
 
-    public int getNro() {
-        return nro;
+    public void setNroTurno(int nroTurno) {
+        this.nroTurno = nroTurno;
+    }
+
+    public String getAnoMes() {
+        return anoMes;
+    }
+
+    public void setAnoMes(String anoMes) {
+        this.anoMes = anoMes;
+    }
+
+    public int getLegajoMecanico() {
+        return legajoMecanico;
+    }
+
+    public void setLegajoMecanico(int legajoMecanico) {
+        this.legajoMecanico = legajoMecanico;
+    }
+
+    public int getNroPoliza() {
+        return nroPoliza;
+    }
+
+    public void setNroPoliza(int nroPoliza) {
+        this.nroPoliza = nroPoliza;
     }
 
     public String getDia() {
         return dia;
     }
 
+    public void setDia(String dia) {
+        this.dia = dia;
+    }
+
     public String getHora() {
         return hora;
     }
 
-    public String getMecanico() {
-        return mecanico;
+    public void setHora(String hora) {
+        this.hora = hora;
     }
 
-    public String getVehiculo() {
-        return vehiculo;
+    public int getNroTitular() {
+        return nroTitular;
     }
 
-    public String getTitular() {
-        return titular;
+    public void setNroTitular(int nroTitular) {
+        this.nroTitular = nroTitular;
     }
 
-    public String getCompaniaSeguro() {
-        return companiaSeguro;
+    public String getCuitCompania() {
+        return cuitCompania;
+    }
+
+    public void setCuitCompania(String cuitCompania) {
+        this.cuitCompania = cuitCompania;
     }
 
     public String getEstado() {
         return estado;
     }
 
-    public String getFichaMecanica() {
-        return fichaMecanica;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
     
 }

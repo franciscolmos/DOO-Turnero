@@ -10,18 +10,18 @@ package dto;
  * @author francisco
  */
 public class EspecialidadDTO {
-    private String codigo;
+    private String codEspecialidad;
     private String nombre;
     private String descripcion;
 
-    public EspecialidadDTO(String codigo, String nombre, String descripcion) {
-        this.codigo = codigo;
+    public EspecialidadDTO(String codEspecialidad, String nombre, String descripcion) {
+        this.codEspecialidad = codEspecialidad;
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
 
-    public String getCodigo() {
-        return codigo;
+    public String getCodEspecialidad() {
+        return codEspecialidad;
     }
 
     public String getNombre() {
@@ -32,8 +32,8 @@ public class EspecialidadDTO {
         return descripcion;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setCodEspecialidad(String codEspecialidad) {
+        this.codEspecialidad = codEspecialidad;
     }
 
     public void setNombre(String nombre) {
