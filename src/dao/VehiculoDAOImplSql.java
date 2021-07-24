@@ -104,7 +104,7 @@ public class VehiculoDAOImplSql implements VehiculoDAO {
     }
 
     @Override
-    public List<VehiculoDTO> listarVehiculosConCriterios(String nroTitular) {
+    public List<VehiculoDTO> listarVehiculosPorTitular(String legajoTitular) {
         Connection con = null;
         PreparedStatement sentencia = null;
         ResultSet rs = null;
@@ -116,7 +116,7 @@ public class VehiculoDAOImplSql implements VehiculoDAO {
                          + "from vehiculos where nro_titular = ?";
             //String sql = "select * from mecanicos";
             sentencia = con.prepareStatement(sql);
-            sentencia.setString(1, nroTitular);
+            sentencia.setString(1, legajoTitular);
 
             rs = sentencia.executeQuery();
 
@@ -131,7 +131,7 @@ public class VehiculoDAOImplSql implements VehiculoDAO {
                 modelo = rs.getString("modelo");
                 marca = rs.getString("marca");
                 cuitCompania = rs.getString("cuit_compania");
-                vehiculo = new VehiculoDTO(nroPoliza, modelo, marca, nroTitular, cuitCompania);
+                vehiculo = new VehiculoDTO(nroPoliza, modelo, marca, legajoTitular, cuitCompania);
                 listaVehiculos.add(vehiculo);
             }
 

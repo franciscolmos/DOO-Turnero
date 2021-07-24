@@ -13,6 +13,7 @@ import java.util.List;
  * @author felipe
  */
 public interface VehiculoDAO {
+    
     VehiculoDTO consultarVehiculo(int nroPoliza);
     
     boolean insertarVehiculo(int nroPoliza,
@@ -21,7 +22,7 @@ public interface VehiculoDAO {
                              String nroTitular,
                              String cuitCompania);
     
-    List<VehiculoDTO> listarVehiculosConCriterios(String nroTitular);
+    List<VehiculoDTO> listarVehiculosPorTitular(String legajoTitular);
     
     void cerrarConexion();
 }

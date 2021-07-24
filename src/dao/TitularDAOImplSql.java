@@ -81,7 +81,7 @@ public class TitularDAOImplSql implements TitularDAO {
         try {
             con = conexion.getConnection();
             String sql = "select *"
-                         + "from titular where nombre = ? and apellido = ?";
+                         + "from titulares where nombre = ? and apellido = ?";
             sentencia = con.prepareStatement(sql);
             sentencia.setString(1, nombreTitular);
             sentencia.setString(2, apellidoTitular);

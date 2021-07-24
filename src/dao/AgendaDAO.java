@@ -6,6 +6,7 @@
 package dao;
 
 import dto.AgendaDTO;
+import dto.MecanicoDTO;
 import java.util.List;
 
 /**
@@ -14,11 +15,15 @@ import java.util.List;
  */
 public interface AgendaDAO {
     
-        List<AgendaDTO> listarAgenda(String mecanicoNombre, String estadoTurno);
+        List<AgendaDTO> listarAgenda(String legajoMecanico, String estadoTurno);
+        
+        List<AgendaDTO> listarAgendas();
         
         List<AgendaDTO> listarAgendaPorFecha(String mecanicoNombre, String estadoTurno, String fecha);
         
         boolean modificarAgenda(String dia, String horario, String mecanico);
+        
+        boolean insertarAgendas(List<MecanicoDTO> listadoMecanicos);
         
         void cerrarConexion();
 

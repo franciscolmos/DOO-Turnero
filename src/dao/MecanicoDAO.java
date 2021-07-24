@@ -20,5 +20,7 @@ public interface MecanicoDAO {
                              String nroDNI, String telefono, String legajo, String area,
                              String especialidad);
     
+    public MecanicoDTO consultarMecanico(String legajoMecanico);
+    
     void cerrarConexion();
 }

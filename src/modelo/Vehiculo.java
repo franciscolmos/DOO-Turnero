@@ -7,6 +7,8 @@ package modelo;
 
 import dao.FabricaDAO;
 import dao.VehiculoDAO;
+import dto.VehiculoDTO;
+import java.util.List;
 
 /**
  *
@@ -26,6 +28,15 @@ public class Vehiculo extends Modelo {
         boolean vehiculo = vehiculoDao.insertarVehiculo(nroPoliza, modelo, marca, nroTitular, cuitCompania);
          return vehiculo;
     };
+    
+    public List<VehiculoDTO> listarVehiculosPorTitular(String legajoTitular) {
+        List<VehiculoDTO> listaVehiculos = vehiculoDao.listarVehiculosPorTitular(legajoTitular);
+        return listaVehiculos;
+    }
+    
+    public VehiculoDTO consultarVehiculo(int nroPoliza){
+        return vehiculoDao.consultarVehiculo(nroPoliza);
+    }
     
     @Override
     protected void finalize() throws Throwable {
