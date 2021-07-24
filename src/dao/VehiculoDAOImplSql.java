@@ -75,7 +75,7 @@ public class VehiculoDAOImplSql implements VehiculoDAO {
         try {
             con = conexion.getConnection();
             String sql = "insert into vehiculos (nro_poliza, modelo, marca, nro_titular, cuit_compania)"
-                       + "values(?,?,?,?)";
+                       + "values(?,?,?,?,?)";
             sentencia = con.prepareStatement(sql);
             sentencia.setInt(1, nroPoliza);
             sentencia.setString(2, modelo);

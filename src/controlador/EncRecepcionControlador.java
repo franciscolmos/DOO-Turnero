@@ -32,6 +32,7 @@ import vista.InterfazTurno;
 import vista.vistaHome;
 import vista.FrmNuevoTurno;
 import vista.FrmNuevoTItular;
+import vista.FrmNuevoVehiculo;
 
 /**
  *
@@ -45,15 +46,16 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         VISTA.setControlador(this, this);
         VISTA.iniciaVista();
         
-        cargarAgendasYTurnos();
+        cargarAgendasYTurnos(((vistaHome) this.VISTA));
         
     }
     
-    private void cargarAgendasYTurnos(){
+    private void cargarAgendasYTurnos(vistaHome vista){
         // INSERTAMOS TODOS LOS TURNOS DISPONIBLES POR UNICA VEZ
         List<MecanicoDTO> listadoMecanicos = ((Mecanico) this.MODELO.fabricarModelo("Mecanico")).listarMecanicos();
         ((Turno) this.MODELO.fabricarModelo("Turno")).insertarTurno(listadoMecanicos);
         ((Agenda) this.MODELO.fabricarModelo("Agenda")).insertarAgendas(listadoMecanicos);
+        this.actualizarTabla(vista);
     }
     
     @Override
@@ -70,24 +72,31 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                     break;
                     
                 case NUEVO_TURNO:
-//                    insertarTurno(((FrmNuevoTurno) this.VISTA));
-                    volverHome();
+                    insertarTurno(((FrmNuevoTurno) this.VISTA));
                     break;
                     
                 case VOLVER_HOME:
                     volverHome();
                     break;
                     
-                case TITULAR:
-                    irFrmNuevoTitular();
-                    break;
-                
                 case VOLVER_NUEVO_TURNO:
                     volverNuevoTurno();
                     break;
                     
+                case TITULAR:
+                    irFrmNuevoTitular();
+                    break;
+                    
                 case NUEVO_TITULAR:
-//                    insertarTitular(((FrmNuevoTItular) this.VISTA));
+                    insertarTitular(((FrmNuevoTItular) this.VISTA));
+                    break;
+  
+                case VEHICULO:
+                    irFrmNuevoVehiculo();
+                    break;
+                    
+                case NUEVO_VEHICULO:
+                    insertarVehiculo((FrmNuevoVehiculo) this.VISTA);
                     break;
                     
                 default:
@@ -98,6 +107,8 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
             System.out.println("CATCH: " + ex.getMessage());
         }
     }
+    
+    // METODO ENCARGADO DE ACTUALIZAR LA TABLA DE LA VISTA HOME, Y TRAER TODOS LOS TURNOS (ASIGNADOS, NO ASIGNADOS, CANCELADOS, ASISTIDOS)
 
     private void actualizarTabla(vistaHome vista) {
         VISTA.limpiaVista();
@@ -105,7 +116,7 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         DefaultTableModel modeloTabla = (DefaultTableModel) vista.getModeloTblTurnos();
         modeloTabla.setRowCount(0);
         modeloTabla.fireTableDataChanged();
-        List<TurnoDTO> listadoTurnos = ((Turno) this.MODELO).listarTurnosPorCriterio("No Asignado");
+        List<TurnoDTO> listadoTurnos = ((Turno) this.MODELO).listarTurno();
         for (TurnoDTO tur : listadoTurnos) {
             modeloTabla.addRow(new Object[]{tur.getNroTurno(),
                                             tur.getDia(), 
@@ -118,14 +129,52 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         }
     }
     
+    // METODOS DE DESPLAZAMIENTO ENTRE VISTAS. VOLVER, IR A UNA VISTA. PUEDEN LLAMAR O NO A LOS METODOS DE INICIAR VISTAS CON CARGA DE DATOS A COMBOBOX
+      
+    private void volverHome() {
+        MODELO = ((Turno)this.MODELO.fabricarModelo("Turno"));
+        VISTA.cerrarVista();
+        VISTA = new vistaHome();
+        VISTA.iniciaVista();
+        VISTA.setControlador(this, this);
+    }
+    
+    private void volverNuevoTurno(){
+        MODELO = ((Turno)this.MODELO.fabricarModelo("Turno"));
+        VISTA.cerrarVista();
+        VISTA = new FrmNuevoTurno();
+        VISTA.iniciaVista();
+        VISTA.setControlador(this, this);
+        
+        this.iniciarFrmNuevoTurno();
+    }
+    
     private void irFrmNuevoTurno() {
         VISTA.cerrarVista();
         VISTA = new FrmNuevoTurno();
         VISTA.iniciaVista();
         VISTA.setControlador(this, this);
 
-        iniciarFrmNuevoTurno();
+        this.iniciarFrmNuevoTurno();
     }
+    
+    private void irFrmNuevoTitular(){
+        VISTA.cerrarVista();
+        VISTA = new FrmNuevoTItular();
+        VISTA.iniciaVista();
+        VISTA.setControlador(this, this);
+    }
+    
+    private void irFrmNuevoVehiculo(){
+        VISTA.cerrarVista();
+        VISTA = new FrmNuevoVehiculo();
+        VISTA.iniciaVista();
+        VISTA.setControlador(this, this);
+        
+        this.iniciarFrmNuevoVehiculo();
+    }
+    
+    // METODOS QUE INICIAN LAS VISTAS COMPLETANDO SUS COMBO BOX CON LA INFORMACION DE LA BASE
     
     private void iniciarFrmNuevoTurno() {
         
@@ -150,42 +199,29 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         // EL BOTON GUARDAR SE INICIA DESHABILITADO HASTA QUE SE CARGUEN TODOS LOS DATOS
         ((FrmNuevoTurno) VISTA).getBotonGuardar().setEnabled(false);
     }
-      
-    private void volverHome() {
-        MODELO = ((Turno)this.MODELO.fabricarModelo("Turno"));
-        VISTA.cerrarVista();
-        VISTA = new vistaHome();
-        VISTA.iniciaVista();
-        VISTA.setControlador(this, this);
+    
+    private void iniciarFrmNuevoVehiculo() {
+        
+        // CARGAMOS LAS COMPANIAS
+        JComboBox modeloComboBoxCompanias = (JComboBox) ((FrmNuevoVehiculo) this.VISTA).getComboBoxCompanias();
+        List<CompaniaDTO> listadoCompanias = ((Compania) this.MODELO.fabricarModelo("Compania")).listarCompanias();
+        // Agregamos una especialidad vacia para que quede seleccionada por defecto
+        modeloComboBoxCompanias.addItem("-");
+        for (CompaniaDTO compania : listadoCompanias) {
+            modeloComboBoxCompanias.addItem("Cuit: " + compania.getCuit() + " - Razon Social: " + compania.getRazonSocial()); 
+        }
+
+        // CARGAMOS LOS TITULARES
+        JComboBox modeloComboBoxTitulares = (JComboBox) ((FrmNuevoVehiculo) this.VISTA).getComboBoxTitulares();
+        List<TitularDTO> listadoTitulares = ((Titular) this.MODELO.fabricarModelo("Titular")).listarTitulares();
+        // Agregamos un titular vacio para que quede seleccionado por defecto
+        modeloComboBoxTitulares.addItem("-");
+        for (TitularDTO titular : listadoTitulares) {
+            modeloComboBoxTitulares.addItem("Nro Titular: " + titular.getNroTitular() + " - DNI: " + titular.getNroDNI()); 
+        } 
     }
     
-    private void irFrmNuevoTitular(){
-        VISTA.cerrarVista();
-        VISTA = new FrmNuevoTItular();
-        VISTA.iniciaVista();
-        VISTA.setControlador(this, this);
-    }
-    
-    private void volverNuevoTurno(){
-        MODELO = ((Turno)this.MODELO.fabricarModelo("Turno"));
-        VISTA.cerrarVista();
-        VISTA = new FrmNuevoTurno();
-        VISTA.iniciaVista();
-        VISTA.setControlador(this, this);
-        iniciarFrmNuevoTurno();
-    }
-    
-//    private void insertarTitular(FrmNuevoTItular vista) {
-//        MODELO = ((Titular)this.MODELO.fabricarModelo("Titular"));
-//        
-//        ((Titular)MODELO).insertarTitular(vista.getTextNombre().getText(), 
-//                                          vista.getTextApellido().getText(),
-//                                          vista.getTextTipoDoc().getText(),
-//                                          vista.getTextNumeroDoc().getText(), 
-//                                          vista.getTextTelefono().getText(), 
-//                                          vista.getComboBoxCompania().getSelectedItem().toString());
-//        this.volverNuevoTurno();
-//    }
+    // METODOS DE OBTENCION DE DATOS DE DISTINTOS DTOS
     
     private TitularDTO obtenerDatosTitular(FrmNuevoTurno vista){
         // divido el item selected en partes separadas por espacio y los almaceno en un array de String
@@ -210,22 +246,70 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         return vehiculo;
     }
     
-//    private void insertarVehiculo(FrmNuevoTurno vista) {
-//        System.out.println(this.obtenerDatosTitular(vista).getNroDNI());
-//        MODELO = ((Vehiculo)this.MODELO.fabricarModelo("Vehiculo"));
-//        ((Vehiculo)MODELO).insertarVehiculo(Integer.parseInt(vista.getTextFieldNroPoliza().getText()),
-//                                            vista.getTextFieldModelo().getText(),
-//                                            vista.getTextFieldMarca().getText(),
-//                                            this.obtenerDatosTitular(vista).getNroDNI());
-//    }
-//    
-//    private void insertarTurno(FrmNuevoTurno vista) {
-//        MODELO = ((Turno)this.MODELO.fabricarModelo("Turno"));
-//        ((Turno)MODELO).asignarTurno(this.obtenerDatosVehiculo(vista).getNroPoliza(),
-//                                     this.obtenerDatosVehiculo(vista).getNroTitular(),
-//                                     this.obtenerDatosVehiculo(vista).getCuitCompania(),
-//                                     this.obtenerDatosMecanico(vista).get);
-//    }
+    private String obtenerNroTitular(FrmNuevoVehiculo vista){
+        String[] partesDelTitular = vista.getComboBoxTitulares().getSelectedItem().toString().split("[ X]");
+        String nroTitular = partesDelTitular[2];
+        return nroTitular;
+    }
+    
+    private String obtenerCuitCompania(FrmNuevoVehiculo vista){
+        String[] partesDeLaCompania = vista.getComboBoxCompanias().getSelectedItem().toString().split("[ X]");
+        String cuitCompania = partesDeLaCompania[1];
+        return cuitCompania;
+    }
+    
+    private TurnoDTO obtenerDatosTurno(FrmNuevoTurno vista, int legajoMecanico){
+        TurnoDTO turno = ((Turno) this.MODELO.fabricarModelo("Turno"))
+                          .consultarTurnoPorMecanicoDiaYHora(legajoMecanico,
+                                                             vista.getComboBoxFecha().getSelectedItem().toString(),
+                                                             vista.getComboBoxHora().getSelectedItem().toString());
+        return turno;
+    }
+    
+    private int obtenerProximoNroTitular(){
+        List<TitularDTO> listadoTitulares = ((Titular) this.MODELO.fabricarModelo("Titular")).listarTitulares();
+        int cantidadTitularesInsertados = listadoTitulares.size();
+        return (cantidadTitularesInsertados + 1);
+    }
+    
+    // METODOS DE INSERCION DE DATOS A BASE DE DATOS
+    
+    private void insertarVehiculo(FrmNuevoVehiculo vista) {
+        MODELO = ((Vehiculo)this.MODELO.fabricarModelo("Vehiculo"));
+        ((Vehiculo)MODELO).insertarVehiculo(Integer.parseInt(vista.getTextFieldNroPoliza().getText()),
+                                            vista.getTextFieldModelo().getText(),
+                                            vista.getTextFieldMarca().getText(),
+                                            this.obtenerNroTitular(vista),
+                                            this.obtenerCuitCompania(vista));
+        this.volverNuevoTurno();
+    }
+    
+    private void insertarTitular(FrmNuevoTItular vista) {
+        MODELO = ((Titular)this.MODELO.fabricarModelo("Titular"));
+        ((Titular)MODELO).insertarTitular(this.obtenerProximoNroTitular(),
+                                          vista.getTextNombre().getText(), 
+                                          vista.getTextApellido().getText(),
+                                          vista.getCombBoxDoc().getSelectedItem().toString(),
+                                          vista.getTextNumeroDoc().getText(), 
+                                          vista.getTextTelefono().getText());
+        this.volverNuevoTurno();
+    }
+    
+    private void insertarTurno(FrmNuevoTurno vista) {
+        VehiculoDTO vehiculo = this.obtenerDatosVehiculo(vista);
+        MecanicoDTO mecanico = this.obtenerDatosMecanico(vista);
+        TurnoDTO    turno    = this.obtenerDatosTurno(vista, mecanico.getLegajo());
+        MODELO = ((Turno)this.MODELO.fabricarModelo("Turno"));
+        ((Turno)MODELO).asignarTurno(vehiculo.getNroPoliza(),
+                                     parseInt(vehiculo.getNroTitular()),
+                                     vehiculo.getCuitCompania(),
+                                     turno.getAnoMes(),
+                                     mecanico.getLegajo(),
+                                     turno.getDia(),
+                                     turno.getHora());
+        this.volverHome();
+        this.actualizarTabla(((vistaHome) this.VISTA));
+    }
     
     private void insertarAgenda(FrmNuevoTurno vista) {
         MODELO = ((Agenda)this.MODELO.fabricarModelo("Agenda"));
@@ -233,6 +317,8 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                                          vista.getComboBoxHora().getSelectedItem().toString(),
                                          vista.getComboBoxMecanicos().getSelectedItem().toString());
     }
+    
+    // METODOS DE CARGA DE DATOS A LOS COMBO BOX DE LAS VISTAS
 
     private void cargarMecanicos(FrmNuevoTurno vista) {
         JComboBox modeloComboBoxMecanicos = (JComboBox) vista.getComboBoxMecanicos();
@@ -293,12 +379,13 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         modeloComboBoxVehiculos.setModel(new DefaultComboBoxModel(vehiculos));
     }   
     
+    // SE ENCARGA DE VER CUANDO UN COMOBO BAX CAMBIA DE SELECCION, Y ENTONCES CARGA EL COMBO BOX QUE LE SIGUE Y CORRESPONDE
+    
     public void itemStateChanged(ItemEvent ie) {
         if(ie.getStateChange() == ItemEvent.SELECTED) {
             
             // Toma el cambio en ComboBox Especialidad
             if(ie.getSource().equals(((FrmNuevoTurno) VISTA).getComboBoxEspecialidad())) {
-                System.out.println("ItemEvent Especialidad");
                 if(ie.getItem().toString() == "-") {
                     ((FrmNuevoTurno) VISTA).getComboBoxMecanicos().setEnabled(false);
                     ((FrmNuevoTurno) VISTA).getComboBoxFecha().setEnabled(false);
@@ -313,7 +400,6 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
             
             // Toma el cambio en ComboBox Mecanicos
             if(ie.getSource().equals(((FrmNuevoTurno) VISTA).getComboBoxMecanicos())) {
-                System.out.println("ItemEvent Mecanicos");
                 if(ie.getItem().toString() == "-") {
                     ((FrmNuevoTurno) VISTA).getComboBoxFecha().setEnabled(false);
                     ((FrmNuevoTurno) VISTA).getComboBoxHora().setEnabled(false);
@@ -327,7 +413,6 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
             
             // Toma el cambio en ComboBox Titulares
             if(ie.getSource().equals(((FrmNuevoTurno) VISTA).getComboBoxTitular())) {
-                System.out.println("ItemEvent TItulares");
                     if(ie.getItem().toString() == "-") {
                         ((FrmNuevoTurno) VISTA).getComboBoxVehiculo().setEnabled(false);
                         ((FrmNuevoTurno) VISTA).getBotonGuardar().setEnabled(false);
@@ -340,7 +425,6 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         
             // Toma el cambio en ComboBox Vehiculos
             if(ie.getSource().equals(((FrmNuevoTurno) VISTA).getComboBoxVehiculo())) {
-                System.out.println("ItemEvent Vehiculos");
                 if(ie.getItem().toString() == "-") {
                     ((FrmNuevoTurno) VISTA).getBotonGuardar().setEnabled(false);
                 }
@@ -349,7 +433,6 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
             
             // Toma el cambio en ComboBox Fecha
             if(ie.getSource().equals(((FrmNuevoTurno) VISTA).getComboBoxFecha())) {
-                System.out.println("ItemEvent Fechas");
                 if(ie.getItem().toString() == "-") {
                     ((FrmNuevoTurno) VISTA).getComboBoxHora().setEnabled(false);
                     ((FrmNuevoTurno) VISTA).getBotonGuardar().setEnabled(false);
@@ -363,7 +446,6 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
             
             // Toma el cambio en ComboBox Hora
             if(ie.getSource().equals(((FrmNuevoTurno) VISTA).getComboBoxHora())) {
-                System.out.println("ItemEvent Horas");
                 if(ie.getItem().toString() == "-") {
                     ((FrmNuevoTurno) VISTA).getBotonGuardar().setEnabled(false);
                 }

@@ -15,7 +15,10 @@ import java.util.List;
  * @author felipe
  */
 public interface TurnoDAO {
+    
     TurnoDTO consultarTurno(int nroTurno);
+    
+    public TurnoDTO consultarTurnoPorMecanicoDiaYHora(int legajoMecanico, String dia, String hora);
     
     List<TurnoDTO> listarTurnos();
     

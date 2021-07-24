@@ -23,6 +23,7 @@ public class TurnoDTO {
     public TurnoDTO(int nroTurno, String anoMes, int legajoMecanico, int nroPoliza, 
                     String dia, String hora, int nroTitular, String cuitCompania,
                     String estado) {
+        this.anoMes = anoMes;
         this.nroTurno = nroTurno;
         this.dia = dia;
         this.hora = hora;

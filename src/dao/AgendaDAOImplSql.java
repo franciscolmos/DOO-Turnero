@@ -126,7 +126,6 @@ public class AgendaDAOImplSql implements AgendaDAO{
         PreparedStatement sentencia = null;
     
         if(this.listarAgendas().size() > 0){
-            System.out.println("entro");
             return false;
         }else{
             for (int i = 0; i < listadoMecanicos.size(); i++) {

@@ -122,7 +122,7 @@ public class TitularDAOImplSql implements TitularDAO {
 
         try {
             con = conexion.getConnection();
-            String sql = "insert into titular (nro_titular, tipo_doc, nro_doc, nombre, apellido, telefono) "
+            String sql = "insert into titulares (nro_titular, tipo_doc, nro_doc, nombre, apellido, telefono) "
                          + "values(?,?,?,?,?,?)";
             sentencia = con.prepareStatement(sql);
             sentencia.setInt(1, nroTitular);
