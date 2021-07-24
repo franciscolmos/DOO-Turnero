@@ -7,6 +7,7 @@ package modelo;
 
 import dao.TurnoDAO;
 import dao.FabricaDAO;
+import dto.MecanicoDTO;
 import dto.TurnoDTO;
 import java.util.List;
 
@@ -39,11 +40,8 @@ public class Turno extends Modelo {
         return listadoTurnos;
     }
     
-    public boolean insertarTurno(int nroTurno, String anoMes, int legajoMecanico, int nroPoliza, 
-                                 String dia, String hora, int nroTitular, String cuitCompania,
-                                 String estado) {
-        return turnoDao.insertarTurno(nroTurno, anoMes, legajoMecanico, nroPoliza, 
-                                      dia, hora, nroTitular, cuitCompania, estado);
+    public boolean insertarTurno(List<MecanicoDTO> mecanicos) {
+        return turnoDao.insertarTurno(mecanicos);
     }
     
     public boolean asignarTurno(int nroPoliza, int nroTitular, String cuitCompania, 

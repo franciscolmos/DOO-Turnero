@@ -28,6 +28,11 @@ public class Mecanico extends Modelo  {
         return listadoMecanicos;
     }
     
+    public List<MecanicoDTO> listarMecanicos() {
+        List<MecanicoDTO> listadoMecanicos = mecanicoDao.listarMecanicos();
+        return listadoMecanicos;
+    }
+    
     public boolean insertarMecanico(String apellido, String nombre, String tipoDNI, 
                                     String nroDNI, String telefono, String legajo, String area,
                                     String especialidad) {

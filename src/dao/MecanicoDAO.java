@@ -14,6 +14,7 @@ import java.util.List;
  */
 public interface MecanicoDAO {
     List<MecanicoDTO> listarMecanicosConCriterios(String especialidad);
+    List<MecanicoDTO> listarMecanicos();
     
     boolean insertarMecanico(String apellido, String nombre, String tipoDNI, 
                              String nroDNI, String telefono, String legajo, String area,

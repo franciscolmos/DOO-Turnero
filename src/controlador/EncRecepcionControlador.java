@@ -42,6 +42,10 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         MODELO = modelo;
         VISTA.setControlador(this, this);
         VISTA.iniciaVista();
+        
+        // INSERTAMOS TODOS LOS TURNOS DISPONIBLES POR UNICA VEZ
+        List<MecanicoDTO> listadoMecanicos = ((Mecanico) this.MODELO.fabricarModelo("Mecanico")).listarMecanicos();
+        ((Turno) this.MODELO.fabricarModelo("Turno")).insertarTurno(listadoMecanicos);
     }
     
     @Override
@@ -58,8 +62,8 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                     break;
                     
                 case NUEVO_TURNO:
-                    insertarVehiculo(((FrmNuevoTurno) this.VISTA));
-                    insertarTurno(((FrmNuevoTurno) this.VISTA));
+//                   insertarVehiculo(((FrmNuevoTurno) this.VISTA));
+//                    insertarTurno(((FrmNuevoTurno) this.VISTA));
                     insertarAgenda(((FrmNuevoTurno) this.VISTA));
                     
                     volverHome();
@@ -78,7 +82,7 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                     break;
                     
                 case NUEVO_TITULAR:
-                    insertarTitular(((FrmNuevoTItular) this.VISTA));
+//                    insertarTitular(((FrmNuevoTItular) this.VISTA));
                     break;
                     
                 default:
@@ -96,17 +100,16 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         DefaultTableModel modeloTabla = (DefaultTableModel) vista.getModeloTblTurnos();
         modeloTabla.setRowCount(0);
         modeloTabla.fireTableDataChanged();
-        List<TurnoDTO> listadoTurnos = ((Turno) this.MODELO).listarTurnosPorCriterio("Asignado");
+        List<TurnoDTO> listadoTurnos = ((Turno) this.MODELO).listarTurnosPorCriterio("No Asignado");
         for (TurnoDTO tur : listadoTurnos) {
-            modeloTabla.addRow(new Object[]{tur.getNro(),
+            modeloTabla.addRow(new Object[]{tur.getNroTurno(),
                                             tur.getDia(), 
                                             tur.getHora(),
-                                            tur.getMecanico(),
-                                            tur.getVehiculo(),
-                                            tur.getTitular(),
-                                            tur.getCompaniaSeguro(),
-                                            tur.getEstado(),
-                                            tur.getFichaMecanica()});
+                                            tur.getLegajoMecanico(),
+                                            tur.getNroPoliza(),
+                                            tur.getNroTitular(),
+                                            tur.getCuitCompania(),
+                                            tur.getEstado()});
         }
     }
     
@@ -136,7 +139,7 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         // Agregamos un titular vacio para que quede seleccionado por defecto
         modeloComboBoxTitulares.addItem("-");
         for (TitularDTO titular : listadoTitulares) {
-            modeloComboBoxTitulares.addItem(titular.getNombre() + " " + titular.getApellido() + " - Compania Seguro: " + titular.getCompania()); 
+//            modeloComboBoxTitulares.addItem(titular.getNombre() + " " + titular.getApellido() + " - Compania Seguro: " + titular.getCompania()); 
         }
         
         // EL BOTON GUARDAR SE INICIA DESHABILITADO HASTA QUE SE CARGUEN TODOS LOS DATOS
@@ -180,17 +183,17 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         iniciarFrmNuevoTurno();
     }
     
-    private void insertarTitular(FrmNuevoTItular vista) {
-        MODELO = ((Titular)this.MODELO.fabricarModelo("Titular"));
-        
-        ((Titular)MODELO).insertarTitular(vista.getTextNombre().getText(), 
-                                          vista.getTextApellido().getText(),
-                                          vista.getTextTipoDoc().getText(),
-                                          vista.getTextNumeroDoc().getText(), 
-                                          vista.getTextTelefono().getText(), 
-                                          vista.getComboBoxCompania().getSelectedItem().toString());
-        this.volverNuevoTurno();
-    }
+//    private void insertarTitular(FrmNuevoTItular vista) {
+//        MODELO = ((Titular)this.MODELO.fabricarModelo("Titular"));
+//        
+//        ((Titular)MODELO).insertarTitular(vista.getTextNombre().getText(), 
+//                                          vista.getTextApellido().getText(),
+//                                          vista.getTextTipoDoc().getText(),
+//                                          vista.getTextNumeroDoc().getText(), 
+//                                          vista.getTextTelefono().getText(), 
+//                                          vista.getComboBoxCompania().getSelectedItem().toString());
+//        this.volverNuevoTurno();
+//    }
     
     private TitularDTO obtenerDatosTitular(FrmNuevoTurno vista){
         // divido el item selected en partes separadas por espacio y los almaceno en un array de String
@@ -203,24 +206,24 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
        
     }
     
-    private void insertarVehiculo(FrmNuevoTurno vista) {
-        System.out.println(this.obtenerDatosTitular(vista).getNroDNI());
-        MODELO = ((Vehiculo)this.MODELO.fabricarModelo("Vehiculo"));
-        ((Vehiculo)MODELO).insertarVehiculo(Integer.parseInt(vista.getTextFieldNroPoliza().getText()),
-                                            vista.getTextFieldModelo().getText(),
-                                            vista.getTextFieldMarca().getText(),
-                                            this.obtenerDatosTitular(vista).getNroDNI());
-    }
-    
-    private void insertarTurno(FrmNuevoTurno vista) {
-        MODELO = ((Turno)this.MODELO.fabricarModelo("Turno"));
-        ((Turno)MODELO).insertarTurno(vista.getComboBoxFecha().getSelectedItem().toString(),
-                                      vista.getComboBoxHora().getSelectedItem().toString(),
-                                      vista.getComboBoxMecanicos().getSelectedItem().toString(),
-                                      vista.getTextFieldNroPoliza().getText(),
-                                      this.obtenerDatosTitular(vista).getNroDNI(),
-                                      this.obtenerDatosTitular(vista).getCompania());
-    }
+//    private void insertarVehiculo(FrmNuevoTurno vista) {
+//        System.out.println(this.obtenerDatosTitular(vista).getNroDNI());
+//        MODELO = ((Vehiculo)this.MODELO.fabricarModelo("Vehiculo"));
+//        ((Vehiculo)MODELO).insertarVehiculo(Integer.parseInt(vista.getTextFieldNroPoliza().getText()),
+//                                            vista.getTextFieldModelo().getText(),
+//                                            vista.getTextFieldMarca().getText(),
+//                                            this.obtenerDatosTitular(vista).getNroDNI());
+//    }
+//    
+//    private void insertarTurno(FrmNuevoTurno vista) {
+//        MODELO = ((Turno)this.MODELO.fabricarModelo("Turno"));
+//        ((Turno)MODELO).insertarTurno(vista.getComboBoxFecha().getSelectedItem().toString(),
+//                                      vista.getComboBoxHora().getSelectedItem().toString(),
+//                                      vista.getComboBoxMecanicos().getSelectedItem().toString(),
+//                                      vista.getTextFieldNroPoliza().getText(),
+//                                      this.obtenerDatosTitular(vista).getNroDNI(),
+//                                      this.obtenerDatosTitular(vista).getCompania());
+//    }
     
     private void insertarAgenda(FrmNuevoTurno vista) {
         MODELO = ((Agenda)this.MODELO.fabricarModelo("Agenda"));

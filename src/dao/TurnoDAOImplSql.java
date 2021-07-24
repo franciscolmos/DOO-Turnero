@@ -5,6 +5,7 @@
  */
 package dao;
 
+import dto.MecanicoDTO;
 import dto.TurnoDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -132,40 +134,48 @@ public class TurnoDAOImplSql implements TurnoDAO {
     }
 
     @Override
-    public boolean insertarTurno(int nroTurno, String anoMes, int legajoMecanico, int nroPoliza, 
-                                String dia, String hora, int nroTitular, String cuitCompania,
-                                String estado) {
+    public boolean insertarTurno(List<MecanicoDTO> listadoMecanicos) {
         Connection con = null;
         PreparedStatement sentencia = null;
-
-        try {
-            con = conexion.getConnection();
-            String sql = "insert into turnos (nro_turno, anoMes, legajo_mecanico, "
-                       + "nro_poliza, dia, hora, nro_titular, cuit_compania, estado) "
-                       + "values(?,?,?,?,?,?,?,?,?)";
-            sentencia = con.prepareStatement(sql);
-            sentencia.setInt(1, nroTurno);
-            sentencia.setString(2, anoMes);
-            sentencia.setInt(3, legajoMecanico);
-            sentencia.setInt(4, nroPoliza);
-            sentencia.setString(5, dia);
-            sentencia.setString(6, hora);
-            sentencia.setInt(7, nroTitular);
-            sentencia.setString(8, cuitCompania);
-            sentencia.setString(9, "Asignado");
-
-            int resultado = sentencia.executeUpdate();
-
-            return (resultado > 0);
-        } catch (SQLException e) {
-            System.err.println(e);
+    
+        if(this.listarTurnos().size() > 0){
             return false;
-        } finally {
-            try {
-                sentencia.close();
-            } catch (SQLException ex) {
-                System.err.println(ex);
+        }else{
+            for (int i = 0; i < listadoMecanicos.size(); i++) {
+                for (int j = 0; j < 5; j++) {
+                    try {
+                        con = conexion.getConnection();
+
+                        String sql =  "insert into turnos (nro_turno, ano_mes, legajo_mecanico, "
+                                    + "nro_poliza, dia, hora, nro_titular, cuit_compania, estado) "
+                                    + "values(?,?,?,?,?,?,?,?,?)";
+                        sentencia = con.prepareStatement(sql);
+                        sentencia.setInt(1, (j+1));
+                        sentencia.setString(2, "2021-07");
+                        sentencia.setInt(3, listadoMecanicos.get(i).getLegajo());
+                        sentencia.setInt(4, -1);
+                        sentencia.setInt(5, (j+1));
+                        sentencia.setString(6, (j+7)+":00 AM");
+                        sentencia.setInt(7, -1);
+                        sentencia.setString(8, "");
+                        sentencia.setString(9, "No Asignado");
+
+
+                        int resultado = sentencia.executeUpdate();
+                    } catch (SQLException e) {
+                        System.err.println(e);
+                        return false;
+                    } finally {
+                        try {
+                            sentencia.close();
+                        } catch (SQLException ex) {
+                            System.err.println(ex);
+                        }
+                    }
+                    
+                }
             }
+            return true;
         }
     }
 
@@ -174,11 +184,6 @@ public class TurnoDAOImplSql implements TurnoDAO {
                                   String anoMes, int legajoMecanico, String dia, String hora) {
         Connection con = null;
         PreparedStatement sentencia = null;
-        
-        // EL AÑO-MES LO VAMOS A SACAR DEL GETDATE ACTUAL
-        // EL LEGAJO MECANICO LO SACAMOS DEL COMBOBOX MECANICO
-        // EL DIA Y LA HORA DE LOS COMBOX CORRESPONDIENTES
-
         try {
             con = conexion.getConnection();
             String sql = "update turnos set nro_poliza=?,nro_titular=?,"

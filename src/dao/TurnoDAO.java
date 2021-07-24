@@ -5,6 +5,7 @@
  */
 package dao;
 
+import dto.MecanicoDTO;
 import dto.TurnoDTO;
 import java.util.Date;
 import java.util.List;
@@ -20,9 +21,7 @@ public interface TurnoDAO {
     
     List<TurnoDTO> listarTurnosPorCriterio(String Estado);
     
-    boolean insertarTurno(int nroTurno, String anoMes, int legajoMecanico, int nroPoliza, 
-                          String dia, String hora, int nroTitular, String cuitCompania,
-                          String estado);
+    boolean insertarTurno(List<MecanicoDTO> listadoMecanicos);
     
     boolean asignarTurno(int nroPoliza, int nroTitular, String cuitCompania, 
                          String anoMes, int legajoMecanico, String dia, String hora);
