@@ -3,10 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/home/francisco/Documentos/FACULTAD/4TO/DOO/TP2Parcial/src/vista/FrmNuevoVehiculo.java</file>
             <file>file:/home/francisco/Documentos/FACULTAD/4TO/DOO/TP2Parcial/src/controlador/EncRecepcionControlador.java</file>
-            <file>file:/home/francisco/Documentos/FACULTAD/4TO/DOO/TP2Parcial/src/dao/TitularDAOImplSql.java</file>
-            <file>file:/home/francisco/Documentos/FACULTAD/4TO/DOO/TP2Parcial/src/vista/FrmNuevoTurno.java</file>
-            <file>file:/home/francisco/Documentos/FACULTAD/4TO/DOO/TP2Parcial/src/vista/InterfazTurno.java</file>
+            <file>file:/home/francisco/Documentos/FACULTAD/4TO/DOO/TP2Parcial/src/dao/VehiculoDAOImplSql.java</file>
+            <file>file:/home/francisco/Documentos/FACULTAD/4TO/DOO/TP2Parcial/src/dao/ConexionSql.java</file>
+            <file>file:/home/francisco/Documentos/FACULTAD/4TO/DOO/TP2Parcial/src/dao/AgendaDAOImplSql.java</file>
         </group>
     </open-files>
 </project-private>

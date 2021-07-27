@@ -8,6 +8,7 @@ package modelo;
 import dao.AgendaDAO;
 import dao.FabricaDAO;
 import dto.AgendaDTO;
+import dto.MecanicoDTO;
 import java.util.List;
 
 /**
@@ -30,6 +31,11 @@ public class Agenda extends Modelo {
         return listaAgendas;
     }
     
+    public List<AgendaDTO> listarAgendas() {
+        List<AgendaDTO> listaAgendas = agendaDao.listarAgendas();
+        return listaAgendas;
+    }
+    
     public List<AgendaDTO> listarAgendaPorFecha(String mecanicoNombre, 
                                         String estadoTurno, String fecha) {
         List<AgendaDTO> listaAgendas = agendaDao.listarAgendaPorFecha(mecanicoNombre, 
@@ -39,6 +45,10 @@ public class Agenda extends Modelo {
     
     public boolean modificarAgenda(String dia, String horario, String mecanico) {
         return agendaDao.modificarAgenda(dia, horario, mecanico);
+    }
+    
+    public boolean insertarAgendas(List<MecanicoDTO> listadoMecanicos) {
+        return agendaDao.insertarAgendas(listadoMecanicos);
     }
     
     @Override

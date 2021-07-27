@@ -40,6 +40,10 @@ public class Mecanico extends Modelo  {
                                             telefono, legajo, area, especialidad);
     }
     
+    public MecanicoDTO consultarMecanico(String legajoMecanico){
+        return mecanicoDao.consultarMecanico(legajoMecanico);
+    }
+    
     @Override
     protected void finalize() throws Throwable {
         mecanicoDao.cerrarConexion();

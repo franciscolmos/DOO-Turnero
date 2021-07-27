@@ -15,6 +15,7 @@ public class TitularDTO extends PersonaDTO{
    
     public TitularDTO(int nroTitular, String tipoDNI, String nroDNI, String nombre, String apellido, String telefono) {
         super(apellido, nombre, tipoDNI, nroDNI, telefono);
+        this.nroTitular = nroTitular;
     }
 
     public int getNroTitular() {

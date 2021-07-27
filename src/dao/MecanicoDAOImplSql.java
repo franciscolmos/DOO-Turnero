@@ -130,6 +130,57 @@ public class MecanicoDAOImplSql implements MecanicoDAO {
         }
         return listaMecanicos;
     }
+    
+    @Override
+    public MecanicoDTO consultarMecanico(String legajoMecanico) {
+        Connection con = null;
+        PreparedStatement sentencia = null;
+        ResultSet rs = null;
+        MecanicoDTO mecanico = null;
+
+        try {
+            con = conexion.getConnection();
+            String sql = "select *"
+                         + "from mecanicos where legajo = ?";
+            sentencia = con.prepareStatement(sql);
+            sentencia.setString(1, legajoMecanico);
+
+            rs = sentencia.executeQuery();
+            
+            String apellido;
+            String nombre;
+            String tipoDNI;
+            String nroDNI;
+            String telefono;
+            int legajo;
+            String area;
+            String especialidadMecanico;
+
+            while (rs.next()) {
+                apellido = rs.getString("apellido");
+                nombre = rs.getString("nombre");
+                tipoDNI = rs.getString("tipoDNI");
+                nroDNI = rs.getString("nroDNI");
+                telefono = rs.getString("telefono");
+                legajo = rs.getInt("legajo");
+                area = rs.getString("area");
+                especialidadMecanico = rs.getString("especialidad");
+                mecanico = new MecanicoDTO(apellido, nombre, tipoDNI, nroDNI, telefono,
+                                           legajo, area, especialidadMecanico);
+            }
+
+        } catch (SQLException e) {
+            System.err.println(e);
+        } finally {
+            try {
+                rs.close();
+                sentencia.close();
+            } catch (SQLException ex) {
+                System.err.println(ex);
+            }
+        }
+        return mecanico;
+    }
 
     @Override
     public boolean insertarMecanico(String apellido, String nombre, String tipoDNI, 

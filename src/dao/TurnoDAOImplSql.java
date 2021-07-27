@@ -78,6 +78,58 @@ public class TurnoDAOImplSql implements TurnoDAO {
         }
         return turno;
     }
+    
+    @Override
+    public TurnoDTO consultarTurnoPorMecanicoDiaYHora(int legajoMecanico, String dia, String hora) {
+        Connection con = null;
+        PreparedStatement sentencia = null;
+        ResultSet rs = null;
+        TurnoDTO turno = null;
+
+        try {
+            con = conexion.getConnection();
+            String sql = "select * from turnos where legajo_mecanico = ? and dia = ? and hora = ?";
+            sentencia = con.prepareStatement(sql);
+            sentencia.setInt(1, legajoMecanico);
+            sentencia.setString(2, dia);
+            sentencia.setString(3, hora);
+
+            rs = sentencia.executeQuery();
+            
+            int nroTurno;
+            String anoMes;
+            int nroPoliza;
+            int nroTitular;
+            String cuitCompania;
+            String estado;
+            
+            while (rs.next()) {
+                nroTurno = rs.getInt("nro_turno");
+                anoMes = rs.getString("ano_mes");
+                legajoMecanico = rs.getInt("legajo_mecanico");
+                nroPoliza = rs.getInt("nro_poliza");
+                dia = rs.getString("dia");
+                hora = rs.getString("hora");
+                nroTitular = rs.getInt("nro_titular");
+                cuitCompania = rs.getString("cuit_compania");
+                estado = rs.getString("estado");
+                turno = new TurnoDTO(nroTurno, anoMes, legajoMecanico, 
+                                     nroPoliza, dia, hora, nroTitular, 
+                                     cuitCompania, estado);
+            }
+
+        } catch (SQLException e) {
+            System.err.println(e);
+        } finally {
+            try {
+                rs.close();
+                sentencia.close();
+            } catch (SQLException ex) {
+                System.err.println(ex);
+            }
+        }
+        return turno;
+    }
 
     @Override
     public List<TurnoDTO> listarTurnos() {
@@ -186,17 +238,24 @@ public class TurnoDAOImplSql implements TurnoDAO {
         PreparedStatement sentencia = null;
         try {
             con = conexion.getConnection();
-            String sql = "update turnos set nro_poliza=?,nro_titular=?,"
-                       + "cuit_compania=?, estado='Asignado' where ano_mes=? "
-                       + "and legajo_mecanico=? and dia=? and hora=?";
+            String sql = "update turnos "
+                       + "set nro_poliza = ?, "
+                       +     "nro_titular = ?, "
+                       +     "cuit_compania = ?, "
+                       +     "estado = ?"
+                       + "where ano_mes = ? "
+                       + "and legajo_mecanico = ? "
+                       + "and dia = ? "
+                       + "and hora = ?";
             sentencia = con.prepareStatement(sql);
             sentencia.setInt(1, nroPoliza);
             sentencia.setInt(2, nroTitular);
             sentencia.setString(3, cuitCompania);
-            sentencia.setString(4, anoMes);
-            sentencia.setInt(5, legajoMecanico);
-            sentencia.setString(6, dia);
-            sentencia.setString(7, hora);
+            sentencia.setString(4, "Asignado");
+            sentencia.setString(5, anoMes);
+            sentencia.setInt(6, legajoMecanico);
+            sentencia.setString(7, dia);
+            sentencia.setString(8, hora);
 
             int resultado = sentencia.executeUpdate();
 
