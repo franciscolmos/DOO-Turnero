@@ -128,7 +128,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Ubuntu" size="18" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Cuit Compania"/>
+        <Property name="text" type="java.lang.String" value="Compania"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
@@ -136,7 +136,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Ubuntu" size="18" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Nro Titular"/>
+        <Property name="text" type="java.lang.String" value="Titular"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JComboBox" name="ComboBoxCompanias">

@@ -137,6 +137,7 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         VISTA = new vistaHome();
         VISTA.iniciaVista();
         VISTA.setControlador(this, this);
+        this.actualizarTabla(((vistaHome) this.VISTA));
     }
     
     private void volverNuevoTurno(){
@@ -145,6 +146,8 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         VISTA = new FrmNuevoTurno();
         VISTA.iniciaVista();
         VISTA.setControlador(this, this);
+        
+//        VISTA = (FrmNuevoTurno) this.VISTA;
         
         this.iniciarFrmNuevoTurno();
     }
@@ -159,7 +162,7 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
     }
     
     private void irFrmNuevoTitular(){
-        VISTA.cerrarVista();
+//      VISTA.cerrarVista();
         VISTA = new FrmNuevoTItular();
         VISTA.iniciaVista();
         VISTA.setControlador(this, this);
@@ -427,6 +430,14 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
             if(ie.getSource().equals(((FrmNuevoTurno) VISTA).getComboBoxVehiculo())) {
                 if(ie.getItem().toString() == "-") {
                     ((FrmNuevoTurno) VISTA).getBotonGuardar().setEnabled(false);
+                }else{
+                    if(((FrmNuevoTurno) VISTA).getComboBoxEspecialidad().getSelectedItem().toString() != "-" &&
+                      ((FrmNuevoTurno) VISTA).getComboBoxMecanicos().getSelectedItem().toString() != "-" &&
+                      ((FrmNuevoTurno) VISTA).getComboBoxTitular().getSelectedItem().toString() != "-" &&
+                      ((FrmNuevoTurno) VISTA).getComboBoxFecha().getSelectedItem().toString() != "-" &&
+                      ((FrmNuevoTurno) VISTA).getComboBoxHora().getSelectedItem().toString() != "-"){
+                        ((FrmNuevoTurno) VISTA).getBotonGuardar().setEnabled(true);
+                    }
                 }
             }
             
@@ -440,7 +451,14 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                 }
                 else {
                     ((FrmNuevoTurno) VISTA).getComboBoxHora().setEnabled(true);
-                    cargarHorarios(((FrmNuevoTurno) this.VISTA));                    
+                    cargarHorarios(((FrmNuevoTurno) this.VISTA));
+                    if(((FrmNuevoTurno) VISTA).getComboBoxEspecialidad().getSelectedItem().toString() != "-" &&
+                      ((FrmNuevoTurno) VISTA).getComboBoxMecanicos().getSelectedItem().toString() != "-" &&
+                      ((FrmNuevoTurno) VISTA).getComboBoxTitular().getSelectedItem().toString() != "-" &&
+                      ((FrmNuevoTurno) VISTA).getComboBoxVehiculo().getSelectedItem().toString() != "-" &&
+                      ((FrmNuevoTurno) VISTA).getComboBoxHora().getSelectedItem().toString() != "-"){
+                        ((FrmNuevoTurno) VISTA).getBotonGuardar().setEnabled(true);
+                    }
                 }
             }
             
@@ -450,7 +468,13 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                     ((FrmNuevoTurno) VISTA).getBotonGuardar().setEnabled(false);
                 }
                 else {
-                    ((FrmNuevoTurno) VISTA).getBotonGuardar().setEnabled(true);
+                    if(((FrmNuevoTurno) VISTA).getComboBoxEspecialidad().getSelectedItem().toString() != "-" &&
+                      ((FrmNuevoTurno) VISTA).getComboBoxMecanicos().getSelectedItem().toString() != "-" &&
+                      ((FrmNuevoTurno) VISTA).getComboBoxTitular().getSelectedItem().toString() != "-" &&
+                      ((FrmNuevoTurno) VISTA).getComboBoxVehiculo().getSelectedItem().toString() != "-" &&
+                      ((FrmNuevoTurno) VISTA).getComboBoxFecha().getSelectedItem().toString() != "-"){
+                        ((FrmNuevoTurno) VISTA).getBotonGuardar().setEnabled(true);
+                    }
                 }
             }
         }

@@ -91,10 +91,10 @@ public class FrmNuevoVehiculo extends javax.swing.JFrame implements InterfazTurn
         jLabel4.setText("Modelo");
 
         jLabel5.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
-        jLabel5.setText("Cuit Compania");
+        jLabel5.setText("Compania");
 
         jLabel6.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
-        jLabel6.setText("Nro Titular");
+        jLabel6.setText("Titular");
 
         ComboBoxCompanias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
