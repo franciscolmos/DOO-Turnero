@@ -33,31 +33,19 @@ public class VehiculoDAOImplSqlTest {
      */
     @Test
     public void testConsultarVehiculo() {
-        System.out.println("consultarVehiculo");
         int nroPoliza = 1;
         VehiculoDAOImplSql instance = new VehiculoDAOImplSql();
-        VehiculoDTO expResult = new VehiculoDTO(1, "Modelo1", "Marca1", "11111111");
+        VehiculoDTO expResult = new VehiculoDTO(1, "Modelo1", "Marca1", "1", "1-111-1");
+        System.out.println("consultarVehiculo Nro Polia:" + expResult.getNroPoliza() + " | "
+                                           + "Marca: " + expResult.getMarca() + " | " 
+                                           + "Modelo: " + expResult.getModelo() + " | "
+                                           + "Nro Titular: " + expResult.getNroTitular() + " | "
+                                           + "Cuit Compania: " + expResult.getCuitCompania());
         VehiculoDTO result = instance.consultarVehiculo(nroPoliza);
         assertEquals(expResult.getNroPoliza(), result.getNroPoliza());
         assertEquals(expResult.getMarca(), result.getMarca());
         assertEquals(expResult.getModelo(), result.getModelo());
         assertEquals(expResult.getNroTitular(), result.getNroTitular());
-    }
-
-    /**
-     * Test of insertarVehiculo method, of class VehiculoDAOImplSql.
-     */
-    @Test
-    public void testInsertarVehiculo() {
-        System.out.println("insertarVehiculo");
-        int nroPoliza = 99;
-        String modelo = "Modelo99";
-        String marca = "Marca99";
-        String nroDNITitular = "99999999";
-        VehiculoDAOImplSql instance = new VehiculoDAOImplSql();
-        boolean expResult = true;
-        boolean result = instance.insertarVehiculo(nroPoliza, modelo, marca, nroDNITitular);
-        assertEquals(expResult, result);
-    }
-    
+        assertEquals(expResult.getCuitCompania(), result.getCuitCompania());
+    }  
 }

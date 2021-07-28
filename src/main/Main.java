@@ -11,6 +11,7 @@ import modelo.Modelo;
 import modelo.Turno;
 import vista.InterfazTurno;
 import vista.vistaHome;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -22,32 +23,18 @@ public class Main {
      */
     
     public static void main(String[] args) {
-        /*
-        ComponenteNegocio cliente = new ComponenteNegocio();
+        // Necesario para levantar el main en un hilo que luego nos permitira utilizar el robot y la window para hacer los test funcionales
+        SwingUtilities.invokeLater(new Runnable(){
+            public void run(){
+                //modelo:
+                Modelo modelo = new Turno();
 
-        cliente.usar();
-        
-        cliente = null;
+                //vista:
+                InterfazTurno vista = new vistaHome();
 
-        System.gc();
-        */
-        
-        
-    //modelo:
-    Modelo modelo = new Turno();
-    
-    //vista:
-    InterfazTurno vista = new vistaHome();
-    
-    //controlador:
-    Controlador control = new EncRecepcionControlador(vista, modelo);
-    
-    //configuramos la vista para que pueda enviar las acciones del usuario como eventos al controlador
-    //vista.setControlador(control, control);
-    
-    //y arrancamos la interfaz:
-//    vista.iniciaVista();
-
+                //controlador:
+                Controlador control = new EncRecepcionControlador(vista, modelo);
+            }
+        });
     }
-
 }
