@@ -20,6 +20,7 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 import modelo.Agenda;
@@ -35,6 +36,7 @@ import vista.vistaHome;
 import vista.FrmNuevoTurno;
 import vista.FrmNuevoTItular;
 import vista.FrmNuevoVehiculo;
+import vista.vistaConfirmarTurno;
 
 /**
  *
@@ -102,17 +104,25 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                     break;
                     
                 case CONFIRMAR_TURNO:
-                    System.out.println("CONFIRMAR TURNO");;
+                    System.out.println("CONFIRMAR TURNO");
+                    irVistaConfirmarTurno();
                     break;
                     
                 case CONSULTAR_FICHA:
-                    System.out.println("CONSULTAR FICHA");;
+                    System.out.println("CONSULTAR FICHA");
+                    irVistaConsultarFicha();
                     break;
                     
                 case REGISTRAR_FICHA:
-                    System.out.println("REGISTRAR FICHA");;
+                    System.out.println("REGISTRAR FICHA");
+                    irFrmRegistrarFicha();
                     break;
-                    
+                case NO_ASIGNADO:
+                   showMessageDialog(null, "Aún no hay una ficha disponible!");
+                    break;
+                 case CANCELADO:
+                   showMessageDialog(null, "No hay ficha para este turno cancelado!");
+                    break;
                 default:
                     System.out.println("DEFAULT");
                     break;
@@ -147,7 +157,9 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                                             tur.getEstado(),
                                             tur.getFichaMecanica()});
         }
-
+        
+        ButtonColumn buttonColumn = new ButtonColumn(tabla, 8, this);
+        
     }
     
     // METODOS DE DESPLAZAMIENTO ENTRE VISTAS. VOLVER, IR A UNA VISTA. PUEDEN LLAMAR O NO A LOS METODOS DE INICIAR VISTAS CON CARGA DE DATOS A COMBOBOX
@@ -499,4 +511,22 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                 }
             }
         }
+
+    // Metodos para los botones
+    
+    private void irVistaConfirmarTurno() {
+        VISTA.cerrarVista();
+        VISTA = new vistaConfirmarTurno();
+        VISTA.iniciaVista();
+        VISTA.setControlador(this, this);
     }
+
+    private void irVistaConsultarFicha() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void irFrmRegistrarFicha() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    }
+
