@@ -51,7 +51,8 @@ public class TurnoDAOImplSql implements TurnoDAO {
             int nroTitular;
             String cuitCompania;
             String estado;
-            
+            int nroFicha;
+
             while (rs.next()) {
                 anoMes = rs.getString("ano_mes");
                 legajoMecanico = rs.getInt("legajo_mecanico");
@@ -61,9 +62,10 @@ public class TurnoDAOImplSql implements TurnoDAO {
                 nroTitular = rs.getInt("nro_titular");
                 cuitCompania = rs.getString("cuit_compania");
                 estado = rs.getString("estado");
+                nroFicha = rs.getInt("ficha_mecanica");
                 turno = new TurnoDTO(nroTurno, anoMes, legajoMecanico, 
                                      nroPoliza, dia, hora, nroTitular, 
-                                     cuitCompania, estado);
+                                     cuitCompania, estado, nroFicha);
             }
 
         } catch (SQLException e) {
@@ -102,6 +104,7 @@ public class TurnoDAOImplSql implements TurnoDAO {
             int nroTitular;
             String cuitCompania;
             String estado;
+            int nroFicha;
             
             while (rs.next()) {
                 nroTurno = rs.getInt("nro_turno");
@@ -113,9 +116,10 @@ public class TurnoDAOImplSql implements TurnoDAO {
                 nroTitular = rs.getInt("nro_titular");
                 cuitCompania = rs.getString("cuit_compania");
                 estado = rs.getString("estado");
+                nroFicha = rs.getInt("ficha_mecanica");
                 turno = new TurnoDTO(nroTurno, anoMes, legajoMecanico, 
                                      nroPoliza, dia, hora, nroTitular, 
-                                     cuitCompania, estado);
+                                     cuitCompania, estado, nroFicha);
             }
 
         } catch (SQLException e) {
@@ -155,6 +159,7 @@ public class TurnoDAOImplSql implements TurnoDAO {
             String cuitCompania;
             String estado;
             TurnoDTO turno;
+            int nroFicha;
 
             while (rs.next()) {
                 nroTurno = rs.getInt("nro_turno");
@@ -166,9 +171,10 @@ public class TurnoDAOImplSql implements TurnoDAO {
                 nroTitular = rs.getInt("nro_titular");
                 cuitCompania = rs.getString("cuit_compania");
                 estado = rs.getString("estado");
+                nroFicha = rs.getInt("ficha_mecanica");
                 turno = new TurnoDTO(nroTurno, anoMes, legajoMecanico, 
                                      nroPoliza, dia, hora, nroTitular, 
-                                     cuitCompania, estado);
+                                     cuitCompania, estado, nroFicha);
                 listaTurnos.add(turno);
             }
 
@@ -284,6 +290,54 @@ public class TurnoDAOImplSql implements TurnoDAO {
         ResultSet rs = null;
         List<TurnoDTO> listaTurnos = new ArrayList<>();
 
+        if(Estado == "Confirmado"){
+        
+            try {
+            con = conexion.getConnection();
+            String sql = "SELECT nro_turno, ano_mes, turnos.legajo_mecanico, nro_poliza, dia, hora, nro_titular, cuit_compania, turnos.estado, ficha_mecanica FROM turnos JOIN [fichas mecanicas] ON [fichas mecanicas].legajo_mecanico = turnos.legajo_mecanico where turnos.estado='Confirmado' AND [fichas mecanicas].estado = 'Pendiente'";
+            sentencia = con.prepareStatement(sql);
+            
+
+            rs = sentencia.executeQuery();
+
+            int nroTurno;
+            String anoMes;
+            int legajoMecanico;
+            int nroPoliza;
+            String dia;
+            String hora;
+            int nroTitular;
+            String cuitCompania;
+            TurnoDTO turno;
+            int nroFicha;
+
+            while (rs.next()) {
+                nroTurno = rs.getInt("nro_turno");
+                anoMes = rs.getString("ano_mes");
+                legajoMecanico = rs.getInt("legajo_mecanico");
+                nroPoliza = rs.getInt("nro_poliza");
+                dia = rs.getString("dia");
+                hora = rs.getString("hora");
+                nroTitular = rs.getInt("nro_titular");
+                cuitCompania = rs.getString("cuit_compania");
+                nroFicha = rs.getInt("ficha_mecanica");
+                turno = new TurnoDTO(nroTurno, anoMes, legajoMecanico, nroPoliza,
+                                     dia, hora, nroTitular, cuitCompania, Estado, nroFicha);
+                listaTurnos.add(turno);
+            }
+
+        } catch (SQLException e) {
+            System.err.println(e);
+        } finally {
+            try {
+                rs.close();
+                sentencia.close();
+            } catch (SQLException ex) {
+                System.err.println(ex);
+            }
+        }
+            
+        }else{
         try {
             con = conexion.getConnection();
             String sql = "select * from turnos where estado = ?";
@@ -301,6 +355,7 @@ public class TurnoDAOImplSql implements TurnoDAO {
             int nroTitular;
             String cuitCompania;
             TurnoDTO turno;
+            int nroFicha;
 
             while (rs.next()) {
                 nroTurno = rs.getInt("nro_turno");
@@ -311,8 +366,9 @@ public class TurnoDAOImplSql implements TurnoDAO {
                 hora = rs.getString("hora");
                 nroTitular = rs.getInt("nro_titular");
                 cuitCompania = rs.getString("cuit_compania");
+                nroFicha = rs.getInt("ficha_mecanica");
                 turno = new TurnoDTO(nroTurno, anoMes, legajoMecanico, nroPoliza,
-                                     dia, hora, nroTitular, cuitCompania, Estado);
+                                     dia, hora, nroTitular, cuitCompania, Estado, nroFicha);
                 listaTurnos.add(turno);
             }
 
@@ -325,6 +381,7 @@ public class TurnoDAOImplSql implements TurnoDAO {
             } catch (SQLException ex) {
                 System.err.println(ex);
             }
+        }
         }
         return listaTurnos;
     }

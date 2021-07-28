@@ -129,7 +129,8 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                                             tur.getNroPoliza(),
                                             tur.getNroTitular(),
                                             tur.getCuitCompania(),
-                                            tur.getEstado()});
+                                            tur.getEstado(),
+                                            tur.getNroFicha()});
         }
     }
     
@@ -144,13 +145,14 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         List<TurnoDTO> listadoTurnos = ((Turno) this.MODELO).listarTurnosPorCriterio(Estado);
         for (TurnoDTO tur : listadoTurnos) {
             modeloTabla.addRow(new Object[]{tur.getNroTurno(),
-                                            tur.getDia(), 
+                                           tur.getDia(), 
                                             tur.getHora(),
                                             tur.getLegajoMecanico(),
                                             tur.getNroPoliza(),
                                             tur.getNroTitular(),
                                             tur.getCuitCompania(),
-                                            tur.getEstado()});
+                                            tur.getEstado(),
+                                            tur.getNroFicha()});
         }
     }
     
