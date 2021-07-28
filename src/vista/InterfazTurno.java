@@ -15,7 +15,8 @@ import java.awt.event.ItemListener;
 public interface InterfazTurno {
     
     public static enum Operacion {
-        CONSULTAR, TURNO, NUEVO_TURNO, VOLVER_HOME, TITULAR, VOLVER_NUEVO_TURNO, NUEVO_TITULAR, VEHICULO, NUEVO_VEHICULO;
+        CONSULTAR, TURNO, NUEVO_TURNO, VOLVER_HOME, TITULAR, VOLVER_NUEVO_TURNO, 
+        NUEVO_TITULAR, VEHICULO, NUEVO_VEHICULO, CONFIRMAR_TURNO, REGISTRAR_FICHA, CONSULTAR_FICHA;
     };
     
     void setControlador(Controlador c, ItemListener ci);

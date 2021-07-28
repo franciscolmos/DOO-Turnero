@@ -20,6 +20,8 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.table.TableColumn;
 import modelo.Agenda;
 import modelo.Compania;
 import modelo.Especialidad;
@@ -99,6 +101,18 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                     insertarVehiculo((FrmNuevoVehiculo) this.VISTA);
                     break;
                     
+                case CONFIRMAR_TURNO:
+                    System.out.println("CONFIRMAR TURNO");;
+                    break;
+                    
+                case CONSULTAR_FICHA:
+                    System.out.println("CONSULTAR FICHA");;
+                    break;
+                    
+                case REGISTRAR_FICHA:
+                    System.out.println("REGISTRAR FICHA");;
+                    break;
+                    
                 default:
                     System.out.println("DEFAULT");
                     break;
@@ -113,6 +127,11 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
     private void actualizarTabla(vistaHome vista) {
         VISTA.limpiaVista();
         
+        JTable tabla = vista.getTablaTurnos();
+        TableColumn columna = tabla.getColumnModel().getColumn(8);
+        columna.setCellEditor(new EditorFicha(tabla, this));
+        columna.setCellRenderer(new RenderFicha(true));
+        
         DefaultTableModel modeloTabla = (DefaultTableModel) vista.getModeloTblTurnos();
         modeloTabla.setRowCount(0);
         modeloTabla.fireTableDataChanged();
@@ -125,8 +144,10 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                                             tur.getNroPoliza(),
                                             tur.getNroTitular(),
                                             tur.getCuitCompania(),
-                                            tur.getEstado()});
+                                            tur.getEstado(),
+                                            tur.getFichaMecanica()});
         }
+
     }
     
     // METODOS DE DESPLAZAMIENTO ENTRE VISTAS. VOLVER, IR A UNA VISTA. PUEDEN LLAMAR O NO A LOS METODOS DE INICIAR VISTAS CON CARGA DE DATOS A COMBOBOX
