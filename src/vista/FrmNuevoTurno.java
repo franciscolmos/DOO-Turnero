@@ -21,6 +21,13 @@ public class FrmNuevoTurno extends javax.swing.JFrame implements InterfazTurno {
         initComponents();
         this.setTitle("NUEVO TURNO");
         this.BotonCancelar.setName("BotonCancelar");
+        this.ComboBoxEspecialidad.setName("ComboBoxEspecialidades");
+        this.ComboBoxMecanicos.setName("ComboBoxMecanicos");
+        this.ComboBoxTitular.setName("ComboBoxTitular");
+        this.ComboBoxVehiculo.setName("ComboBoxVehiculo");
+        this.ComboBoxFecha.setName("ComboBoxFecha");
+        this.ComboBoxHora.setName("ComboBoxHora");
+        this.BotonGuardar.setName("BotonGuardar");
     }
 
     public JButton getBotonGuardar() {

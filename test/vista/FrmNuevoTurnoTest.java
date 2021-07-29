@@ -24,12 +24,12 @@ import org.junit.Test;
  *
  * @author francisco
  */
-public class vistaHomeTest {
+public class FrmNuevoTurnoTest {
     
     private FrameFixture window;
     Robot robot;
     
-    public vistaHomeTest() {
+    public FrmNuevoTurnoTest() {
     }
     
     @BeforeClass
@@ -48,7 +48,7 @@ public class vistaHomeTest {
         // obtengo el robot basico que me proporciona la herramienta
         robot = BasicRobot.robotWithCurrentAwtHierarchy();
         application(Main.class).start();
-        GenericTypeMatcher<JFrame> matcher = new GenericTypeMatcher<JFrame>(JFrame.class){
+        GenericTypeMatcher<JFrame> matcherVistaHome = new GenericTypeMatcher<JFrame>(JFrame.class){
             @Override
             // buscamos la ventana que queremos levantar con el robot
             protected boolean isMatching(JFrame frame){
@@ -56,27 +56,9 @@ public class vistaHomeTest {
                 return frame.getTitle() != null && frame.getTitle().startsWith("VISTA HOME") && frame.isShowing();
             }
         };
-        window = WindowFinder.findFrame(matcher).using(robot);
-    }
-    
-    @After
-    public void tearDown() {
-        window.cleanUp();
-    }
-
-    /**
-     * Test of getModeloTblTurnos method, of class vistaHome.
-     */
-
-    /**
-     * Test of main method, of class vistaHome.
-     */
-    @Test
-    public void testBotonNuevoTurno() {
-        // Se hace click en Nuuevo Turno
+        window = WindowFinder.findFrame(matcherVistaHome).using(robot);
         window.button("BotonNuevoTurno").click();
-        // Obtenemos la nueva ventana con titulo "NUEVO TURNO"
-        GenericTypeMatcher<JFrame> matcher = new GenericTypeMatcher<JFrame>(JFrame.class){
+        GenericTypeMatcher<JFrame> matcherVistaNuevoTurno = new GenericTypeMatcher<JFrame>(JFrame.class){
             @Override
             // buscamos la ventana que queremos levantar con el robot
             protected boolean isMatching(JFrame frame){
@@ -84,8 +66,24 @@ public class vistaHomeTest {
                 return frame.getTitle() != null && frame.getTitle().startsWith("NUEVO TURNO") && frame.isShowing();
             }
         };
-        window = WindowFinder.findFrame(matcher).using(robot);
-        // se hace click en cancelar en esta ventana ya que no se quiere agrgar un nuevo turno sino mostrar el funcionamiento de la "VISTA HOME"
-        window.button("BotonCancelar").click();
+        window = WindowFinder.findFrame(matcherVistaNuevoTurno).using(robot);
+    }
+    
+    @After
+    public void tearDown() {
+    }
+
+    /**
+     * Test of getBotonGuardar method, of class FrmNuevoTurno.
+     */
+    @Test
+    public void testNuevoTurno() {
+        window.comboBox("ComboBoxEspecialidades").click().selectItem(4);
+        window.comboBox("ComboBoxMecanicos").click().selectItem(1);
+        window.comboBox("ComboBoxTitular").click().selectItem(1);
+        window.comboBox("ComboBoxVehiculo").click().selectItem(1);
+        window.comboBox("ComboBoxFecha").click().selectItem(1);
+        window.comboBox("ComboBoxHora").click().selectItem(1);
+        window.button("BotonGuardar").click();
     }
 }
