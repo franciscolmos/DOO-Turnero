@@ -36,6 +36,7 @@ public class ButtonColumn extends AbstractCellEditor
         protected static final String CONSULTAR = "CONSULTAR_FICHA";
         protected static final String ERROR = "NO_ASIGNADO";
         protected static final String CANCELADO = "CANCELADO";
+        protected static final String FINALIZADO = "FINALIZADO";
 
 	private JButton renderButton;
 	private JButton editButton;
@@ -123,7 +124,7 @@ public class ButtonColumn extends AbstractCellEditor
             editButton.setActionCommand(REGISTRAR);
         }
         if( Objects.equals("Finalizado", table.getValueAt(row, 7).toString()) ) {
-            editButton.setActionCommand(CONSULTAR);
+            editButton.setActionCommand(FINALIZADO);
         }
         if( Objects.equals("No Asignado", table.getValueAt(row, 7).toString()) ) {
             editButton.setActionCommand(ERROR);

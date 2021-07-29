@@ -7,6 +7,7 @@ package dao;
 
 import dto.MecanicoDTO;
 import dto.TurnoDTO;
+import static java.lang.Integer.parseInt;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -347,5 +348,69 @@ public class TurnoDAOImplSql implements TurnoDAO {
     @Override
     public boolean cancelarTurno(String nro) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean registrarFichaMecanica(String observaciones, String fichaMecanica) {
+        Connection con = null;
+        PreparedStatement sentencia = null;
+        int ficha = parseInt(fichaMecanica);
+        try{
+            con = conexion.getConnection();
+            String sql =  "UPDATE turnos SET estado='Finalizado' WHERE ficha_mecanica=?";
+            sentencia = con.prepareStatement(sql);
+            sentencia.setInt(1, ficha);
+            sentencia.executeUpdate();
+            sql =  "UPDATE 'fichas mecanicas' SET observaciones=?, estado='Confirmado' WHERE nro_ficha=?";
+            sentencia = con.prepareStatement(sql);
+            sentencia.setString(1, observaciones);
+            sentencia.setInt(2, ficha);
+            
+            System.out.print(observaciones + "-" + ficha);
+            int resultado = sentencia.executeUpdate();
+            return (resultado > 0);
+        }
+        catch(SQLException e){
+        System.err.println(e);
+                        return false;
+        } finally {
+            try {
+                sentencia.close();
+            } catch (SQLException ex) {
+                System.err.println(ex);
+            }
+        }
+       
+    }
+
+    @Override
+    public String getObservaciones(String nro_ficha) {
+        
+        Connection con = null;
+        PreparedStatement sentencia = null;
+        int ficha = parseInt(nro_ficha);
+        ResultSet rs = null;
+
+        try{
+             con = conexion.getConnection();
+            String sql = "select * from 'fichas mecanicas' where nro_ficha = ?";
+            sentencia = con.prepareStatement(sql);
+            sentencia.setInt(1, ficha);
+
+            rs = sentencia.executeQuery();
+            
+            String observaciones = rs.getString("observaciones");
+            return observaciones;
+        }
+        catch(SQLException e){
+         System.err.println(e);
+         return "Ups! No existe ese numero de ficha.";
+        } finally {
+            try {
+                sentencia.close();
+            } catch (SQLException ex) {
+                System.err.println(ex);
+            }
+        }
     }
 }

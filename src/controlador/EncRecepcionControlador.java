@@ -31,6 +31,7 @@ import modelo.Modelo;
 import modelo.Titular;
 import modelo.Turno;
 import modelo.Vehiculo;
+import vista.FrmFichaMecanica;
 import vista.InterfazTurno;
 import vista.vistaHome;
 import vista.FrmNuevoTurno;
@@ -125,7 +126,12 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                  case CANCELADO:
                    showMessageDialog(null, "No hay ficha para este turno cancelado!");
                     break;
-                    
+                 case CONFIRMAR_FICHA:
+                     confirmarFicha();
+                     break;
+                 case FINALIZADO:
+                     irFrmRegistrarFichaConfirmada();
+                     break;
                 default:
                     System.out.println("DEFAULT");
                     break;
@@ -541,7 +547,7 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         VISTA.cerrarVista();
         VISTA = new vistaConfirmarTurno();
         VISTA.iniciaVista();
-        VISTA.setControlador(this, this);        
+        VISTA.setControlador(this, this); 
         
         iniciarVistaConfirmarTurno( nroTurno, dia, hora, mecanico, vehiculo, titular );
     }
@@ -551,7 +557,59 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
     }
 
     private void irFrmRegistrarFicha() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int row = ((vistaHome) VISTA).getColumnaBoton().getCurrentRow();
+        
+        JTable tabla = ((vistaHome) VISTA).getTablaTurnos();
+        String mecanico = tabla.getValueAt(row, 3).toString();
+        String nroFicha = tabla.getValueAt(row, 8).toString();
+        
+        VISTA.cerrarVista();
+        VISTA = new FrmFichaMecanica();
+        VISTA.iniciaVista();
+        VISTA.setControlador(this, this); 
+        
+        iniciarVistaFrmRegistrarFicha(mecanico, nroFicha,"", false);
     }
+
+    private void iniciarVistaFrmRegistrarFicha(String mecanico, String nroFicha,String obs, Boolean confirmada) {
+        if(!confirmada){
+        ((FrmFichaMecanica) VISTA).getFiledNroFicha().setText(nroFicha);
+        ((FrmFichaMecanica) VISTA).getTextLegajo().setText(mecanico);
+        }else{
+        ((FrmFichaMecanica) VISTA).getFiledNroFicha().setText(nroFicha);
+        ((FrmFichaMecanica) VISTA).getTextLegajo().setText(mecanico);
+        ((FrmFichaMecanica) VISTA).getAreaObservaciones().setText(obs);
+        ((FrmFichaMecanica) VISTA).getAreaObservaciones().setEnabled(false);
+        ((FrmFichaMecanica) VISTA).getBotonGuardar().setEnabled(false);
+        }
+        
     }
+
+    private void confirmarFicha() {
+        String nroFicha = ((FrmFichaMecanica) VISTA).getFiledNroFicha().getText().toString();
+        String legajo = ((FrmFichaMecanica) VISTA).getTextLegajo().getText().toString();
+        String observaciones = ((FrmFichaMecanica) VISTA).getAreaObservaciones().getText().toString();
+        //System.out.print("DATOS: " + nroFicha + " - " + legajo + "\n");
+        
+        ((Turno)MODELO).registrarFichaMecanica(observaciones, nroFicha);
+        
+        volverHome();
+    }
+
+    private void irFrmRegistrarFichaConfirmada() {
+        int row = ((vistaHome) VISTA).getColumnaBoton().getCurrentRow();
+        
+        JTable tabla = ((vistaHome) VISTA).getTablaTurnos();
+        String mecanico = tabla.getValueAt(row, 3).toString();
+        String nroFicha = tabla.getValueAt(row, 8).toString();
+        String obs = ((Turno)MODELO).getObservaciones(nroFicha);
+        VISTA.cerrarVista();
+        VISTA = new FrmFichaMecanica();
+        VISTA.iniciaVista();
+        VISTA.setControlador(this, this); 
+        
+        iniciarVistaFrmRegistrarFicha(mecanico, nroFicha, obs, true);
+    
+    }
+   }
 
