@@ -25,10 +25,11 @@ public class ButtonColumn extends AbstractCellEditor
 	implements TableCellRenderer, TableCellEditor, ActionListener, MouseListener
 {
 	private JTable table;
-	private Action action;
 	private int mnemonic;
 	private Border originalBorder;
 	private Border focusBorder;
+        
+        private int currentRow;
         
         protected static final String CONFIRMAR = "CONFIRMAR_TURNO";
         protected static final String REGISTRAR = "REGISTRAR_FICHA";
@@ -50,14 +51,13 @@ public class ButtonColumn extends AbstractCellEditor
 	 *  @param action the Action to be invoked when the button is invoked
 	 *  @param column the column to which the button renderer/editor is added
 	 */
-	public ButtonColumn(JTable table, int column, Controlador controlador)
+	public ButtonColumn(JTable table, int column)
 	{
 		this.table = table;
 
 		renderButton = new JButton();
 		editButton = new JButton();
 		editButton.setFocusPainted( false );
-		editButton.addActionListener( controlador );
 		originalBorder = editButton.getBorder();
 		setFocusBorder( new LineBorder(Color.BLUE) );
 
@@ -66,7 +66,14 @@ public class ButtonColumn extends AbstractCellEditor
 		columnModel.getColumn(column).setCellEditor( this );
 		table.addMouseListener( this );
 	}
+        
+        public void setControlador( Controlador c ) {
+            editButton.addActionListener(c);
+        }
 
+        public int getCurrentRow() {
+            return currentRow;
+        }
 
 	/**
 	 *  Get foreground color of the button when the cell has focus
@@ -105,7 +112,7 @@ public class ButtonColumn extends AbstractCellEditor
 		renderButton.setMnemonic(mnemonic);
 		editButton.setMnemonic(mnemonic);
 	}
-
+        
 	@Override
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean bln, int row, int column) {
             
@@ -124,6 +131,9 @@ public class ButtonColumn extends AbstractCellEditor
          if( Objects.equals("Cancelado", table.getValueAt(row, 7).toString()) ) {
             editButton.setActionCommand(CANCELADO);
         }
+         
+        currentRow = row;
+         
         return editButton;
     }
 

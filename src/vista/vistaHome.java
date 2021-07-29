@@ -5,7 +5,9 @@
  */
 package vista;
 
+import controlador.ButtonColumn;
 import controlador.Controlador;
+import controlador.EncAdministracionControlador;
 import java.awt.event.ItemListener;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -17,6 +19,17 @@ import javax.swing.table.DefaultTableModel;
 public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
 
     private final DefaultTableModel modeloTblTurnos;
+    
+    private ButtonColumn columnaBoton;
+    
+    public ButtonColumn getColumnaBoton() {
+        return columnaBoton;
+    }
+
+    public void setColumnaBoton(ButtonColumn columnaBoton, Controlador c) {
+        this.columnaBoton = columnaBoton;
+        this.columnaBoton.setControlador(c);
+    }
     
     public DefaultTableModel getModeloTblTurnos() {
         return modeloTblTurnos;
@@ -165,7 +178,7 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
     private javax.swing.JLabel TituloLabel;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
-
+    
     @Override
     public void setControlador(Controlador c, ItemListener ci) {
         this.ConsultarButton.addActionListener(c);
