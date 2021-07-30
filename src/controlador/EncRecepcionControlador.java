@@ -96,6 +96,10 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                     insertarTitular(((FrmNuevoTItular) this.VISTA));
                     break;
   
+                case FILTRAR_TABLA:
+                    filtrarTabla(((vistaHome) this.VISTA));
+                    break;
+                    
                 case VEHICULO:
                     irFrmNuevoVehiculo();
                     break;
@@ -171,7 +175,30 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                                             tur.getNroTitular(),
                                             tur.getCuitCompania(),
                                             tur.getEstado(),
-                                            tur.getFichaMecanica()});
+                                            tur.getNroFicha()});
+        }
+    }
+    
+    // METODO ENCARGADO DE ACTUALIZAR LA TABLA DE LA VISTA HOME, Y TRAER LOS TURNOS SEGUN FILTRADO
+
+    private void actualizarTablaFiltrado(vistaHome vista, String Estado) {
+        VISTA.limpiaVista();
+        
+        DefaultTableModel modeloTabla = (DefaultTableModel) vista.getModeloTblTurnos();
+        modeloTabla.setRowCount(0);
+        modeloTabla.fireTableDataChanged();
+        List<TurnoDTO> listadoTurnos = ((Turno) this.MODELO).listarTurnosPorCriterio(Estado);
+        for (TurnoDTO tur : listadoTurnos) {
+            modeloTabla.addRow(new Object[]{tur.getNroTurno(),
+                                            tur.getAnoMes(),
+                                            tur.getDia(), 
+                                            tur.getHora(),
+                                            tur.getLegajoMecanico(),
+                                            tur.getNroPoliza(),
+                                            tur.getNroTitular(),
+                                            tur.getCuitCompania(),
+                                            tur.getEstado(),
+                                            tur.getNroFicha()});
         }
         
         vista.setColumnaBoton(new ButtonColumn(vista.getTablaTurnos(), 9), this);
@@ -554,6 +581,18 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         VISTA.setControlador(this, this); 
         
         iniciarVistaConfirmarTurno( nroTurno, anoMes, dia, hora, mecanico, vehiculo, titular );
+    }
+
+    private void filtrarTabla(vistaHome vistaHome) {
+        String filtro = vistaHome.getComboFiltro().getSelectedItem().toString();
+        
+        if(filtro == "Todos"){
+            actualizarTabla(vistaHome);
+        }else{
+            System.out.println("Filtrar por: " + filtro);
+            actualizarTablaFiltrado(vistaHome, filtro);
+        }
+  
     }
 
     private void irVistaConsultarFicha() {
