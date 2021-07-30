@@ -5,9 +5,12 @@
  */
 package vista;
 
+import controlador.ButtonColumn;
 import controlador.Controlador;
 import java.awt.event.ItemListener;
 import javax.swing.event.DocumentListener;
+import javax.swing.JComboBox;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -16,11 +19,26 @@ import javax.swing.table.DefaultTableModel;
  */
 public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
 
+    private final DefaultTableModel modeloTblTurnos;
+    
+    private ButtonColumn columnaBoton;
+    
+    public ButtonColumn getColumnaBoton() {
+        return columnaBoton;
+    }
+
+    public void setColumnaBoton(ButtonColumn columnaBoton, Controlador c) {
+        this.columnaBoton = columnaBoton;
+        this.columnaBoton.setControlador(c);
+    }
+    
     public DefaultTableModel getModeloTblTurnos() {
         return modeloTblTurnos;
     }
-
-    private final DefaultTableModel modeloTblTurnos;
+    
+    public JTable getTablaTurnos() {
+        return TablaTurnos;
+    }
     
     /**
      * Creates new form vistaHome
@@ -43,9 +61,9 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
 
         TituloLabel = new javax.swing.JLabel();
         NuevoTurnoBtn = new javax.swing.JButton();
-        ConsultarButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaTurnos = new javax.swing.JTable();
+        ComboFiltro = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,19 +78,16 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
             }
         });
 
-        ConsultarButton.setText("Consultar Turno");
-        ConsultarButton.setActionCommand("CONSULTAR");
-
         TablaTurnos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nro", "Dia", "Hora", "Mecanico", "Vehiculo", "Titular", "Compania", "Estado", "FichaMecanica"
+                "Nro", "Ano_Mes", "Dia", "Hora", "Mecanico", "Vehiculo", "Titular", "Compania", "Estado", "FichaMecanica"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -82,6 +97,14 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
         TablaTurnos.setToolTipText("");
         jScrollPane1.setViewportView(TablaTurnos);
 
+        ComboFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Asignado", "No Asignado", "Confirmado", "Finalizado", "Todos" }));
+        ComboFiltro.setActionCommand("FILTRAR_TABLA");
+        ComboFiltro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComboFiltroActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -89,11 +112,11 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(NuevoTurnoBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(ConsultarButton)))
+                        .addComponent(ComboFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(221, 221, 221)
@@ -107,8 +130,8 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
                 .addComponent(TituloLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ConsultarButton)
-                    .addComponent(NuevoTurnoBtn))
+                    .addComponent(NuevoTurnoBtn)
+                    .addComponent(ComboFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
                 .addContainerGap())
@@ -120,6 +143,14 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
     private void NuevoTurnoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NuevoTurnoBtnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_NuevoTurnoBtnActionPerformed
+
+    private void ComboFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboFiltroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ComboFiltroActionPerformed
+
+    public JComboBox<String> getComboFiltro() {
+        return ComboFiltro;
+    }
 
     /**
      * @param args the command line arguments
@@ -157,7 +188,7 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ConsultarButton;
+    private javax.swing.JComboBox<String> ComboFiltro;
     private javax.swing.JButton NuevoTurnoBtn;
     private javax.swing.JTable TablaTurnos;
     private javax.swing.JLabel TituloLabel;
@@ -166,8 +197,8 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
 
     @Override
     public void setControlador(Controlador c, ItemListener ci, DocumentListener li) {
-        this.ConsultarButton.addActionListener(c);
         this.NuevoTurnoBtn.addActionListener(c);
+        this.ComboFiltro.addActionListener(c);
     }
 
     @Override

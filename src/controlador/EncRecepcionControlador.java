@@ -22,6 +22,9 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import static javax.swing.JOptionPane.showMessageDialog;
+import javax.swing.JTable;
+import javax.swing.table.TableColumn;
 import modelo.Agenda;
 import modelo.Compania;
 import modelo.Especialidad;
@@ -30,11 +33,13 @@ import modelo.Modelo;
 import modelo.Titular;
 import modelo.Turno;
 import modelo.Vehiculo;
+import vista.FrmFichaMecanica;
 import vista.InterfazTurno;
 import vista.vistaHome;
 import vista.FrmNuevoTurno;
 import vista.FrmNuevoTItular;
 import vista.FrmNuevoVehiculo;
+import vista.vistaConfirmarTurno;
 
 /**
  *
@@ -92,6 +97,10 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                     insertarTitular(((FrmNuevoTItular) this.VISTA));
                     break;
   
+                case FILTRAR_TABLA:
+                    filtrarTabla(((vistaHome) this.VISTA));
+                    break;
+                    
                 case VEHICULO:
                     irFrmNuevoVehiculo();
                     break;
@@ -100,6 +109,45 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                     insertarVehiculo((FrmNuevoVehiculo) this.VISTA);
                     break;
                     
+                case CONSULTAR_TURNO:
+                    System.out.println("CONSULTAR TURNO");
+                    irVistaConfirmarTurno();
+                    break;
+                    
+                case CONFIRMAR_TURNO:
+                    System.out.println("CONFIRMAR TURNO");
+                    break;
+                    
+                case CANCELAR_TURNO:
+                    System.out.println("CANCELAR TURNO");
+                    break;
+                    
+                case CONSULTAR_FICHA:
+                    System.out.println("CONSULTAR FICHA");
+                    irVistaConsultarFicha();
+                    break;
+                    
+                case REGISTRAR_FICHA:
+                    System.out.println("REGISTRAR FICHA");
+                    irFrmRegistrarFicha();
+                    break;
+                    
+                case NO_ASIGNADO:
+                   showMessageDialog(null, "Aún no hay una ficha disponible!");
+                    break;
+                    
+                case CANCELADO:
+                   showMessageDialog(null, "No hay ficha para este turno cancelado!");
+                   break;
+                    
+                case CONFIRMAR_FICHA:
+                    confirmarFicha();
+                    break;
+                     
+                case FINALIZADO:
+                    irFrmRegistrarFichaConfirmada();
+                    break;
+                     
                 default:
                     System.out.println("DEFAULT");
                     break;
@@ -120,14 +168,41 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         List<TurnoDTO> listadoTurnos = ((Turno) this.MODELO).listarTurno();
         for (TurnoDTO tur : listadoTurnos) {
             modeloTabla.addRow(new Object[]{tur.getNroTurno(),
+                                            tur.getAnoMes(),
                                             tur.getDia(), 
                                             tur.getHora(),
                                             tur.getLegajoMecanico(),
                                             tur.getNroPoliza(),
                                             tur.getNroTitular(),
                                             tur.getCuitCompania(),
-                                            tur.getEstado()});
+                                            tur.getEstado(),
+                                            tur.getNroFicha()});
         }
+    }
+    
+    // METODO ENCARGADO DE ACTUALIZAR LA TABLA DE LA VISTA HOME, Y TRAER LOS TURNOS SEGUN FILTRADO
+
+    private void actualizarTablaFiltrado(vistaHome vista, String Estado) {
+        VISTA.limpiaVista();
+        
+        DefaultTableModel modeloTabla = (DefaultTableModel) vista.getModeloTblTurnos();
+        modeloTabla.setRowCount(0);
+        modeloTabla.fireTableDataChanged();
+        List<TurnoDTO> listadoTurnos = ((Turno) this.MODELO).listarTurnosPorCriterio(Estado);
+        for (TurnoDTO tur : listadoTurnos) {
+            modeloTabla.addRow(new Object[]{tur.getNroTurno(),
+                                            tur.getAnoMes(),
+                                            tur.getDia(), 
+                                            tur.getHora(),
+                                            tur.getLegajoMecanico(),
+                                            tur.getNroPoliza(),
+                                            tur.getNroTitular(),
+                                            tur.getCuitCompania(),
+                                            tur.getEstado(),
+                                            tur.getNroFicha()});
+        }
+        
+        vista.setColumnaBoton(new ButtonColumn(vista.getTablaTurnos(), 9), this);
     }
     
     // METODOS DE DESPLAZAMIENTO ENTRE VISTAS. VOLVER, IR A UNA VISTA. PUEDEN LLAMAR O NO A LOS METODOS DE INICIAR VISTAS CON CARGA DE DATOS A COMBOBOX
@@ -147,8 +222,6 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         VISTA = new FrmNuevoTurno();
         VISTA.iniciaVista();
         VISTA.setControlador(this, this, this);
-        
-        VISTA = (FrmNuevoTurno) this.VISTA;
         
         this.iniciarFrmNuevoTurno();
     }
@@ -224,6 +297,15 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         for (TitularDTO titular : listadoTitulares) {
             modeloComboBoxTitulares.addItem("Nro Titular: " + titular.getNroTitular() + " - DNI: " + titular.getNroDNI()); 
         } 
+    }
+    
+    private void iniciarVistaConfirmarTurno( int nroTurno, String anoMes, String dia, String hora, String mecanico, String vehiculo, String titular ) {
+        ((vistaConfirmarTurno) VISTA).getTextEditNroTurno().setText(Integer.toString(nroTurno));
+        ((vistaConfirmarTurno) VISTA).getTextEditAnoMes().setText(anoMes);
+        ((vistaConfirmarTurno) VISTA).getTextEditTitular().setText(titular);
+        ((vistaConfirmarTurno) VISTA).getTextEditVehiculo().setText(vehiculo);
+        ((vistaConfirmarTurno) VISTA).getTextEditMecanico().setText(mecanico);
+        ((vistaConfirmarTurno) VISTA).getTextEditFechaHora().setText(dia + "-" + hora);
     }
     
     // METODOS DE OBTENCION DE DATOS DE DISTINTOS DTOS
@@ -508,5 +590,98 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
             System.out.println("Override");
         }
         
+    // Metodos para los botones
+    
+    private void irVistaConfirmarTurno() {
+        int row = ((vistaHome) VISTA).getColumnaBoton().getCurrentRow();
+        
+        JTable tabla = ((vistaHome) VISTA).getTablaTurnos();
+        int nroTurno = (int) tabla.getValueAt(row, 0);
+        String anoMes = tabla.getValueAt(row, 1).toString();
+        String dia = tabla.getValueAt(row, 2).toString();
+        String hora = tabla.getValueAt(row, 3).toString();
+        String mecanico = tabla.getValueAt(row, 4).toString();
+        String vehiculo = tabla.getValueAt(row, 5).toString();
+        String titular = tabla.getValueAt(row, 6).toString();
+        
+        VISTA.cerrarVista();
+        VISTA = new vistaConfirmarTurno();
+        VISTA.iniciaVista();
+        VISTA.setControlador(this, this, this); 
+        
+        iniciarVistaConfirmarTurno( nroTurno, anoMes, dia, hora, mecanico, vehiculo, titular );
+    }
+
+    private void filtrarTabla(vistaHome vistaHome) {
+        String filtro = vistaHome.getComboFiltro().getSelectedItem().toString();
+        
+        if(filtro == "Todos"){
+            actualizarTabla(vistaHome);
+        }else{
+            System.out.println("Filtrar por: " + filtro);
+            actualizarTablaFiltrado(vistaHome, filtro);
+        }
+  
+    }
+
+    private void irVistaConsultarFicha() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void irFrmRegistrarFicha() {
+        int row = ((vistaHome) VISTA).getColumnaBoton().getCurrentRow();
+        
+        JTable tabla = ((vistaHome) VISTA).getTablaTurnos();
+        String mecanico = tabla.getValueAt(row, 4).toString();
+        String nroFicha = tabla.getValueAt(row, 9).toString();
+        
+        VISTA.cerrarVista();
+        VISTA = new FrmFichaMecanica();
+        VISTA.iniciaVista();
+        VISTA.setControlador(this, this, this); 
+        
+        iniciarVistaFrmRegistrarFicha(mecanico, nroFicha,"", false);
+    }
+
+    private void iniciarVistaFrmRegistrarFicha(String mecanico, String nroFicha,String obs, Boolean confirmada) {
+        if(!confirmada){
+        ((FrmFichaMecanica) VISTA).getFiledNroFicha().setText(nroFicha);
+        ((FrmFichaMecanica) VISTA).getTextLegajo().setText(mecanico);
+        }else{
+        ((FrmFichaMecanica) VISTA).getFiledNroFicha().setText(nroFicha);
+        ((FrmFichaMecanica) VISTA).getTextLegajo().setText(mecanico);
+        ((FrmFichaMecanica) VISTA).getAreaObservaciones().setText(obs);
+        ((FrmFichaMecanica) VISTA).getAreaObservaciones().setEnabled(false);
+        ((FrmFichaMecanica) VISTA).getBotonGuardar().setEnabled(false);
+        }
         
     }
+
+    private void confirmarFicha() {
+        String nroFicha = ((FrmFichaMecanica) VISTA).getFiledNroFicha().getText().toString();
+        String legajo = ((FrmFichaMecanica) VISTA).getTextLegajo().getText().toString();
+        String observaciones = ((FrmFichaMecanica) VISTA).getAreaObservaciones().getText().toString();
+        //System.out.print("DATOS: " + nroFicha + " - " + legajo + "\n");
+        
+        ((Turno)MODELO).registrarFichaMecanica(observaciones, nroFicha);
+        
+        volverHome();
+    }
+
+    private void irFrmRegistrarFichaConfirmada() {
+        int row = ((vistaHome) VISTA).getColumnaBoton().getCurrentRow();
+        
+        JTable tabla = ((vistaHome) VISTA).getTablaTurnos();
+        String mecanico = tabla.getValueAt(row, 4).toString();
+        String nroFicha = tabla.getValueAt(row, 9).toString();
+        String obs = ((Turno)MODELO).getObservaciones(nroFicha);
+        VISTA.cerrarVista();
+        VISTA = new FrmFichaMecanica();
+        VISTA.iniciaVista();
+        VISTA.setControlador(this, this, this); 
+        
+        iniciarVistaFrmRegistrarFicha(mecanico, nroFicha, obs, true);
+    
+    }
+   }
+

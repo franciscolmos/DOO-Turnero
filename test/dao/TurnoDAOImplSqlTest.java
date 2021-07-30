@@ -39,7 +39,7 @@ public class TurnoDAOImplSqlTest {
         String dia = "5";
         String hora = "11:00 AM";
         TurnoDAOImplSql instance = new TurnoDAOImplSql();
-        TurnoDTO turnoExpResult = new TurnoDTO(5, "2021-07", 10, -1, dia, hora, -1, "", "No Asignado");
+        TurnoDTO turnoExpResult = new TurnoDTO(5, "2021-7", 10, -1, dia, hora, -1, "", "No Asignado", -1);
         TurnoDTO turnoObtenido = instance.consultarTurnoPorMecanicoDiaYHora(legajoMecanico, dia, hora);
         assertEquals(turnoExpResult.getNroTurno(), turnoObtenido.getNroTurno());
         assertEquals(turnoExpResult.getCuitCompania(), turnoObtenido.getCuitCompania());
