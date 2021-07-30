@@ -24,6 +24,7 @@ public class TurnoDTO {
     public TurnoDTO(int nroTurno, String anoMes, int legajoMecanico, int nroPoliza, 
                     String dia, String hora, int nroTitular, String cuitCompania,
                     String estado, int nroFicha) {
+
         this.anoMes = anoMes;
         this.nroTurno = nroTurno;
         this.dia = dia;
@@ -34,6 +35,7 @@ public class TurnoDTO {
         this.cuitCompania = cuitCompania;
         this.estado = estado;
         this.nroFicha = nroFicha;
+
     }
 
     public int getNroTurno() {
@@ -107,9 +109,13 @@ public class TurnoDTO {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    
-     public int getNroFicha() {
+
+    public int getNroFicha() {
         return nroFicha;
     }
+
+    public void setNroFicha(int nroFicha) {
+        this.nroFicha = nroFicha;
+    }    
 }
     

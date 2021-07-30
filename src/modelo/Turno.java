@@ -49,11 +49,19 @@ public class Turno extends Modelo {
         return turnoDao.insertarTurno(mecanicos);
     }
     
+    public boolean registrarFichaMecanica(String nro, String fichaMecanica) {
+        return turnoDao.registrarFichaMecanica(nro, fichaMecanica);
+    }
+    
     public boolean asignarTurno(int nroPoliza, int nroTitular, String cuitCompania, 
                                 String anoMes, int legajoMecanico, String dia, String hora) {
         return turnoDao.asignarTurno(nroPoliza, nroTitular, cuitCompania, anoMes, 
                                      legajoMecanico, dia, hora);
     }
+    
+    public String getObservaciones(String nro_ficha){
+    return turnoDao.getObservaciones(nro_ficha);
+    } 
     
     @Override
     protected void finalize() throws Throwable {
