@@ -83,11 +83,11 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
 
             },
             new String [] {
-                "Nro", "Dia", "Hora", "Mecanico", "Vehiculo", "Titular", "Compania", "Estado", "FichaMecanica"
+                "Nro", "Ano_Mes", "Dia", "Hora", "Mecanico", "Vehiculo", "Titular", "Compania", "Estado", "FichaMecanica"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
 
             public Class getColumnClass(int columnIndex) {

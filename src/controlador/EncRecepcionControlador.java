@@ -104,9 +104,17 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                     insertarVehiculo((FrmNuevoVehiculo) this.VISTA);
                     break;
                     
+                case CONSULTAR_TURNO:
+                    System.out.println("CONSULTAR TURNO");
+                    irVistaConfirmarTurno();
+                    break;
+                    
                 case CONFIRMAR_TURNO:
                     System.out.println("CONFIRMAR TURNO");
-                    irVistaConfirmarTurno();
+                    break;
+                    
+                case CANCELAR_TURNO:
+                    System.out.println("CANCELAR TURNO");
                     break;
                     
                 case CONSULTAR_FICHA:
@@ -123,15 +131,18 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                    showMessageDialog(null, "Aún no hay una ficha disponible!");
                     break;
                     
-                 case CANCELADO:
+                case CANCELADO:
                    showMessageDialog(null, "No hay ficha para este turno cancelado!");
+                   break;
+                    
+                case CONFIRMAR_FICHA:
+                    confirmarFicha();
                     break;
-                 case CONFIRMAR_FICHA:
-                     confirmarFicha();
-                     break;
-                 case FINALIZADO:
-                     irFrmRegistrarFichaConfirmada();
-                     break;
+                     
+                case FINALIZADO:
+                    irFrmRegistrarFichaConfirmada();
+                    break;
+                     
                 default:
                     System.out.println("DEFAULT");
                     break;
@@ -146,17 +157,13 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
     private void actualizarTabla(vistaHome vista) {
         VISTA.limpiaVista();
         
-//        JTable tabla = vista.getTablaTurnos();
-//        TableColumn columna = tabla.getColumnModel().getColumn(8);
-//        columna.setCellEditor(new EditorFicha(tabla, this));
-//        columna.setCellRenderer(new RenderFicha(true));
-        
         DefaultTableModel modeloTabla = (DefaultTableModel) vista.getModeloTblTurnos();
         modeloTabla.setRowCount(0);
         modeloTabla.fireTableDataChanged();
         List<TurnoDTO> listadoTurnos = ((Turno) this.MODELO).listarTurno();
         for (TurnoDTO tur : listadoTurnos) {
             modeloTabla.addRow(new Object[]{tur.getNroTurno(),
+                                            tur.getAnoMes(),
                                             tur.getDia(), 
                                             tur.getHora(),
                                             tur.getLegajoMecanico(),
@@ -167,10 +174,7 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                                             tur.getFichaMecanica()});
         }
         
-        vista.setColumnaBoton(new ButtonColumn(vista.getTablaTurnos(), 8), this);
-        
-//        ButtonColumn buttonColumn = new ButtonColumn(tabla, 8);
-        
+        vista.setColumnaBoton(new ButtonColumn(vista.getTablaTurnos(), 9), this);
     }
     
     // METODOS DE DESPLAZAMIENTO ENTRE VISTAS. VOLVER, IR A UNA VISTA. PUEDEN LLAMAR O NO A LOS METODOS DE INICIAR VISTAS CON CARGA DE DATOS A COMBOBOX
@@ -190,8 +194,6 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         VISTA = new FrmNuevoTurno();
         VISTA.iniciaVista();
         VISTA.setControlador(this, this);
-        
-//        VISTA = (FrmNuevoTurno) this.VISTA;
         
         this.iniciarFrmNuevoTurno();
     }
@@ -268,10 +270,11 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         } 
     }
     
-    private void iniciarVistaConfirmarTurno( int nroTurno, String dia, String hora, String mecanico, String vehiculo, String titular ) {
+    private void iniciarVistaConfirmarTurno( int nroTurno, String anoMes, String dia, String hora, String mecanico, String vehiculo, String titular ) {
+        ((vistaConfirmarTurno) VISTA).getTextEditNroTurno().setText(Integer.toString(nroTurno));
+        ((vistaConfirmarTurno) VISTA).getTextEditAnoMes().setText(anoMes);
         ((vistaConfirmarTurno) VISTA).getTextEditTitular().setText(titular);
         ((vistaConfirmarTurno) VISTA).getTextEditVehiculo().setText(vehiculo);
-        ((vistaConfirmarTurno) VISTA).getTextEditEspecialidad().setText("Especialidad");
         ((vistaConfirmarTurno) VISTA).getTextEditMecanico().setText(mecanico);
         ((vistaConfirmarTurno) VISTA).getTextEditFechaHora().setText(dia + "-" + hora);
     }
@@ -538,18 +541,19 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         
         JTable tabla = ((vistaHome) VISTA).getTablaTurnos();
         int nroTurno = (int) tabla.getValueAt(row, 0);
-        String dia = tabla.getValueAt(row, 1).toString();
-        String hora = tabla.getValueAt(row, 2).toString();
-        String mecanico = tabla.getValueAt(row, 3).toString();
-        String vehiculo = tabla.getValueAt(row, 4).toString();
-        String titular = tabla.getValueAt(row, 5).toString();
+        String anoMes = tabla.getValueAt(row, 1).toString();
+        String dia = tabla.getValueAt(row, 2).toString();
+        String hora = tabla.getValueAt(row, 3).toString();
+        String mecanico = tabla.getValueAt(row, 4).toString();
+        String vehiculo = tabla.getValueAt(row, 5).toString();
+        String titular = tabla.getValueAt(row, 6).toString();
         
         VISTA.cerrarVista();
         VISTA = new vistaConfirmarTurno();
         VISTA.iniciaVista();
         VISTA.setControlador(this, this); 
         
-        iniciarVistaConfirmarTurno( nroTurno, dia, hora, mecanico, vehiculo, titular );
+        iniciarVistaConfirmarTurno( nroTurno, anoMes, dia, hora, mecanico, vehiculo, titular );
     }
 
     private void irVistaConsultarFicha() {
@@ -560,8 +564,8 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         int row = ((vistaHome) VISTA).getColumnaBoton().getCurrentRow();
         
         JTable tabla = ((vistaHome) VISTA).getTablaTurnos();
-        String mecanico = tabla.getValueAt(row, 3).toString();
-        String nroFicha = tabla.getValueAt(row, 8).toString();
+        String mecanico = tabla.getValueAt(row, 4).toString();
+        String nroFicha = tabla.getValueAt(row, 9).toString();
         
         VISTA.cerrarVista();
         VISTA = new FrmFichaMecanica();
@@ -600,8 +604,8 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         int row = ((vistaHome) VISTA).getColumnaBoton().getCurrentRow();
         
         JTable tabla = ((vistaHome) VISTA).getTablaTurnos();
-        String mecanico = tabla.getValueAt(row, 3).toString();
-        String nroFicha = tabla.getValueAt(row, 8).toString();
+        String mecanico = tabla.getValueAt(row, 4).toString();
+        String nroFicha = tabla.getValueAt(row, 9).toString();
         String obs = ((Turno)MODELO).getObservaciones(nroFicha);
         VISTA.cerrarVista();
         VISTA = new FrmFichaMecanica();

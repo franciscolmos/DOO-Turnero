@@ -31,9 +31,8 @@ public class ButtonColumn extends AbstractCellEditor
         
         private int currentRow;
         
-        protected static final String CONFIRMAR = "CONFIRMAR_TURNO";
+        protected static final String CONSULTAR = "CONSULTAR_TURNO";
         protected static final String REGISTRAR = "REGISTRAR_FICHA";
-        protected static final String CONSULTAR = "CONSULTAR_FICHA";
         protected static final String ERROR = "NO_ASIGNADO";
         protected static final String CANCELADO = "CANCELADO";
         protected static final String FINALIZADO = "FINALIZADO";
@@ -117,19 +116,19 @@ public class ButtonColumn extends AbstractCellEditor
 	@Override
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean bln, int row, int column) {
             
-        if( Objects.equals("Asignado", table.getValueAt(row, 7).toString())) {
-            editButton.setActionCommand(CONFIRMAR);
+        if( Objects.equals("Asignado", table.getValueAt(row, 8).toString())) {
+            editButton.setActionCommand(CONSULTAR);
         }
-        if( Objects.equals("Confirmado", table.getValueAt(row, 7).toString()) ) {
+        if( Objects.equals("Confirmado", table.getValueAt(row, 8).toString()) ) {
             editButton.setActionCommand(REGISTRAR);
         }
-        if( Objects.equals("Finalizado", table.getValueAt(row, 7).toString()) ) {
+        if( Objects.equals("Finalizado", table.getValueAt(row, 8).toString()) ) {
             editButton.setActionCommand(FINALIZADO);
         }
-        if( Objects.equals("No Asignado", table.getValueAt(row, 7).toString()) ) {
+        if( Objects.equals("No Asignado", table.getValueAt(row, 8).toString()) ) {
             editButton.setActionCommand(ERROR);
         }
-         if( Objects.equals("Cancelado", table.getValueAt(row, 7).toString()) ) {
+         if( Objects.equals("Cancelado", table.getValueAt(row, 8).toString()) ) {
             editButton.setActionCommand(CANCELADO);
         }
          

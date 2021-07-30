@@ -341,7 +341,7 @@ public class TurnoDAOImplSql implements TurnoDAO {
     }
 
     @Override
-    public boolean confirmarTurno(String nro) {
+    public void confirmarTurno(int nro, String anoMes, int mecanico) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -380,7 +380,6 @@ public class TurnoDAOImplSql implements TurnoDAO {
                 System.err.println(ex);
             }
         }
-       
     }
 
     @Override
