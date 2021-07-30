@@ -8,6 +8,7 @@ package vista;
 import controlador.ButtonColumn;
 import controlador.Controlador;
 import java.awt.event.ItemListener;
+import javax.swing.event.DocumentListener;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -45,6 +46,8 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
     public vistaHome() {
         initComponents();
         this.modeloTblTurnos = (DefaultTableModel) this.TablaTurnos.getModel();
+        this.setTitle("VISTA HOME");
+        this.NuevoTurnoBtn.setName("BotonNuevoTurno");
     }
 
     /**
@@ -193,7 +196,7 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void setControlador(Controlador c, ItemListener ci) {
+    public void setControlador(Controlador c, ItemListener ci, DocumentListener li) {
         this.NuevoTurnoBtn.addActionListener(c);
         this.ComboFiltro.addActionListener(c);
     }

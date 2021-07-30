@@ -30,37 +30,20 @@ public class TurnoDAOImplSqlTest {
     }
 
     /**
-     * Test of insertarTurno method, of class TurnoDAOImplSql.
+     * Test of consultarTurnoPorMecanicoDiaYHora method, of class TurnoDAOImplSql.
      */
     @Test
-    public void testInsertarTurno() {
-        System.out.println("insertarTurno");
-        String dia = "99";
-        String hora = "99";
-        String mecanico = "Mecanico99";
-        String vehiculo = "Vehiculo99";
-        String titular = "Titular99";
-        String companiaSeguro = "Compania99";
+    public void testconsultarTurnoPorMecanicoDiaYHora() {
+        System.out.println("Consultar Turno Legajo Mecanico 10, dia 5 11:00 AM");
+        int legajoMecanico = 10;
+        String dia = "5";
+        String hora = "11:00 AM";
         TurnoDAOImplSql instance = new TurnoDAOImplSql();
-        boolean expResult = true;
-        boolean result = instance.insertarTurno(dia, hora, mecanico, vehiculo, titular, companiaSeguro);
-        assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of modificarTurno method, of class TurnoDAOImplSql.
-     */
-    @Test
-    public void testModificarTurno() {
-        System.out.println("modificarTurno");
-        String nro = "6";
-        String dia = "99";
-        String hora = "99";
-        String mecanico = "Mecanico99";
-        TurnoDAOImplSql instance = new TurnoDAOImplSql();
-        boolean expResult = true;
-        boolean result = instance.modificarTurno(nro, dia, hora, mecanico);
-        assertEquals(expResult, result);
-    }
-    
+        TurnoDTO turnoExpResult = new TurnoDTO(5, "2021-7", 10, -1, dia, hora, -1, "", "No Asignado", -1);
+        TurnoDTO turnoObtenido = instance.consultarTurnoPorMecanicoDiaYHora(legajoMecanico, dia, hora);
+        assertEquals(turnoExpResult.getNroTurno(), turnoObtenido.getNroTurno());
+        assertEquals(turnoExpResult.getCuitCompania(), turnoObtenido.getCuitCompania());
+        assertEquals(turnoExpResult.getNroPoliza(), turnoObtenido.getNroPoliza());
+        assertEquals(turnoExpResult.getEstado(), turnoObtenido.getEstado());
+    } 
 }

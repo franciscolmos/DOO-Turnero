@@ -135,7 +135,7 @@ public class AgendaDAOImplSql implements AgendaDAO{
                     String sql =  "insert into agendas (ano_mes, legajo_mecanico)"
                                 + "values(?,?)";
                     sentencia = con.prepareStatement(sql);
-                    sentencia.setString(1, "2021-07");
+                    sentencia.setString(1, "2021-7");
                     sentencia.setInt(2, listadoMecanicos.get(i).getLegajo());
 
                     int resultado = sentencia.executeUpdate();

@@ -20,6 +20,8 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
@@ -43,16 +45,15 @@ import vista.vistaConfirmarTurno;
  *
  * @author francisco
  */
-public class EncRecepcionControlador extends Controlador implements ItemListener {
+public class EncRecepcionControlador extends Controlador implements ItemListener, DocumentListener{
     
     public EncRecepcionControlador(InterfazTurno vista, Modelo modelo) {
         VISTA = vista;
         MODELO = modelo;
-        VISTA.setControlador(this, this);
+        VISTA.setControlador(this, this, this);
         VISTA.iniciaVista();
         
         cargarAgendasYTurnos(((vistaHome) this.VISTA));
-        
     }
     
     private void cargarAgendasYTurnos(vistaHome vista){
@@ -211,7 +212,7 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         VISTA.cerrarVista();
         VISTA = new vistaHome();
         VISTA.iniciaVista();
-        VISTA.setControlador(this, this);
+        VISTA.setControlador(this, this, this);
         this.actualizarTabla(((vistaHome) this.VISTA));
     }
     
@@ -220,7 +221,7 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         VISTA.cerrarVista();
         VISTA = new FrmNuevoTurno();
         VISTA.iniciaVista();
-        VISTA.setControlador(this, this);
+        VISTA.setControlador(this, this, this);
         
         this.iniciarFrmNuevoTurno();
     }
@@ -229,23 +230,24 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         VISTA.cerrarVista();
         VISTA = new FrmNuevoTurno();
         VISTA.iniciaVista();
-        VISTA.setControlador(this, this);
+        VISTA.setControlador(this, this, this);
 
         this.iniciarFrmNuevoTurno();
     }
     
     private void irFrmNuevoTitular(){
-//      VISTA.cerrarVista();
+        VISTA.cerrarVista();
         VISTA = new FrmNuevoTItular();
         VISTA.iniciaVista();
-        VISTA.setControlador(this, this);
+        VISTA.setControlador(this, this, this);
+        ((FrmNuevoTItular) VISTA).getBotonGuardar().setEnabled(false);
     }
     
     private void irFrmNuevoVehiculo(){
         VISTA.cerrarVista();
         VISTA = new FrmNuevoVehiculo();
         VISTA.iniciaVista();
-        VISTA.setControlador(this, this);
+        VISTA.setControlador(this, this, this);
         
         this.iniciarFrmNuevoVehiculo();
     }
@@ -560,7 +562,34 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                 }
             }
         }
+    
+        @Override
+        public void insertUpdate(DocumentEvent de) {
+            ((FrmNuevoTItular) VISTA).setVisible(true);
+             if(((FrmNuevoTItular) VISTA).getTextNombre().getText().length() > 0 &&
+               ((FrmNuevoTItular) VISTA).getTextApellido().getText().length() > 0 &&
+               ((FrmNuevoTItular) VISTA).getTextNumeroDoc().getText().length() > 0 &&
+               ((FrmNuevoTItular) VISTA).getTextTelefono().getText().length() > 0){
+               ((FrmNuevoTItular) VISTA).getBotonGuardar().setEnabled(true);
+            }
+        }
 
+        @Override
+        public void removeUpdate(DocumentEvent de) {
+            ((FrmNuevoTItular) VISTA).setVisible(true);
+            if(((FrmNuevoTItular) VISTA).getTextNombre().getText().length() == 0 ||
+               ((FrmNuevoTItular) VISTA).getTextApellido().getText().length() == 0 ||
+               ((FrmNuevoTItular) VISTA).getTextNumeroDoc().getText().length() == 0 ||
+               ((FrmNuevoTItular) VISTA).getTextTelefono().getText().length() == 0){
+               ((FrmNuevoTItular) VISTA).getBotonGuardar().setEnabled(false);
+            }
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent de) {
+            System.out.println("Override");
+        }
+        
     // Metodos para los botones
     
     private void irVistaConfirmarTurno() {
@@ -578,7 +607,7 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         VISTA.cerrarVista();
         VISTA = new vistaConfirmarTurno();
         VISTA.iniciaVista();
-        VISTA.setControlador(this, this); 
+        VISTA.setControlador(this, this, this); 
         
         iniciarVistaConfirmarTurno( nroTurno, anoMes, dia, hora, mecanico, vehiculo, titular );
     }
@@ -609,7 +638,7 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         VISTA.cerrarVista();
         VISTA = new FrmFichaMecanica();
         VISTA.iniciaVista();
-        VISTA.setControlador(this, this); 
+        VISTA.setControlador(this, this, this); 
         
         iniciarVistaFrmRegistrarFicha(mecanico, nroFicha,"", false);
     }
@@ -649,7 +678,7 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         VISTA.cerrarVista();
         VISTA = new FrmFichaMecanica();
         VISTA.iniciaVista();
-        VISTA.setControlador(this, this); 
+        VISTA.setControlador(this, this, this); 
         
         iniciarVistaFrmRegistrarFicha(mecanico, nroFicha, obs, true);
     

@@ -9,6 +9,7 @@ import controlador.Controlador;
 import java.awt.event.ItemListener;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -256,7 +257,7 @@ public class vistaConfirmarTurno extends javax.swing.JFrame implements InterfazT
     public void limpiaVista() {}
 
     @Override
-    public void setControlador(Controlador c, ItemListener ci) {
+    public void setControlador(Controlador c, ItemListener ci, DocumentListener dl) {
         this.BotonVolver.addActionListener(c);
         this.BotonConfirmar.addActionListener(c);
         this.BotonCancelar.addActionListener(c);

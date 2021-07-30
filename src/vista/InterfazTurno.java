@@ -7,6 +7,7 @@ package vista;
 
 import controlador.Controlador;
 import java.awt.event.ItemListener;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -22,7 +23,7 @@ public interface InterfazTurno {
         
     };
     
-    void setControlador(Controlador c, ItemListener ci);
+    void setControlador(Controlador c, ItemListener ci, DocumentListener dl);
 
     void iniciaVista();
     

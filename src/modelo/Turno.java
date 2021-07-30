@@ -45,6 +45,11 @@ public class Turno extends Modelo {
         return listadoTurnos;
     }
     
+    public List<TurnoDTO> listarTurnosPorAnoMes(String anoMes) {
+        List<TurnoDTO> listadoTurnos = turnoDao.listarTurnosPorAnoMes(anoMes);
+        return listadoTurnos;
+    }
+    
     public boolean insertarTurno(List<MecanicoDTO> mecanicos) {
         return turnoDao.insertarTurno(mecanicos);
     }

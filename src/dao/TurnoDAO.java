@@ -20,6 +20,8 @@ public interface TurnoDAO {
     
     public TurnoDTO consultarTurnoPorMecanicoDiaYHora(int legajoMecanico, String dia, String hora);
     
+    public List<TurnoDTO> listarTurnosPorAnoMes(String anoMes);
+    
     List<TurnoDTO> listarTurnos();
     
     List<TurnoDTO> listarTurnosPorCriterio(String Estado);

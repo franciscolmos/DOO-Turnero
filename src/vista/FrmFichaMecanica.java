@@ -10,6 +10,7 @@ import java.awt.event.ItemListener;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -174,7 +175,7 @@ public class FrmFichaMecanica extends javax.swing.JFrame implements InterfazTurn
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void setControlador(Controlador c, ItemListener ci) {
+    public void setControlador(Controlador c, ItemListener ci, DocumentListener dl) {
         this.BotonCancelar.addActionListener(c);
         this.BotonGuardar.addActionListener(c);
     }
