@@ -7,6 +7,7 @@ package vista;
 
 import controlador.Controlador;
 import java.awt.event.ItemListener;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -18,7 +19,7 @@ public interface InterfazTurno {
         CONSULTAR, TURNO, NUEVO_TURNO, VOLVER_HOME, TITULAR, VOLVER_NUEVO_TURNO, NUEVO_TITULAR, VEHICULO, NUEVO_VEHICULO;
     };
     
-    void setControlador(Controlador c, ItemListener ci);
+    void setControlador(Controlador c, ItemListener ci, DocumentListener dl);
 
     void iniciaVista();
     
