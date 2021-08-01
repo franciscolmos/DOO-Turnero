@@ -293,6 +293,9 @@ public class FrmNuevoVehiculo extends javax.swing.JFrame implements InterfazTurn
     public void setControlador(Controlador c, ItemListener ci, DocumentListener dl) {
         this.ButtonCancelar.addActionListener(c);
         this.ButtonGuardar.addActionListener(c);
+        this.TextFieldNroPoliza.getDocument().addDocumentListener(dl);
+        this.TextFieldMarca.getDocument().addDocumentListener(dl);
+        this.TextFieldModelo.getDocument().addDocumentListener(dl);
     }
 
     @Override

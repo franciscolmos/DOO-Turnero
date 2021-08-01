@@ -205,7 +205,6 @@ public class TurnoDAOImplSql implements TurnoDAO {
         String month = Integer.toString(localDate.getMonthValue());
         String year = Integer.toString(localDate.getYear());
         String anoMes = year + "-" + month;
-        System.out.println(anoMes);
         if(this.listarTurnosPorAnoMes(anoMes).size() > 0){
             return false;
         }

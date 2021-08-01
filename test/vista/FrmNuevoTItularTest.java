@@ -78,10 +78,10 @@ public class FrmNuevoTItularTest {
      */
     @Test
     public void testNuevoTurno() {
-        robot.enterText("Nombre Prueba");
+        robot.enterText("NombrePrueba");
         robot.pressKey(KeyEvent.VK_TAB);
         robot.releaseKey(KeyEvent.VK_TAB);
-        robot.enterText("Apellido Prueba");
+        robot.enterText("ApellidoPrueba");
         window.comboBox("comboBoxTipoDoc").selectItem(1);
         robot.pressKey(KeyEvent.VK_TAB);
         robot.releaseKey(KeyEvent.VK_TAB);
