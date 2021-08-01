@@ -43,6 +43,11 @@ public class Agenda extends Modelo {
         return listaAgendas;
     }
     
+    public List<AgendaDTO> listarAgendaPorAnoMes(String anoMes){
+        List<AgendaDTO> listarAgendas = agendaDao.listarAgendaPorAnoMes(anoMes);
+        return listarAgendas;
+    }
+    
     public boolean modificarAgenda(String dia, String horario, String mecanico) {
         return agendaDao.modificarAgenda(dia, horario, mecanico);
     }

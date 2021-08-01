@@ -60,7 +60,7 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         List<MecanicoDTO> listadoMecanicos = ((Mecanico) this.MODELO.fabricarModelo("Mecanico")).listarMecanicos();
         ((Turno) this.MODELO.fabricarModelo("Turno")).insertarTurno(listadoMecanicos);
         ((Agenda) this.MODELO.fabricarModelo("Agenda")).insertarAgendas(listadoMecanicos);
-        this.actualizarTabla(vista);
+        actualizarTablaFiltrado(((vistaHome) this.VISTA), "Asignado");
     }
     
     @Override
@@ -69,7 +69,7 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
 
             switch (InterfazTurno.Operacion.valueOf(e.getActionCommand())) {
                 case CONSULTAR:
-                    actualizarTabla(((vistaHome) this.VISTA));
+                    actualizarTablaFiltrado(((vistaHome) this.VISTA), "Asignado");
                     break;
 
                 case TURNO:
@@ -212,7 +212,7 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         VISTA = new vistaHome();
         VISTA.iniciaVista();
         VISTA.setControlador(this, this, this);
-        this.actualizarTabla(((vistaHome) this.VISTA));
+        actualizarTablaFiltrado(((vistaHome) this.VISTA), "Asignado");
     }
     
     private void volverNuevoTurno(){
@@ -461,7 +461,7 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                                      turno.getDia(),
                                      turno.getHora());
         this.volverHome();
-        this.actualizarTabla(((vistaHome) this.VISTA));
+        actualizarTablaFiltrado(((vistaHome) this.VISTA), "Asignado");
     }
     
     private void insertarAgenda(FrmNuevoTurno vista) {
@@ -682,14 +682,8 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
 
     private void filtrarTabla(vistaHome vistaHome) {
         String filtro = vistaHome.getComboFiltro().getSelectedItem().toString();
-        
-        if(filtro == "Todos"){
-            actualizarTabla(vistaHome);
-        }else{
-            System.out.println("Filtrar por: " + filtro);
-            actualizarTablaFiltrado(vistaHome, filtro);
-        }
-  
+        System.out.println(filtro);
+        actualizarTablaFiltrado(vistaHome, filtro);
     }
 
     private void confirmarFicha() {

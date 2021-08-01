@@ -161,7 +161,6 @@ public class TurnoDAOImplSql implements TurnoDAO {
             int nroTitular;
             String cuitCompania;
             String estado;
-            int fichaMecanica;
             TurnoDTO turno;
             int nroFicha;
 
@@ -363,63 +362,67 @@ public class TurnoDAOImplSql implements TurnoDAO {
                 listaTurnos.add(turno);
             }
 
-        } catch (SQLException e) {
-            System.err.println(e);
-        } finally {
-            try {
-                rs.close();
-                sentencia.close();
-            } catch (SQLException ex) {
-                System.err.println(ex);
+            } catch (SQLException e) {
+                System.err.println(e);
+            } finally {
+                try {
+                    rs.close();
+                    sentencia.close();
+                } catch (SQLException ex) {
+                    System.err.println(ex);
+                }
             }
-        }
-            
         }else{
-        try {
-            con = conexion.getConnection();
-            String sql = "select * from turnos where estado = ?";
-            sentencia = con.prepareStatement(sql);
-            sentencia.setString(1, Estado);
+            if(Estado == "Todos"){
+                return this.listarTurnos();
+            }else{
+                try {
+                    con = conexion.getConnection();
+                    String sql = "select * from turnos where estado = ?";
+                    sentencia = con.prepareStatement(sql);
+                    sentencia.setString(1, Estado);
 
-            rs = sentencia.executeQuery();
+                    rs = sentencia.executeQuery();
 
-            int nroTurno;
-            String anoMes;
-            int legajoMecanico;
-            int nroPoliza;
-            String dia;
-            String hora;
-            int nroTitular;
-            String cuitCompania;
-            int fichaMecanica;
-            TurnoDTO turno;
-            int nroFicha;
+                    int nroTurno;
+                    String anoMes;
+                    int legajoMecanico;
+                    int nroPoliza;
+                    String dia;
+                    String hora;
+                    int nroTitular;
+                    String cuitCompania;
+                    int fichaMecanica;
+                    TurnoDTO turno;
+                    int nroFicha;
 
-            while (rs.next()) {
-                nroTurno = rs.getInt("nro_turno");
-                anoMes = rs.getString("ano_mes");
-                legajoMecanico = rs.getInt("legajo_mecanico");
-                nroPoliza = rs.getInt("nro_poliza");
-                dia = rs.getString("dia");
-                hora = rs.getString("hora");
-                nroTitular = rs.getInt("nro_titular");
-                cuitCompania = rs.getString("cuit_compania");
-                nroFicha = rs.getInt("ficha_mecanica");
-                turno = new TurnoDTO(nroTurno, anoMes, legajoMecanico, nroPoliza,
-                                     dia, hora, nroTitular, cuitCompania, Estado, nroFicha);
-                listaTurnos.add(turno);
+                    while (rs.next()) {
+                        nroTurno = rs.getInt("nro_turno");
+                        anoMes = rs.getString("ano_mes");
+                        legajoMecanico = rs.getInt("legajo_mecanico");
+                        nroPoliza = rs.getInt("nro_poliza");
+                        dia = rs.getString("dia");
+                        hora = rs.getString("hora");
+                        nroTitular = rs.getInt("nro_titular");
+                        cuitCompania = rs.getString("cuit_compania");
+                        nroFicha = rs.getInt("ficha_mecanica");
+                        turno = new TurnoDTO(nroTurno, anoMes, legajoMecanico, nroPoliza,
+                                             dia, hora, nroTitular, cuitCompania, Estado, nroFicha);
+                        listaTurnos.add(turno);
+                    }
+
+                } catch (SQLException e) {
+                    System.err.println(e);
+                } finally {
+                    try {
+                        rs.close();
+                        sentencia.close();
+                    } catch (SQLException ex) {
+                        System.err.println(ex);
+                    }
+                }
             }
-
-        } catch (SQLException e) {
-            System.err.println(e);
-        } finally {
-            try {
-                rs.close();
-                sentencia.close();
-            } catch (SQLException ex) {
-                System.err.println(ex);
-            }
-        }
+        
         }
         return listaTurnos;
     }

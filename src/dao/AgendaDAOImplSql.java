@@ -12,7 +12,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -48,8 +51,6 @@ public class AgendaDAOImplSql implements AgendaDAO{
             sentencia = con.prepareStatement(sql);
             sentencia.setString(1, estadoTurno);
             sentencia.setString(2, legajoMecanico);
-            
-            System.out.println(sentencia);
             
             rs = sentencia.executeQuery();
 
@@ -124,8 +125,13 @@ public class AgendaDAOImplSql implements AgendaDAO{
     public boolean insertarAgendas(List<MecanicoDTO> listadoMecanicos) {
         Connection con = null;
         PreparedStatement sentencia = null;
-    
-        if(this.listarAgendas().size() > 0){
+        
+        Date fechaActual = new Date();
+        LocalDate localDate = fechaActual.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        String month = Integer.toString(localDate.getMonthValue());
+        String year = Integer.toString(localDate.getYear());
+        String anoMes = year + "-" + month;
+        if(this.listarAgendaPorAnoMes(anoMes).size() > 0){
             return false;
         }else{
             for (int i = 0; i < listadoMecanicos.size(); i++) {
@@ -135,7 +141,7 @@ public class AgendaDAOImplSql implements AgendaDAO{
                     String sql =  "insert into agendas (ano_mes, legajo_mecanico)"
                                 + "values(?,?)";
                     sentencia = con.prepareStatement(sql);
-                    sentencia.setString(1, "2021-7");
+                    sentencia.setString(1, anoMes);
                     sentencia.setInt(2, listadoMecanicos.get(i).getLegajo());
 
                     int resultado = sentencia.executeUpdate();
@@ -182,7 +188,6 @@ public class AgendaDAOImplSql implements AgendaDAO{
             sentencia.setString(2, legajoMecanico);
             sentencia.setString(3, fecha);
             
-            System.out.println(sentencia);
             
             rs = sentencia.executeQuery();
 
@@ -200,6 +205,48 @@ public class AgendaDAOImplSql implements AgendaDAO{
                 hora = rs.getString("hora");
                 estado = rs.getString("estado");
                 agenda = new AgendaDTO(ano_mes, legajo_mecanico, dia, hora, estado);
+                listaAgenda.add(agenda);
+            }
+
+        } catch (SQLException e) {
+            System.err.println(e);
+        } finally {
+            try {
+                rs.close();
+                sentencia.close();
+            } catch (SQLException ex) {
+                System.err.println(ex);
+            }
+        }
+        return listaAgenda;
+    }
+    
+    @Override
+    public List<AgendaDTO> listarAgendaPorAnoMes(String anoMes) {
+        Connection con = null;
+        PreparedStatement sentencia = null;
+        ResultSet rs = null;
+        List<AgendaDTO> listaAgenda = new ArrayList<>();
+
+        try {
+            con = conexion.getConnection();
+            String sql = "select * "
+                        + "from agendas "
+                        + "where ano_mes = ?";
+            
+            sentencia = con.prepareStatement(sql);
+            sentencia.setString(1, anoMes);
+            
+            rs = sentencia.executeQuery();
+
+            String ano_mes;
+            int legajo_mecanico;
+            AgendaDTO agenda;
+
+            while (rs.next()) {
+                ano_mes = rs.getString("ano_mes");
+                legajo_mecanico = rs.getInt("legajo_mecanico");
+                agenda = new AgendaDTO(ano_mes, legajo_mecanico);
                 listaAgenda.add(agenda);
             }
 
