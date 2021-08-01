@@ -24,7 +24,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JTable;
-import javax.swing.table.TableColumn;
 import modelo.Agenda;
 import modelo.Compania;
 import modelo.Especialidad;

@@ -24,6 +24,13 @@ public class FrmNuevoTItular extends javax.swing.JFrame implements InterfazTurno
      */
     public FrmNuevoTItular() {
         initComponents();
+        this.setTitle("NUEVO TITULAR");
+        this.TextApellido.setName("textFieldNombre");
+        this.TextApellido.setName("textFieldApellido");
+        this.TextNumeroDoc.setName("textFieldNroDoc");
+        this.TextTelefono.setName("textFieldTelefono");
+        this.CombBoxDoc.setName("comboBoxTipoDoc");
+        this.jButtonGuardar.setName("botonGuardar");
     }
 
     public JTextField getTextApellido() {
