@@ -20,7 +20,6 @@ public interface InterfazTurno {
         NUEVO_TITULAR, VEHICULO, NUEVO_VEHICULO, CONFIRMAR_TURNO, CONSULTAR_TURNO,
         CANCELAR_TURNO, REGISTRAR_FICHA, CONSULTAR_FICHA, NO_ASIGNADO, CANCELADO, 
         CONFIRMAR_FICHA, FINALIZADO, FILTRAR_TABLA;
-        
     };
     
     void setControlador(Controlador c, ItemListener ci, DocumentListener dl);

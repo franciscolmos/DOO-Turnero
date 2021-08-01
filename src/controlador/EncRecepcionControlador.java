@@ -24,7 +24,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JTable;
-import javax.swing.table.TableColumn;
 import modelo.Agenda;
 import modelo.Compania;
 import modelo.Especialidad;
@@ -61,7 +60,7 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         List<MecanicoDTO> listadoMecanicos = ((Mecanico) this.MODELO.fabricarModelo("Mecanico")).listarMecanicos();
         ((Turno) this.MODELO.fabricarModelo("Turno")).insertarTurno(listadoMecanicos);
         ((Agenda) this.MODELO.fabricarModelo("Agenda")).insertarAgendas(listadoMecanicos);
-        this.actualizarTabla(vista);
+        actualizarTablaFiltrado(((vistaHome) this.VISTA), "Asignado");
     }
     
     @Override
@@ -70,7 +69,7 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
 
             switch (InterfazTurno.Operacion.valueOf(e.getActionCommand())) {
                 case CONSULTAR:
-                    actualizarTabla(((vistaHome) this.VISTA));
+                    actualizarTablaFiltrado(((vistaHome) this.VISTA), "Asignado");
                     break;
 
                 case TURNO:
@@ -213,7 +212,7 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         VISTA = new vistaHome();
         VISTA.iniciaVista();
         VISTA.setControlador(this, this, this);
-        this.actualizarTabla(((vistaHome) this.VISTA));
+        actualizarTablaFiltrado(((vistaHome) this.VISTA), "Asignado");
     }
     
     private void volverNuevoTurno(){
@@ -250,6 +249,61 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         VISTA.setControlador(this, this, this);
         
         this.iniciarFrmNuevoVehiculo();
+        ((FrmNuevoVehiculo) VISTA).getButtonGuardar().setEnabled(false);
+    }
+    
+    private void irVistaConsultarFicha() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void irFrmRegistrarFicha() {
+        int row = ((vistaHome) VISTA).getColumnaBoton().getCurrentRow();
+        
+        JTable tabla = ((vistaHome) VISTA).getTablaTurnos();
+        String mecanico = tabla.getValueAt(row, 4).toString();
+        String nroFicha = tabla.getValueAt(row, 9).toString();
+        
+        VISTA.cerrarVista();
+        VISTA = new FrmFichaMecanica();
+        VISTA.iniciaVista();
+        VISTA.setControlador(this, this, this); 
+        
+        iniciarVistaFrmRegistrarFicha(mecanico, nroFicha,"", false);
+    }
+    
+    private void irVistaConfirmarTurno() {
+        int row = ((vistaHome) VISTA).getColumnaBoton().getCurrentRow();
+        
+        JTable tabla = ((vistaHome) VISTA).getTablaTurnos();
+        int nroTurno = (int) tabla.getValueAt(row, 0);
+        String anoMes = tabla.getValueAt(row, 1).toString();
+        String dia = tabla.getValueAt(row, 2).toString();
+        String hora = tabla.getValueAt(row, 3).toString();
+        String mecanico = tabla.getValueAt(row, 4).toString();
+        String vehiculo = tabla.getValueAt(row, 5).toString();
+        String titular = tabla.getValueAt(row, 6).toString();
+        
+        VISTA.cerrarVista();
+        VISTA = new vistaConfirmarTurno();
+        VISTA.iniciaVista();
+        VISTA.setControlador(this, this, this); 
+        
+        iniciarVistaConfirmarTurno( nroTurno, anoMes, dia, hora, mecanico, vehiculo, titular );
+    }
+    
+    private void irFrmRegistrarFichaConfirmada() {
+        int row = ((vistaHome) VISTA).getColumnaBoton().getCurrentRow();
+        
+        JTable tabla = ((vistaHome) VISTA).getTablaTurnos();
+        String mecanico = tabla.getValueAt(row, 4).toString();
+        String nroFicha = tabla.getValueAt(row, 9).toString();
+        String obs = ((Turno)MODELO).getObservaciones(nroFicha);
+        VISTA.cerrarVista();
+        VISTA = new FrmFichaMecanica();
+        VISTA.iniciaVista();
+        VISTA.setControlador(this, this, this); 
+        
+        iniciarVistaFrmRegistrarFicha(mecanico, nroFicha, obs, true);
     }
     
     // METODOS QUE INICIAN LAS VISTAS COMPLETANDO SUS COMBO BOX CON LA INFORMACION DE LA BASE
@@ -284,7 +338,6 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         JComboBox modeloComboBoxCompanias = (JComboBox) ((FrmNuevoVehiculo) this.VISTA).getComboBoxCompanias();
         List<CompaniaDTO> listadoCompanias = ((Compania) this.MODELO.fabricarModelo("Compania")).listarCompanias();
         // Agregamos una especialidad vacia para que quede seleccionada por defecto
-        modeloComboBoxCompanias.addItem("-");
         for (CompaniaDTO compania : listadoCompanias) {
             modeloComboBoxCompanias.addItem("Cuit: " + compania.getCuit() + " - Razon Social: " + compania.getRazonSocial()); 
         }
@@ -293,7 +346,6 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         JComboBox modeloComboBoxTitulares = (JComboBox) ((FrmNuevoVehiculo) this.VISTA).getComboBoxTitulares();
         List<TitularDTO> listadoTitulares = ((Titular) this.MODELO.fabricarModelo("Titular")).listarTitulares();
         // Agregamos un titular vacio para que quede seleccionado por defecto
-        modeloComboBoxTitulares.addItem("-");
         for (TitularDTO titular : listadoTitulares) {
             modeloComboBoxTitulares.addItem("Nro Titular: " + titular.getNroTitular() + " - DNI: " + titular.getNroDNI()); 
         } 
@@ -306,6 +358,20 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         ((vistaConfirmarTurno) VISTA).getTextEditVehiculo().setText(vehiculo);
         ((vistaConfirmarTurno) VISTA).getTextEditMecanico().setText(mecanico);
         ((vistaConfirmarTurno) VISTA).getTextEditFechaHora().setText(dia + "-" + hora);
+    }
+    
+    private void iniciarVistaFrmRegistrarFicha(String mecanico, String nroFicha,String obs, Boolean confirmada) {
+        if(!confirmada){
+        ((FrmFichaMecanica) VISTA).getFiledNroFicha().setText(nroFicha);
+        ((FrmFichaMecanica) VISTA).getTextLegajo().setText(mecanico);
+        }else{
+        ((FrmFichaMecanica) VISTA).getFiledNroFicha().setText(nroFicha);
+        ((FrmFichaMecanica) VISTA).getTextLegajo().setText(mecanico);
+        ((FrmFichaMecanica) VISTA).getAreaObservaciones().setText(obs);
+        ((FrmFichaMecanica) VISTA).getAreaObservaciones().setEnabled(false);
+        ((FrmFichaMecanica) VISTA).getBotonGuardar().setEnabled(false);
+        }
+        
     }
     
     // METODOS DE OBTENCION DE DATOS DE DISTINTOS DTOS
@@ -395,7 +461,7 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                                      turno.getDia(),
                                      turno.getHora());
         this.volverHome();
-        this.actualizarTabla(((vistaHome) this.VISTA));
+        actualizarTablaFiltrado(((vistaHome) this.VISTA), "Asignado");
     }
     
     private void insertarAgenda(FrmNuevoTurno vista) {
@@ -508,7 +574,6 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                         cargarVehiculos(((FrmNuevoTurno) this.VISTA));
                     }
                 }
-            }
         
             // Toma el cambio en ComboBox Vehiculos
             if(ie.getSource().equals(((FrmNuevoTurno) VISTA).getComboBoxVehiculo())) {
@@ -562,99 +627,63 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                 }
             }
         }
+    }
     
-        @Override
-        public void insertUpdate(DocumentEvent de) {
-            ((FrmNuevoTItular) VISTA).setVisible(true);
-             if(((FrmNuevoTItular) VISTA).getTextNombre().getText().length() > 0 &&
-               ((FrmNuevoTItular) VISTA).getTextApellido().getText().length() > 0 &&
-               ((FrmNuevoTItular) VISTA).getTextNumeroDoc().getText().length() > 0 &&
-               ((FrmNuevoTItular) VISTA).getTextTelefono().getText().length() > 0){
+    // METODOS PARA CONTROLAR LOS JTEXTFIELD DE LOS FORMULARIOS NUEVO TITULAR Y NUEVO VEHICULO
+    
+    @Override
+    public void insertUpdate(DocumentEvent de) {
+        if(this.VISTA.getClass().getName() == "vista.FrmNuevoTItular"){
+            if(((FrmNuevoTItular) VISTA).getTextNombre().getText().length() > 0 &&
+              ((FrmNuevoTItular) VISTA).getTextApellido().getText().length() > 0 &&
+              ((FrmNuevoTItular) VISTA).getTextNumeroDoc().getText().length() > 0 &&
+              ((FrmNuevoTItular) VISTA).getTextTelefono().getText().length() > 0){
                ((FrmNuevoTItular) VISTA).getBotonGuardar().setEnabled(true);
             }
         }
-
-        @Override
-        public void removeUpdate(DocumentEvent de) {
-            ((FrmNuevoTItular) VISTA).setVisible(true);
-            if(((FrmNuevoTItular) VISTA).getTextNombre().getText().length() == 0 ||
-               ((FrmNuevoTItular) VISTA).getTextApellido().getText().length() == 0 ||
-               ((FrmNuevoTItular) VISTA).getTextNumeroDoc().getText().length() == 0 ||
-               ((FrmNuevoTItular) VISTA).getTextTelefono().getText().length() == 0){
-               ((FrmNuevoTItular) VISTA).getBotonGuardar().setEnabled(false);
+        else{
+            if(this.VISTA.getClass().getName() == "vista.FrmNuevoVehiculo"){
+                if(((FrmNuevoVehiculo) VISTA).getTextFieldNroPoliza().getText().length() > 0 &&
+                   ((FrmNuevoVehiculo) VISTA).getTextFieldMarca().getText().length() > 0 &&
+                   ((FrmNuevoVehiculo) VISTA).getTextFieldModelo().getText().length() > 0){
+                        ((FrmNuevoVehiculo) VISTA).getButtonGuardar().setEnabled(true);
+                }
             }
         }
-
-        @Override
-        public void changedUpdate(DocumentEvent de) {
-            System.out.println("Override");
-        }
-        
-    // Metodos para los botones
-    
-    private void irVistaConfirmarTurno() {
-        int row = ((vistaHome) VISTA).getColumnaBoton().getCurrentRow();
-        
-        JTable tabla = ((vistaHome) VISTA).getTablaTurnos();
-        int nroTurno = (int) tabla.getValueAt(row, 0);
-        String anoMes = tabla.getValueAt(row, 1).toString();
-        String dia = tabla.getValueAt(row, 2).toString();
-        String hora = tabla.getValueAt(row, 3).toString();
-        String mecanico = tabla.getValueAt(row, 4).toString();
-        String vehiculo = tabla.getValueAt(row, 5).toString();
-        String titular = tabla.getValueAt(row, 6).toString();
-        
-        VISTA.cerrarVista();
-        VISTA = new vistaConfirmarTurno();
-        VISTA.iniciaVista();
-        VISTA.setControlador(this, this, this); 
-        
-        iniciarVistaConfirmarTurno( nroTurno, anoMes, dia, hora, mecanico, vehiculo, titular );
     }
+
+    @Override
+    public void removeUpdate(DocumentEvent de) {
+        if(this.VISTA.getClass().getName() == "vista.FrmNuevoTItular"){
+            if(((FrmNuevoTItular) VISTA).getTextNombre().getText().length() == 0 ||
+              ((FrmNuevoTItular) VISTA).getTextApellido().getText().length() == 0 ||
+              ((FrmNuevoTItular) VISTA).getTextNumeroDoc().getText().length() == 0 ||
+              ((FrmNuevoTItular) VISTA).getTextTelefono().getText().length() == 0){
+                    ((FrmNuevoTItular) VISTA).getBotonGuardar().setEnabled(false);
+            }
+        }
+        else{
+            if(this.VISTA.getClass().getName() == "vista.FrmNuevoVehiculo"){
+                if(((FrmNuevoVehiculo) VISTA).getTextFieldNroPoliza().getText().length() == 0 ||
+                   ((FrmNuevoVehiculo) VISTA).getTextFieldMarca().getText().length() == 0 ||
+                   ((FrmNuevoVehiculo) VISTA).getTextFieldModelo().getText().length() == 0){
+                        ((FrmNuevoVehiculo) VISTA).getButtonGuardar().setEnabled(false);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void changedUpdate(DocumentEvent de) {
+        System.out.println("Override");
+    }
+        
+    // METODOS PARA LA TABLA DE LA VISTA HOME
 
     private void filtrarTabla(vistaHome vistaHome) {
         String filtro = vistaHome.getComboFiltro().getSelectedItem().toString();
-        
-        if(filtro == "Todos"){
-            actualizarTabla(vistaHome);
-        }else{
-            System.out.println("Filtrar por: " + filtro);
-            actualizarTablaFiltrado(vistaHome, filtro);
-        }
-  
-    }
-
-    private void irVistaConsultarFicha() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void irFrmRegistrarFicha() {
-        int row = ((vistaHome) VISTA).getColumnaBoton().getCurrentRow();
-        
-        JTable tabla = ((vistaHome) VISTA).getTablaTurnos();
-        String mecanico = tabla.getValueAt(row, 4).toString();
-        String nroFicha = tabla.getValueAt(row, 9).toString();
-        
-        VISTA.cerrarVista();
-        VISTA = new FrmFichaMecanica();
-        VISTA.iniciaVista();
-        VISTA.setControlador(this, this, this); 
-        
-        iniciarVistaFrmRegistrarFicha(mecanico, nroFicha,"", false);
-    }
-
-    private void iniciarVistaFrmRegistrarFicha(String mecanico, String nroFicha,String obs, Boolean confirmada) {
-        if(!confirmada){
-        ((FrmFichaMecanica) VISTA).getFiledNroFicha().setText(nroFicha);
-        ((FrmFichaMecanica) VISTA).getTextLegajo().setText(mecanico);
-        }else{
-        ((FrmFichaMecanica) VISTA).getFiledNroFicha().setText(nroFicha);
-        ((FrmFichaMecanica) VISTA).getTextLegajo().setText(mecanico);
-        ((FrmFichaMecanica) VISTA).getAreaObservaciones().setText(obs);
-        ((FrmFichaMecanica) VISTA).getAreaObservaciones().setEnabled(false);
-        ((FrmFichaMecanica) VISTA).getBotonGuardar().setEnabled(false);
-        }
-        
+        System.out.println(filtro);
+        actualizarTablaFiltrado(vistaHome, filtro);
     }
 
     private void confirmarFicha() {
@@ -667,21 +696,5 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         
         volverHome();
     }
-
-    private void irFrmRegistrarFichaConfirmada() {
-        int row = ((vistaHome) VISTA).getColumnaBoton().getCurrentRow();
-        
-        JTable tabla = ((vistaHome) VISTA).getTablaTurnos();
-        String mecanico = tabla.getValueAt(row, 4).toString();
-        String nroFicha = tabla.getValueAt(row, 9).toString();
-        String obs = ((Turno)MODELO).getObservaciones(nroFicha);
-        VISTA.cerrarVista();
-        VISTA = new FrmFichaMecanica();
-        VISTA.iniciaVista();
-        VISTA.setControlador(this, this, this); 
-        
-        iniciarVistaFrmRegistrarFicha(mecanico, nroFicha, obs, true);
-    
-    }
-   }
+}
 

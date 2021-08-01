@@ -7,10 +7,13 @@ package vista;
 
 import controlador.ButtonColumn;
 import controlador.Controlador;
+import java.awt.Color;
 import java.awt.event.ItemListener;
 import javax.swing.event.DocumentListener;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
 public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
 
     private final DefaultTableModel modeloTblTurnos;
+    
     
     private ButtonColumn columnaBoton;
     
@@ -47,7 +51,13 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
         initComponents();
         this.modeloTblTurnos = (DefaultTableModel) this.TablaTurnos.getModel();
         this.setTitle("VISTA HOME");
-        this.NuevoTurnoBtn.setName("BotonNuevoTurno");
+        DefaultTableCellRenderer centerRenderer = (DefaultTableCellRenderer)this.TablaTurnos.getDefaultRenderer(Object.class);
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        this.TablaTurnos.getColumnModel().getColumn(0).setCellRenderer( centerRenderer );
+        this.TablaTurnos.getTableHeader().setOpaque(false);
+        this.TablaTurnos.getTableHeader().setBackground(Color.GRAY);
+        this.TablaTurnos.getTableHeader().setFont(new java.awt.Font("Ubuntu", 1, 14));
+        this.TablaTurnos.getTableHeader().setForeground(Color.white);
     }
 
     /**
@@ -66,10 +76,13 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
         ComboFiltro = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(201, 189, 189));
 
-        TituloLabel.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
+        TituloLabel.setFont(new java.awt.Font("Segoe UI", 3, 36)); // NOI18N
+        TituloLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         TituloLabel.setText("SuperCharger S.R.L.");
 
+        NuevoTurnoBtn.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
         NuevoTurnoBtn.setText("Nuevo Turno");
         NuevoTurnoBtn.setActionCommand("TURNO");
         NuevoTurnoBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -78,6 +91,9 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
             }
         });
 
+        TablaTurnos.setBackground(new java.awt.Color(230, 230, 230));
+        TablaTurnos.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(111, 111, 111)));
+        TablaTurnos.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
         TablaTurnos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -95,8 +111,11 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
             }
         });
         TablaTurnos.setToolTipText("");
+        TablaTurnos.setAlignmentX(1.0F);
+        TablaTurnos.setAlignmentY(1.0F);
         jScrollPane1.setViewportView(TablaTurnos);
 
+        ComboFiltro.setFont(new java.awt.Font("Ubuntu", 1, 14)); // NOI18N
         ComboFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Asignado", "No Asignado", "Confirmado", "Finalizado", "Todos" }));
         ComboFiltro.setActionCommand("FILTRAR_TABLA");
         ComboFiltro.addActionListener(new java.awt.event.ActionListener() {
@@ -112,28 +131,25 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1206, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(NuevoTurnoBtn)
+                        .addComponent(NuevoTurnoBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(ComboFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(ComboFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(221, 221, 221)
-                .addComponent(TituloLabel)
-                .addGap(0, 228, Short.MAX_VALUE))
+            .addComponent(TituloLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(TituloLabel)
+                .addContainerGap()
+                .addComponent(TituloLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(NuevoTurnoBtn)
-                    .addComponent(ComboFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ComboFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
