@@ -7,6 +7,7 @@ package dao;
 
 import dto.AgendaDTO;
 import dto.MecanicoDTO;
+import static java.lang.Integer.parseInt;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -41,11 +42,11 @@ public class AgendaDAOImplSql implements AgendaDAO{
 
         try {
             con = conexion.getConnection();
-            String sql = "select * "
+            String sql = "select distinct dia, agendas.ano_mes "
                         + "from agendas "
                         +   "join turnos "
                         +       "on agendas.ano_mes = turnos.ano_mes "
-                        +          " and  agendas.legajo_mecanico = turnos.legajo_mecanico "
+                        +          " and agendas.legajo_mecanico = turnos.legajo_mecanico "
                         + "where estado = ? and turnos.legajo_mecanico = ?";
             
             sentencia = con.prepareStatement(sql);
@@ -55,19 +56,13 @@ public class AgendaDAOImplSql implements AgendaDAO{
             rs = sentencia.executeQuery();
 
             String ano_mes;
-            int legajo_mecanico;
             String dia;
-            String hora;
-            String estado;
             AgendaDTO agenda;
 
             while (rs.next()) {
                 ano_mes = rs.getString("ano_mes");
-                legajo_mecanico = rs.getInt("legajo_mecanico");
                 dia = rs.getString("dia");
-                hora = rs.getString("hora");
-                estado = rs.getString("estado");
-                agenda = new AgendaDTO(ano_mes, legajo_mecanico, dia, hora, estado);
+                agenda = new AgendaDTO(ano_mes, parseInt(legajoMecanico), dia, "", estadoTurno);
                 listaAgenda.add(agenda);
             }
 
@@ -167,7 +162,7 @@ public class AgendaDAOImplSql implements AgendaDAO{
     }
 
     @Override
-    public List<AgendaDTO> listarAgendaPorFecha(String legajoMecanico, String estadoTurno, String fecha) {
+    public List<AgendaDTO> listarAgendaPorFecha(String legajoMecanico, String estadoTurno, String anoMes, String dia) {
         Connection con = null;
         PreparedStatement sentencia = null;
         ResultSet rs = null;
@@ -181,19 +176,20 @@ public class AgendaDAOImplSql implements AgendaDAO{
                         +       "on agendas.ano_mes = turnos.ano_mes "
                         +          " and  agendas.legajo_mecanico = turnos.legajo_mecanico "
                         + "where estado = ? and turnos.legajo_mecanico = ? "
+                        +   "and turnos.ano_mes = ? "
                         +   "and dia = ?";
             
             sentencia = con.prepareStatement(sql);
             sentencia.setString(1, estadoTurno);
             sentencia.setString(2, legajoMecanico);
-            sentencia.setString(3, fecha);
+            sentencia.setString(3, anoMes);
+            sentencia.setString(4, dia);
             
             
             rs = sentencia.executeQuery();
 
             String ano_mes;
             int legajo_mecanico;
-            String dia;
             String hora;
             String estado;
             AgendaDTO agenda;
@@ -201,7 +197,6 @@ public class AgendaDAOImplSql implements AgendaDAO{
             while (rs.next()) {
                 ano_mes = rs.getString("ano_mes");
                 legajo_mecanico = rs.getInt("legajo_mecanico");
-                dia = rs.getString("dia");
                 hora = rs.getString("hora");
                 estado = rs.getString("estado");
                 agenda = new AgendaDTO(ano_mes, legajo_mecanico, dia, hora, estado);
@@ -261,37 +256,5 @@ public class AgendaDAOImplSql implements AgendaDAO{
             }
         }
         return listaAgenda;
-    }
-
-    
-    // revisar este METODO porque la agenda no tiene estado, habria que modificar el estado del turno realmente, creo que podriamos borrar este metodo no nos va a servir
-    @Override
-    public boolean modificarAgenda(String dia, String horario, String mecanico) {
-        Connection con = null;
-        PreparedStatement sentencia = null;
-
-        try {
-            con = conexion.getConnection();
-            String sql = "update agendas set estado=? where dia=? "
-                       + "and horario=? and mecanico=?";
-            sentencia = con.prepareStatement(sql);
-            sentencia.setString(1, "Asignado");
-            sentencia.setString(2, dia);
-            sentencia.setString(3, horario);
-            sentencia.setString(4, mecanico);
-
-            int resultado = sentencia.executeUpdate();
-
-            return (resultado > 0);
-        } catch (SQLException e) {
-            System.err.println(e);
-            return false;
-        } finally {
-            try {
-                sentencia.close();
-            } catch (SQLException ex) {
-                System.err.println(ex);
-            }
-        }
     }
 }

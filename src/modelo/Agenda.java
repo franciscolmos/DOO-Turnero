@@ -37,19 +37,15 @@ public class Agenda extends Modelo {
     }
     
     public List<AgendaDTO> listarAgendaPorFecha(String mecanicoNombre, 
-                                        String estadoTurno, String fecha) {
+                                        String estadoTurno, String anoMes, String dia) {
         List<AgendaDTO> listaAgendas = agendaDao.listarAgendaPorFecha(mecanicoNombre, 
-                                                              estadoTurno, fecha);
+                                                              estadoTurno, anoMes, dia);
         return listaAgendas;
     }
     
     public List<AgendaDTO> listarAgendaPorAnoMes(String anoMes){
         List<AgendaDTO> listarAgendas = agendaDao.listarAgendaPorAnoMes(anoMes);
         return listarAgendas;
-    }
-    
-    public boolean modificarAgenda(String dia, String horario, String mecanico) {
-        return agendaDao.modificarAgenda(dia, horario, mecanico);
     }
     
     public boolean insertarAgendas(List<MecanicoDTO> listadoMecanicos) {

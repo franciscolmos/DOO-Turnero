@@ -19,11 +19,9 @@ public interface AgendaDAO {
         
         List<AgendaDTO> listarAgendas();
         
-        List<AgendaDTO> listarAgendaPorFecha(String mecanicoNombre, String estadoTurno, String fecha);
+        List<AgendaDTO> listarAgendaPorFecha(String mecanicoNombre, String estadoTurno, String anoMes, String dia);
         
         List<AgendaDTO> listarAgendaPorAnoMes(String anoMes);
-        
-        boolean modificarAgenda(String dia, String horario, String mecanico);
         
         boolean insertarAgendas(List<MecanicoDTO> listadoMecanicos);
         

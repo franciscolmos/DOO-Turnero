@@ -498,13 +498,17 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         String [] fechas = new String[listadoFecha.size()+1];
         fechas[0] = "-";
         for(int i = 0; i < listadoFecha.size(); i++) {
-            fechas[i+1] = listadoFecha.get(i).getDia();
+            fechas[i+1] = listadoFecha.get(i).getAno_mes() + "-" + listadoFecha.get(i).getDia();
         }
         modeloComboBoxFecha.setModel(new DefaultComboBoxModel(fechas));
     }
     
     private void cargarHorarios(FrmNuevoTurno vista) {
         JComboBox modeloComboBoxHora = (JComboBox) vista.getComboBoxHora();
+        String anoMes = vista.getComboBoxFecha().getSelectedItem().toString().split("[-]")[0] + "-" + vista.getComboBoxFecha().getSelectedItem().toString().split("[-]")[1];
+        System.out.println(anoMes);
+        String dia = vista.getComboBoxFecha().getSelectedItem().toString().split("[-]")[2];
+        System.out.println(dia);
         if(vista.getComboBoxFecha().getItemCount() == 0) {
             modeloComboBoxHora.setModel(new DefaultComboBoxModel());
             return;
@@ -512,7 +516,8 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         List<AgendaDTO> listadoHorario = ((Agenda) this.MODELO.fabricarModelo("Agenda")).listarAgendaPorFecha(
                                          Integer.toString(this.obtenerDatosMecanico(vista).getLegajo()),
                                          "No Asignado",
-                                         vista.getComboBoxFecha().getSelectedItem().toString());
+                                         anoMes,
+                                         dia);
         String [] horarios = new String[listadoHorario.size()+1];
         horarios[0] = "-";
         for(int i = 0; i < listadoHorario.size(); i++) {
