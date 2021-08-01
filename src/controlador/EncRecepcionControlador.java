@@ -412,10 +412,14 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
     }
     
     private TurnoDTO obtenerDatosTurno(FrmNuevoTurno vista, int legajoMecanico){
+        String anoMes = vista.getComboBoxFecha().getSelectedItem().toString().split("[-]")[0] + "-" + vista.getComboBoxFecha().getSelectedItem().toString().split("[-]")[1];
+        String dia = vista.getComboBoxFecha().getSelectedItem().toString().split("[-]")[2];
+        String hora = vista.getComboBoxHora().getSelectedItem().toString();
         TurnoDTO turno = ((Turno) this.MODELO.fabricarModelo("Turno"))
-                          .consultarTurnoPorMecanicoDiaYHora(legajoMecanico,
-                                                             vista.getComboBoxFecha().getSelectedItem().toString(),
-                                                             vista.getComboBoxHora().getSelectedItem().toString());
+                          .consultarTurnoPorMecanicoAnoMesDiaYHora(legajoMecanico,
+                                                                   anoMes,
+                                                                   dia,
+                                                                   hora);
         return turno;
     }
     
@@ -462,13 +466,6 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                                      turno.getHora());
         this.volverHome();
         actualizarTablaFiltrado(((vistaHome) this.VISTA), "Asignado");
-    }
-    
-    private void insertarAgenda(FrmNuevoTurno vista) {
-        MODELO = ((Agenda)this.MODELO.fabricarModelo("Agenda"));
-        ((Agenda)MODELO).modificarAgenda(vista.getComboBoxFecha().getSelectedItem().toString(),
-                                         vista.getComboBoxHora().getSelectedItem().toString(),
-                                         vista.getComboBoxMecanicos().getSelectedItem().toString());
     }
     
     // METODOS DE CARGA DE DATOS A LOS COMBO BOX DE LAS VISTAS

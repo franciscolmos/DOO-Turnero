@@ -30,8 +30,8 @@ public class Turno extends Modelo {
         return turno;
     }
     
-    public TurnoDTO consultarTurnoPorMecanicoDiaYHora(int legajoMecanico, String dia, String hora) {
-        TurnoDTO turno = turnoDao.consultarTurnoPorMecanicoDiaYHora(legajoMecanico, dia, hora);
+    public TurnoDTO consultarTurnoPorMecanicoAnoMesDiaYHora(int legajoMecanico, String anoMes, String dia, String hora) {
+        TurnoDTO turno = turnoDao.consultarTurnoPorMecanicoAnoMesDiaYHora(legajoMecanico, anoMes, dia, hora);
         return turno;
     }
     

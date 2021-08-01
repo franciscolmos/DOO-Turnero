@@ -85,7 +85,7 @@ public class TurnoDAOImplSql implements TurnoDAO {
     }
     
     @Override
-    public TurnoDTO consultarTurnoPorMecanicoDiaYHora(int legajoMecanico, String dia, String hora) {
+    public TurnoDTO consultarTurnoPorMecanicoAnoMesDiaYHora(int legajoMecanico, String anoMes, String dia, String hora) {
         Connection con = null;
         PreparedStatement sentencia = null;
         ResultSet rs = null;
@@ -102,7 +102,6 @@ public class TurnoDAOImplSql implements TurnoDAO {
             rs = sentencia.executeQuery();
             
             int nroTurno;
-            String anoMes;
             int nroPoliza;
             int nroTitular;
             String cuitCompania;
@@ -111,7 +110,6 @@ public class TurnoDAOImplSql implements TurnoDAO {
             
             while (rs.next()) {
                 nroTurno = rs.getInt("nro_turno");
-                anoMes = rs.getString("ano_mes");
                 legajoMecanico = rs.getInt("legajo_mecanico");
                 nroPoliza = rs.getInt("nro_poliza");
                 dia = rs.getString("dia");
