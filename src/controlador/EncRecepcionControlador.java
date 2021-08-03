@@ -145,6 +145,7 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                    break;
                     
                 case CONFIRMAR_FICHA:
+                    System.out.println("Confirmar FICHA");
                     confirmarFicha();
                     break;
                      
@@ -699,12 +700,16 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         String observaciones = ((FrmFichaMecanica) VISTA).getAreaObservaciones().getText().toString();
         //System.out.print("DATOS: " + nroFicha + " - " + legajo + "\n");
         
-        ((Turno)MODELO).registrarFichaMecanica(observaciones, nroFicha);
+        // Generamos el MODELO fichaMecanica para usar el metodo de registrar la ficha por un lado
+        MODELO = ((FichaMecanica)this.MODELO.fabricarModelo("FichaMecanica"));
+        ((FichaMecanica) this.MODELO).registrarFichaMecanica(nroFicha,observaciones);
+        
+        // Generamos el MODELO Turno para usar el metodo de registrar la ficha por el otro
+        MODELO = ((Turno)this.MODELO.fabricarModelo("Turno"));
+        ((Turno) this.MODELO).registrarFichaMecanica(nroFicha);
         
         volverHome();
     }
-    
-
     
     private void confirmarTurno() {
         int nroTurno = Integer.parseInt(((vistaConfirmarTurno) this.VISTA).getTextEditNroTurno().getText());

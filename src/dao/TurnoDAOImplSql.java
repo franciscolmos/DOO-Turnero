@@ -246,7 +246,7 @@ public class TurnoDAOImplSql implements TurnoDAO {
                         sentencia.setInt(7, -1);
                         sentencia.setString(8, "");
                         sentencia.setString(9, "No Asignado");
-                        sentencia.setInt(10, -1);
+                        sentencia.setInt(10, 0);
 
                         int resultado = sentencia.executeUpdate();
                     }
@@ -327,6 +327,7 @@ public class TurnoDAOImplSql implements TurnoDAO {
                        + "FROM turnos "
                        +    "JOIN [fichas mecanicas] "
                        +        "ON [fichas mecanicas].legajo_mecanico = turnos.legajo_mecanico "
+                       +            "AND [fichas mecanicas].nro_ficha = turnos.ficha_mecanica "
                        + "WHERE turnos.estado='Confirmado' "
                        +    "AND [fichas mecanicas].estado = 'Pendiente'";
             sentencia = con.prepareStatement(sql);
@@ -491,10 +492,12 @@ public class TurnoDAOImplSql implements TurnoDAO {
             con = conexion.getConnection();
             String sql = "update turnos" +
                          "  set estado='Confirmado', ficha_mecanica = (select max(ficha_mecanica) +1" +
-                         "					   	from turnos)" +
+                         "					       from turnos)" +
                          "  where nro_turno = ?" +
                          "    and ano_mes = ?" +
+                         "    and estado = 'Asignado'" +
                          "    and legajo_mecanico = ?";
+            
             sentencia = con.prepareStatement(sql);
             sentencia.setInt(1, nro);
             sentencia.setString(2, anoMes);
@@ -548,7 +551,7 @@ public class TurnoDAOImplSql implements TurnoDAO {
     }
 
     @Override
-    public boolean registrarFichaMecanica(String observaciones, String fichaMecanica) {
+    public boolean registrarFichaMecanica(String fichaMecanica) {
         Connection con = null;
         PreparedStatement sentencia = null;
         int ficha = parseInt(fichaMecanica);
@@ -557,13 +560,6 @@ public class TurnoDAOImplSql implements TurnoDAO {
             String sql =  "UPDATE turnos SET estado='Finalizado' WHERE ficha_mecanica=?";
             sentencia = con.prepareStatement(sql);
             sentencia.setInt(1, ficha);
-            sentencia.executeUpdate();
-            sql =  "UPDATE 'fichas mecanicas' SET observaciones=?, estado='Confirmado' WHERE nro_ficha=?";
-            sentencia = con.prepareStatement(sql);
-            sentencia.setString(1, observaciones);
-            sentencia.setInt(2, ficha);
-            
-            System.out.print(observaciones + "-" + ficha);
             int resultado = sentencia.executeUpdate();
             return (resultado > 0);
         }

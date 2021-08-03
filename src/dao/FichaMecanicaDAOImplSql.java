@@ -5,6 +5,7 @@
  */
 package dao;
 
+import static java.lang.Integer.parseInt;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -53,5 +54,33 @@ public class FichaMecanicaDAOImplSql implements FichaMecanicaDAO {
             }
         }
     }
-    
+
+    @Override
+    public boolean registrarFichaMecanica(String nroFicha, String obs) {
+        Connection con = null;
+        PreparedStatement sentencia = null;
+        int ficha = parseInt(nroFicha);
+                
+        try{
+            con = conexion.getConnection();
+            String sql =  "UPDATE 'fichas mecanicas' SET observaciones=?, estado='Confirmado' WHERE nro_ficha=?";
+            sentencia = con.prepareStatement(sql);
+            sentencia.setString(1, obs);
+            sentencia.setInt(2, ficha);
+            
+            System.out.print(obs + "-" + ficha);
+            int resultado = sentencia.executeUpdate();
+            return (resultado > 0);
+        }
+        catch(SQLException e){
+            System.err.println(e);
+            return false;
+        } finally {
+            try {
+                sentencia.close();
+            } catch (SQLException ex) {
+                System.err.println(ex);
+            }
+        }
+    }
 }

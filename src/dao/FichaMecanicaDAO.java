@@ -13,4 +13,5 @@ public interface FichaMecanicaDAO {
     
     public boolean insertarFicha(int legajoMecanico);
     
+    public boolean registrarFichaMecanica(String nroFicha, String obs);
 }
