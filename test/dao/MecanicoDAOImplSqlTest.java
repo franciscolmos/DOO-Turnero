@@ -32,7 +32,7 @@ public class MecanicoDAOImplSqlTest {
      * Test of consultarMecanico method, of class MecanicoDAOImplSql.
      */
     @Test
-    public void testConsultarMecanico() { 
+    public void testConsultarMecanico() {
         MecanicoDTO expResult = new MecanicoDTO("Gonzalez", "Hector", "DNI", "27483726", "734927492", 1, "Externo", "Frenos");
         System.out.println("consultarMecanico: Legajo: " + expResult.getLegajo());
         MecanicoDAOImplSql instance = new MecanicoDAOImplSql();
@@ -44,6 +44,5 @@ public class MecanicoDAOImplSqlTest {
         assertEquals(expResult.getTelefono(), result.getTelefono());
         assertEquals(expResult.getArea(), result.getArea());
         assertEquals(expResult.getCodEspecialidad(), result.getCodEspecialidad());
-
     } 
 }

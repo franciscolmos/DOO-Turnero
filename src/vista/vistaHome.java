@@ -51,6 +51,7 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
         initComponents();
         this.modeloTblTurnos = (DefaultTableModel) this.TablaTurnos.getModel();
         this.setTitle("VISTA HOME");
+        this.NuevoTurnoBtn.setName("BotonNuevoTurno");
         DefaultTableCellRenderer centerRenderer = (DefaultTableCellRenderer)this.TablaTurnos.getDefaultRenderer(Object.class);
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         this.TablaTurnos.getColumnModel().getColumn(0).setCellRenderer( centerRenderer );
