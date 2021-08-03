@@ -24,4 +24,8 @@ public class FichaMecanica extends Modelo {
     public boolean insertarFicha( int legajoMecanico) {
         return fichaMecanicaDao.insertarFicha(legajoMecanico);
     }
+    
+    public boolean registrarFichaMecanica(String nroFicha, String obs){
+        return fichaMecanicaDao.registrarFichaMecanica(nroFicha, obs);
+    }
 }

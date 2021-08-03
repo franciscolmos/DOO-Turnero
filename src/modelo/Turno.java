@@ -62,8 +62,8 @@ public class Turno extends Modelo {
         return turnoDao.cancelarTurno(nroTurno, anoMes, legajoMecanico);
     }
     
-    public boolean registrarFichaMecanica(String nro, String fichaMecanica) {
-        return turnoDao.registrarFichaMecanica(nro, fichaMecanica);
+    public boolean registrarFichaMecanica(String fichaMecanica) {
+        return turnoDao.registrarFichaMecanica(fichaMecanica);
     }
     
     public boolean asignarTurno(int nroPoliza, int nroTitular, String cuitCompania, 
