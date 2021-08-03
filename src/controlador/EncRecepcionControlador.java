@@ -27,6 +27,7 @@ import javax.swing.JTable;
 import modelo.Agenda;
 import modelo.Compania;
 import modelo.Especialidad;
+import modelo.FichaMecanica;
 import modelo.Mecanico;
 import modelo.Modelo;
 import modelo.Titular;
@@ -115,10 +116,14 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
                     
                 case CONFIRMAR_TURNO:
                     System.out.println("CONFIRMAR TURNO");
+                    confirmarTurno();
+                    volverHome();
                     break;
                     
                 case CANCELAR_TURNO:
                     System.out.println("CANCELAR TURNO");
+                    cancelarTurno();
+                    volverHome();
                     break;
                     
                 case CONSULTAR_FICHA:
@@ -698,5 +703,33 @@ public class EncRecepcionControlador extends Controlador implements ItemListener
         
         volverHome();
     }
-}
+    
 
+    
+    private void confirmarTurno() {
+        int nroTurno = Integer.parseInt(((vistaConfirmarTurno) this.VISTA).getTextEditNroTurno().getText());
+        String anoMes = ((vistaConfirmarTurno) this.VISTA).getTextEditAnoMes().getText();
+        int legajoMecanico = Integer.parseInt(((vistaConfirmarTurno) this.VISTA).getTextEditMecanico().getText());
+        
+        if (((Turno) this.MODELO).confirmarTurno(nroTurno, anoMes, legajoMecanico))
+            System.out.println("Confirmado");
+        else
+            System.out.println("Error");
+        
+        MODELO = ((FichaMecanica)this.MODELO.fabricarModelo("FichaMecanica"));
+        if (((FichaMecanica) this.MODELO).insertarFicha(legajoMecanico))
+            System.out.println("Confirmado");
+        else
+            System.out.println("Error");
+    }
+
+    private void cancelarTurno() {
+        int nroTurno = Integer.parseInt(((vistaConfirmarTurno) this.VISTA).getTextEditNroTurno().getText());
+        String anoMes = ((vistaConfirmarTurno) this.VISTA).getTextEditAnoMes().getText();
+        int legajoMecanico = Integer.parseInt(((vistaConfirmarTurno) this.VISTA).getTextEditMecanico().getText());
+        if (((Turno) this.MODELO).cancelarTurno(nroTurno, anoMes, legajoMecanico))
+            System.out.println("Cancelar");
+        else
+            System.out.println("Error");
+    }
+}

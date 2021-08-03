@@ -45,4 +45,9 @@ public class SqlFabricaDAO extends FabricaDAO {
     public AgendaDAO getAgendaDao(){
         return new AgendaDAOImplSql();
     }
+
+    @Override
+    public FichaMecanicaDAO getFichaMecanicaDao() {
+        return new FichaMecanicaDAOImplSql();
+    }
 }

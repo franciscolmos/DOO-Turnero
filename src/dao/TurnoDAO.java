@@ -31,9 +31,9 @@ public interface TurnoDAO {
     boolean asignarTurno(int nroPoliza, int nroTitular, String cuitCompania, 
                          String anoMes, int legajoMecanico, String dia, String hora);
     
-    void confirmarTurno(int nro, String anoMes, int mecanico);
+    boolean confirmarTurno(int nro, String anoMes, int mecanico);
      
-    boolean cancelarTurno(String nro);
+    boolean cancelarTurno(int nro, String anoMes, int mecanico);
     
     boolean registrarFichaMecanica(String observaciones, String fichaMecanica);
     

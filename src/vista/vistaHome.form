@@ -186,13 +186,10 @@
           <Font name="Ubuntu" size="14" style="1"/>
         </Property>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Asignado&quot;, &quot;No Asignado&quot;, &quot;Confirmado&quot;, &quot;Finalizado&quot;, &quot;Todos&quot; })" type="code"/>
+          <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Asignado&quot;, &quot;No Asignado&quot;, &quot;Confirmado&quot;, &quot;Finalizado&quot;, &quot;Cancelado&quot;, &quot;Todos&quot; })" type="code"/>
         </Property>
         <Property name="actionCommand" type="java.lang.String" value="FILTRAR_TABLA"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ComboFiltroActionPerformed"/>
-      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>

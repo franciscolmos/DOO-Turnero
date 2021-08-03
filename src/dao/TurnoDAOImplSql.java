@@ -483,13 +483,68 @@ public class TurnoDAOImplSql implements TurnoDAO {
     }
 
     @Override
-    public void confirmarTurno(int nro, String anoMes, int mecanico) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean confirmarTurno(int nro, String anoMes, int mecanico) {
+        Connection con = null;
+        PreparedStatement sentencia = null;
+
+        try {
+            con = conexion.getConnection();
+            String sql = "update turnos" +
+                         "  set estado='Confirmado', ficha_mecanica = (select max(ficha_mecanica) +1" +
+                         "					   	from turnos)" +
+                         "  where nro_turno = ?" +
+                         "    and ano_mes = ?" +
+                         "    and legajo_mecanico = ?";
+            sentencia = con.prepareStatement(sql);
+            sentencia.setInt(1, nro);
+            sentencia.setString(2, anoMes);
+            sentencia.setInt(3, mecanico);
+
+            int rs = sentencia.executeUpdate();
+            return (rs > 0);
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return false;
+        } finally {
+            try {
+                sentencia.close();
+            } catch (SQLException ex) {
+                System.err.println(ex);
+            }
+        }
     }
 
     @Override
-    public boolean cancelarTurno(String nro) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean cancelarTurno(int nro, String anoMes, int mecanico) {
+        Connection con = null;
+        PreparedStatement sentencia = null;
+
+        try {
+            con = conexion.getConnection();
+            String sql = "update turnos" +
+                         "  set estado='Cancelado'" +
+                         "  where nro_turno = ?" +
+                         "    and ano_mes = ?" +
+                         "    and legajo_mecanico = ?";
+            sentencia = con.prepareStatement(sql);
+            sentencia.setInt(1, nro);
+            sentencia.setString(2, anoMes);
+            sentencia.setInt(3, mecanico);
+
+            int rs = sentencia.executeUpdate();
+            return (rs > 0);
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+            return false;
+        } finally {
+            try {
+                sentencia.close();
+            } catch (SQLException ex) {
+                System.err.println(ex);
+            }
+        }
     }
 
     @Override

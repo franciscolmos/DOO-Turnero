@@ -54,6 +54,14 @@ public class Turno extends Modelo {
         return turnoDao.insertarTurno(mecanicos);
     }
     
+    public boolean confirmarTurno(int nroTurno, String anoMes, int legajoMecanico) {
+        return turnoDao.confirmarTurno(nroTurno, anoMes, legajoMecanico);
+    }
+    
+    public boolean cancelarTurno(int nroTurno, String anoMes, int legajoMecanico) {
+        return turnoDao.cancelarTurno(nroTurno, anoMes, legajoMecanico);
+    }
+    
     public boolean registrarFichaMecanica(String nro, String fichaMecanica) {
         return turnoDao.registrarFichaMecanica(nro, fichaMecanica);
     }

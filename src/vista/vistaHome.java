@@ -116,13 +116,8 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
         jScrollPane1.setViewportView(TablaTurnos);
 
         ComboFiltro.setFont(new java.awt.Font("Ubuntu", 1, 14)); // NOI18N
-        ComboFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Asignado", "No Asignado", "Confirmado", "Finalizado", "Todos" }));
+        ComboFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Asignado", "No Asignado", "Confirmado", "Finalizado", "Cancelado", "Todos" }));
         ComboFiltro.setActionCommand("FILTRAR_TABLA");
-        ComboFiltro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ComboFiltroActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -159,10 +154,6 @@ public class vistaHome extends javax.swing.JFrame implements InterfazTurno {
     private void NuevoTurnoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NuevoTurnoBtnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_NuevoTurnoBtnActionPerformed
-
-    private void ComboFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboFiltroActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ComboFiltroActionPerformed
 
     public JComboBox<String> getComboFiltro() {
         return ComboFiltro;
