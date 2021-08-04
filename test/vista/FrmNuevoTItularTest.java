@@ -77,7 +77,7 @@ public class FrmNuevoTItularTest {
      * Test of getBotonGuardar method, of class FrmNuevoTurno.
      */
     @Test
-    public void testNuevoTurno() {
+    public void testNuevoTitular() {
         robot.enterText("NombrePrueba");
         robot.pressKey(KeyEvent.VK_TAB);
         robot.releaseKey(KeyEvent.VK_TAB);

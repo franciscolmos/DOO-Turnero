@@ -7,7 +7,7 @@ package dao;
 
 /**
  *
- * @author agustin
+ * @author Felipe, Francisco, Benjamin
  */
 public class SqlFabricaDAO extends FabricaDAO {
 

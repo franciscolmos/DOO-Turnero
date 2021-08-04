@@ -36,11 +36,11 @@ public class TurnoDAOImplSqlTest {
     public void testconsultarTurnoPorMecanicoAnoMesDiaYHora() {
         System.out.println("Consultar Turno Legajo Mecanico 10, dia 2021-7-5 11:00 AM");
         int legajoMecanico = 10;
-        String anoMes = "2021-7";
+        String anoMes = "2021-8";
         String dia = "5";
-        String hora = "11:00 AM";
+        String hora = "8:00 AM";
         TurnoDAOImplSql instance = new TurnoDAOImplSql();
-        TurnoDTO turnoExpResult = new TurnoDTO(5, anoMes, 10, 1, dia, hora, 1, "1-111-1", "Asignado", -1);
+        TurnoDTO turnoExpResult = new TurnoDTO(14, anoMes, 10, -1, dia, hora, -1, "", "No Asignado", 0);
         TurnoDTO turnoObtenido = instance.consultarTurnoPorMecanicoAnoMesDiaYHora(legajoMecanico, anoMes, dia, hora);
         assertEquals(turnoExpResult.getNroTurno(), turnoObtenido.getNroTurno());
         assertEquals(turnoExpResult.getCuitCompania(), turnoObtenido.getCuitCompania());
