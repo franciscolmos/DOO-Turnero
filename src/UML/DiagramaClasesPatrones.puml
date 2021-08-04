@@ -64,6 +64,15 @@
             + boolean insertarVehiculo(int nroPoliza, String modelo, String marca, String nroDNITitular)
             + @Override void finalize()
         }
+
+        class FichaMecanica {
+            - fabricaDao: final FabricaDAO
+            - fichaMecanicaDAO: final fichaMecanicaDAO
+            + FichaMecanica()
+            + boolean insertarFichaMecanica(int legajoMecanico)
+            + boolean registrarFichaMecanica(String nroFicha, String obs)
+            + @Override void finalize()
+        }
     }
 
     package Controlador <<Folder>>{
@@ -274,6 +283,20 @@
             + void cerrarConexion()
         }
 
+        interface FichaMecanicaDAO{
+            + boolean insertarFicha(int legajoMecanico)
+            + boolean registrarFichaMecanica(String nroFicha, String obs)
+            + void cerrarConexion()
+        }
+
+        class FichaMecanicaDAOImplSql {
+            - conexion: ConexionSql
+            + FichaMecanicaDAOImplSql()
+            + boolean insertarFicha(int legajoMecanico)
+            + boolean registrarFichaMecanica(String nroFicha, String obs)
+            + void cerrarConexion()
+        }
+
         package Singleton <<Folder>>{
             class ConexionSQL{
                 - URL: static final String 
@@ -429,6 +452,13 @@
             + void setMarca(String marca)
         }
 
+        class FichaMecanicaDTO {
+            - nroFicha: int;
+            - legajoMecanico: int
+            - estado: String
+            - observaciones: String
+            + FichaMecanicaDTO(int nroFicha, int legajoMecanico, String estado, String observaciones)
+        }
     }
 
     package DataBase <<Database>>{
@@ -454,6 +484,7 @@
     Especialidad "1" -up-> "1" EspecialidadDAO
     Agenda "1" -up-> "1" AgendaDAO
     Vehiculo "1" -up-> "1" VehiculoDAO
+    FichaMecanica "1" -up-> "1" FichaMecanicaDAO
     TurnoDAOImpSQL "1" -up-> "1" ConexionSQL
     CompaniaDAOImplSql "1" -up-> "1" ConexionSQL
     TitularDAOImplSql "1" -up-> "1" ConexionSQL
@@ -461,6 +492,7 @@
     EspecialidadDAOImpSql "1" -up-> "1" ConexionSQL
     AgendaDAOImplSql "1" -up-> "1" ConexionSQL
     VehiculoDAOImplSql "1" -up-> "1" ConexionSQL
+    FichaMecanicaDAOImplSql "1" -up-> "1" ConexionSQL
     TurnoDAOImpSQL "<instancia>" <.. SqlFabricaDAO
     CompaniaDAOImplSql "<instancia>" <.. SqlFabricaDAO
     TitularDAOImplSql "<instancia>" <.. SqlFabricaDAO
@@ -468,6 +500,7 @@
     EspecialidadDAOImpSql "<instancia>" <.. SqlFabricaDAO
     AgendaDAOImplSql "<instancia>" <.. SqlFabricaDAO
     VehiculoDAOImplSql "<instancia>" <.. SqlFabricaDAO
+    FichaMecanicaDAOImplSql "<instancia>" <.. SqlFabricaDAO
     Titular --down|> Modelo
     Vehiculo --down|> Modelo
     Mecanico --down|> Modelo
@@ -475,6 +508,7 @@
     Compania --down|> Modelo
     Agenda --down|> Modelo
     Turno --down|> Modelo
+    FichaMecanica --down|> Modelo
     TurnoDAOImpSQL ..|> TurnoDAO
     CompaniaDAOImplSql ..|> CompaniaDAO
     TitularDAOImplSql ..|> TitularDAO
@@ -482,6 +516,7 @@
     EspecialidadDAOImpSql ..|> EspecialidadDAO
     AgendaDAOImplSql ..|> AgendaDAO
     VehiculoDAOImplSql ..|> VehiculoDAO
+    FichaMecanicaDAOImplSql ..|> FichaMecanicaDAO
     ConexionSQL -left-> DBEjemploDAO
     TurnoDTO <-up- TurnoDAOImpSQL
     AgendaDTO <-up- AgendaDAOImplSql
@@ -490,6 +525,7 @@
     MecanicoDTO <-up- MecanicoDAOImplSql
     TitularDTO <-up- TitularDAOImplSql
     VehiculoDTO <-up- VehiculoDAOImplSql
+    FichaMecanicaDTO <-up- FichaMecanicaDAOImplSql
     TitularDTO ..|> PersonaDTO
     MecanicoDTO ..|> EmpleadoDTO
     EmpleadoDTO ..|> PersonaDTO
