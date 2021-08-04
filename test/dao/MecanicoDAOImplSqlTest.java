@@ -44,5 +44,5 @@ public class MecanicoDAOImplSqlTest {
         assertEquals(expResult.getTelefono(), result.getTelefono());
         assertEquals(expResult.getArea(), result.getArea());
         assertEquals(expResult.getCodEspecialidad(), result.getCodEspecialidad());
-    } 
+    }
 }

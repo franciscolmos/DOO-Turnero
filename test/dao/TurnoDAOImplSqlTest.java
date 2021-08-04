@@ -46,5 +46,5 @@ public class TurnoDAOImplSqlTest {
         assertEquals(turnoExpResult.getCuitCompania(), turnoObtenido.getCuitCompania());
         assertEquals(turnoExpResult.getNroPoliza(), turnoObtenido.getNroPoliza());
         assertEquals(turnoExpResult.getEstado(), turnoObtenido.getEstado());
-    } 
+    }
 }
